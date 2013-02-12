@@ -14,6 +14,44 @@
 @synthesize board = _board;
 @synthesize letters = _letters;
 
+- (NSArray *)lettersForBoard {
+    CCSprite *letter1 = [CCSprite spriteWithFile:@"letter_active_a.png"];
+    letter1.position = ccp(47.5, 272.5);
+    CCSprite *letter2 = [CCSprite spriteWithFile:@"letter_active_a.png"];
+    letter2.position = ccp(122.5, 272.5);
+    CCSprite *letter3 = [CCSprite spriteWithFile:@"letter_active_a.png"];
+    letter3.position = ccp(197.5, 272.5);
+    CCSprite *letter4 = [CCSprite spriteWithFile:@"letter_active_a.png"];
+    letter4.position = ccp(272.5, 272.5);
+    CCSprite *letter5 = [CCSprite spriteWithFile:@"letter_active_a.png"];
+    letter5.position = ccp(47.5, 197.5);
+    CCSprite *letter6 = [CCSprite spriteWithFile:@"letter_active_a.png"];
+    letter6.position = ccp(122.5, 197.5);
+    CCSprite *letter7 = [CCSprite spriteWithFile:@"letter_active_a.png"];
+    letter7.position = ccp(197.5, 197.5);
+    CCSprite *letter8 = [CCSprite spriteWithFile:@"letter_active_a.png"];
+    letter8.position = ccp(272.5, 197.5);
+    CCSprite *letter9 = [CCSprite spriteWithFile:@"letter_active_a.png"];
+    letter9.position = ccp(47.5, 122.5);
+    CCSprite *letter10 = [CCSprite spriteWithFile:@"letter_active_a.png"];
+    letter10.position = ccp(122.5, 122.5);
+    CCSprite *letter11 = [CCSprite spriteWithFile:@"letter_active_a.png"];
+    letter11.position = ccp(197.5, 122.5);
+    CCSprite *letter12 = [CCSprite spriteWithFile:@"letter_active_a.png"];
+    letter12.position = ccp(272.5, 122.5);
+    CCSprite *letter13 = [CCSprite spriteWithFile:@"letter_active_a.png"];
+    letter13.position = ccp(47.5, 47.5);
+    CCSprite *letter14 = [CCSprite spriteWithFile:@"letter_active_a.png"];
+    letter14.position = ccp(122.5, 47.5);
+    CCSprite *letter15 = [CCSprite spriteWithFile:@"letter_active_a.png"];
+    letter15.position = ccp(197.5, 47.5);
+    CCSprite *letter16 = [CCSprite spriteWithFile:@"letter_active_a.png"];
+    letter16.position = ccp(272.5, 47.5);
+    
+    NSArray *array = [[NSArray alloc] initWithObjects:letter1, letter2, letter3, letter4, letter5, letter6, letter7, letter8, letter9, letter10, letter11, letter12, letter13, letter14, letter15, letter16, nil];
+    return array;
+}
+
 +(CCScene *) scene
 {
 	// 'scene' is an autorelease object.
@@ -44,60 +82,13 @@
 		
         self.board = [CCSprite spriteWithFile:@"BoggleTray.png"];
         self.board.position = ccp(160, 160);
-        
-        CCSprite *letter1 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-        letter1.position = ccp(47.5, 272.5);
-        CCSprite *letter2 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-        letter2.position = ccp(122.5, 272.5);
-        CCSprite *letter3 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-        letter3.position = ccp(197.5, 272.5);
-        CCSprite *letter4 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-        letter4.position = ccp(272.5, 272.5);
-        CCSprite *letter5 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-        letter5.position = ccp(47.5, 197.5);
-        CCSprite *letter6 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-        letter6.position = ccp(122.5, 197.5);
-        CCSprite *letter7 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-        letter7.position = ccp(197.5, 197.5);
-        CCSprite *letter8 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-        letter8.position = ccp(272.5, 197.5);
-        CCSprite *letter9 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-        letter9.position = ccp(47.5, 122.5);
-        CCSprite *letter10 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-        letter10.position = ccp(122.5, 122.5);
-        CCSprite *letter11 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-        letter11.position = ccp(197.5, 122.5);
-        CCSprite *letter12 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-        letter12.position = ccp(272.5, 122.5);
-        CCSprite *letter13 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-        letter13.position = ccp(47.5, 47.5);
-        CCSprite *letter14 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-        letter14.position = ccp(122.5, 47.5);
-        CCSprite *letter15 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-        letter15.position = ccp(197.5, 47.5);
-        CCSprite *letter16 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-        letter16.position = ccp(272.5, 47.5);
-        
+        self.letters = [self lettersForBoard];
         
         [self addChild:self.board z:0];
-        [self addChild:letter1];
-		[self addChild:letter2];
-		[self addChild:letter3];
-		[self addChild:letter4];
-		[self addChild:letter5];
-		[self addChild:letter6];
-		[self addChild:letter7];
-		[self addChild:letter8];
-		[self addChild:letter9];
-		[self addChild:letter10];
-		[self addChild:letter11];
-		[self addChild:letter12];
-		[self addChild:letter13];
-		[self addChild:letter14];
-		[self addChild:letter15];
-		[self addChild:letter16];
-		
-        
+        for (int i = 0; i < 16; i++)
+        {
+            [self addChild:[self.letters objectAtIndex:i]];
+        }
 	}
 	return self;
 }
