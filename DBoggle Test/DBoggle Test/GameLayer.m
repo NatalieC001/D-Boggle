@@ -13,41 +13,74 @@
 
 @synthesize board = _board;
 @synthesize letters = _letters;
+@synthesize boardManager = _boardManager;
+@synthesize time = _time;
+
+
+
+- (void)positionItems {
+    //shift all the positioning code here.
+}
 
 - (NSArray *)lettersForBoard {
     CCSprite *letter1 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-    letter1.position = ccp(47.5, 272.5);
     CCSprite *letter2 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-    letter2.position = ccp(122.5, 272.5);
     CCSprite *letter3 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-    letter3.position = ccp(197.5, 272.5);
     CCSprite *letter4 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-    letter4.position = ccp(272.5, 272.5);
     CCSprite *letter5 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-    letter5.position = ccp(47.5, 197.5);
     CCSprite *letter6 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-    letter6.position = ccp(122.5, 197.5);
     CCSprite *letter7 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-    letter7.position = ccp(197.5, 197.5);
     CCSprite *letter8 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-    letter8.position = ccp(272.5, 197.5);
     CCSprite *letter9 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-    letter9.position = ccp(47.5, 122.5);
     CCSprite *letter10 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-    letter10.position = ccp(122.5, 122.5);
     CCSprite *letter11 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-    letter11.position = ccp(197.5, 122.5);
     CCSprite *letter12 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-    letter12.position = ccp(272.5, 122.5);
     CCSprite *letter13 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-    letter13.position = ccp(47.5, 47.5);
     CCSprite *letter14 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-    letter14.position = ccp(122.5, 47.5);
     CCSprite *letter15 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-    letter15.position = ccp(197.5, 47.5);
     CCSprite *letter16 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-    letter16.position = ccp(272.5, 47.5);
     
+    
+    //New Positions
+    letter1.position = ccp(-112.5, 112.5);
+    letter2.position = ccp(-37.5, 112.5);
+    letter3.position = ccp(37.5, 112.5);
+    letter4.position = ccp(112.5, 112.5);
+    letter5.position = ccp(-112.5, 37.5);
+    letter6.position = ccp(-37.5, 37.5);
+    letter7.position = ccp(37.5, 37.5);
+    letter8.position = ccp(112.5, 37.5);
+    letter9.position = ccp(-112.5, -37.5);
+    letter10.position = ccp(-37.5, -37.5);
+    letter11.position = ccp(37.5, -37.5);
+    letter12.position = ccp(112.5, -37.5);
+    letter13.position = ccp(-112.5, -112.5);
+    letter14.position = ccp(-37.5, -112.5);
+    letter15.position = ccp(37.5, -112.5);
+    letter16.position = ccp(112.5, -112.5);
+
+    
+//Old Positions
+//    letter1.position = ccp(47.5, 272.5);
+//    letter2.position = ccp(122.5, 272.5);
+//    letter3.position = ccp(197.5, 272.5);
+//    letter4.position = ccp(272.5, 272.5);
+//    letter5.position = ccp(47.5, 197.5);
+//    letter6.position = ccp(122.5, 197.5);
+//    letter7.position = ccp(197.5, 197.5);
+//    letter8.position = ccp(272.5, 197.5);
+//    letter9.position = ccp(47.5, 122.5);
+//    letter10.position = ccp(122.5, 122.5);
+//    letter11.position = ccp(197.5, 122.5);
+//    letter12.position = ccp(272.5, 122.5);
+//    letter13.position = ccp(47.5, 47.5);
+//    letter14.position = ccp(122.5, 47.5);
+//    letter15.position = ccp(197.5, 47.5);
+//    letter16.position = ccp(272.5, 47.5);
+    
+    
+    
+
     NSArray *array = [[NSArray alloc] initWithObjects:letter1, letter2, letter3, letter4, letter5, letter6, letter7, letter8, letter9, letter10, letter11, letter12, letter13, letter14, letter15, letter16, nil];
     return array;
 }
@@ -80,17 +113,78 @@
         
         isTouchEnabled_ = YES;
 		
+//        self.board = [CCSprite spriteWithFile:@"BoggleTray.png"];
+//        self.board.position = ccp(160, 160);
+//        self.letters = [self lettersForBoard];
+//        
+//        [self addChild:self.board z:0];
+//        for (int i = 0; i < 16; i++)
+//        {
+//            [self addChild:[self.letters objectAtIndex:i]];
+//        }
+        
+        
+        self.boardManager = [CCNode node];
+        self.boardManager.position = CGPointMake(160, 160);
+        [self addChild:self.boardManager];
+        
+        
+        
         self.board = [CCSprite spriteWithFile:@"BoggleTray.png"];
-        self.board.position = ccp(160, 160);
+        self.board.position = ccp(0, 0);
         self.letters = [self lettersForBoard];
         
-        [self addChild:self.board z:0];
+        [self.boardManager addChild:self.board z:0];
         for (int i = 0; i < 16; i++)
         {
-            [self addChild:[self.letters objectAtIndex:i]];
+            [self.boardManager addChild:[self.letters objectAtIndex:i]];
         }
+        
+        self.time = [[NSNumber alloc] initWithInt:60];
+        
+        //[self schedule: @selector(tick:)];
+        [self schedule: @selector(tick:) interval:1];
+        
+        self.timer = [CCLabelTTF labelWithString:@"D-Boggle!" fontName:@"Marker Felt" fontSize:30];
+        
+        self.timer.position = ccp(160,400);
+        self.timer.color = ccYELLOW;
+        [self addChild:self.timer];
+    
 	}
 	return self;
+}
+
+- (NSNumber *)decrement:(NSNumber *)number
+{
+    int val = [number integerValue];
+    val--;
+    return [NSNumber numberWithInt:val];
+}
+
+-(void) tick: (ccTime) dt
+{
+    self.time = [self decrement:self.time];
+    [self.timer setString:[NSString stringWithFormat:@"%ld", (long)[self.time integerValue]]];
+    NSLog(@"%ld", (long)[self.time integerValue]);
+}
+
+-(void) tick2: (ccTime) dt
+{
+    NSLog(@"tick2");
+}
+
+- (void)rotateBoard
+{
+    id rotateAction = [CCRotateBy actionWithDuration:0.5 angle:90];
+    [self.boardManager runAction:rotateAction];
+    for (int i = 0; i < [self.letters count]; i++)
+    {
+        NSLog(@"i is %d", i);
+        id rotateLeft = [CCRotateBy actionWithDuration:0.5 angle:-90];
+        [[self.letters objectAtIndex:i] runAction:rotateLeft];
+    }
+    
 }
 
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -98,6 +192,7 @@
     UITouch *touch = [touches anyObject];
     CGPoint location = [touch locationInView:[touch view]];
     location = [[CCDirector sharedDirector] convertToGL:location];
+    [self rotateBoard];
 }
 
 
