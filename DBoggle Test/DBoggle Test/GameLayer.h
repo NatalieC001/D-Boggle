@@ -17,6 +17,6 @@
 @property (nonatomic, strong) CCSprite *pauseButton;
 @property (nonatomic, strong) CCSprite *rotateButton;
 @property (nonatomic, strong) CCLabelTTF *timer;
-@property (nonatomic, strong) NSNumber *time;
+@property (nonatomic, strong) NSNumber *time; //to do - change this to a non-strong NSInteger
 
 @end

@@ -9,13 +9,20 @@
 #import "GameLayer.h"
 #import "cocos2d.h"
 
+@interface GameLayer ()
+
+@property (nonatomic) BOOL *userCanRotate;
+
+@end
+
+
 @implementation GameLayer
 
 @synthesize board = _board;
 @synthesize letters = _letters;
 @synthesize boardManager = _boardManager;
 @synthesize time = _time;
-
+@synthesize userCanRotate = _userCanRotate;
 
 
 - (void)positionItems {
@@ -123,7 +130,7 @@
 //            [self addChild:[self.letters objectAtIndex:i]];
 //        }
         
-        
+        self.userCanRotate = YES;
         self.boardManager = [CCNode node];
         self.boardManager.position = CGPointMake(160, 160);
         [self addChild:self.boardManager];
@@ -167,20 +174,40 @@
     self.time = [self decrement:self.time];
     [self.timer setString:[NSString stringWithFormat:@"%ld", (long)[self.time integerValue]]];
     NSLog(@"%ld", (long)[self.time integerValue]);
+    
+    if ([self.time integerValue] == 0) {
+        [self.timer setString:[NSString stringWithFormat:@"Game Over!"]];
+        [self unschedule:@selector(tick:)];
+    }
 }
 
--(void) tick2: (ccTime) dt
+-(void)disableRotate
 {
-    NSLog(@"tick2");
+    self.userCanRotate = NO;
+    NSLog(@"Disabled");
+}
+
+- (void)enableRotate
+{
+    self.userCanRotate = YES;
+    NSLog(@"Enabled");
+}
+
+- (void)rotateClicked
+{
+    if (self.userCanRotate)
+        [self rotateBoard];
 }
 
 - (void)rotateBoard
 {
+    [self disableRotate];
+    id enableRotateCallback = [CCCallFunc actionWithTarget:self selector:@selector(enableRotate)];
     id rotateAction = [CCRotateBy actionWithDuration:0.5 angle:90];
-    [self.boardManager runAction:rotateAction];
+    id sequence = [CCSequence actions:rotateAction, enableRotateCallback, nil];
+    [self.boardManager runAction:sequence];
     for (int i = 0; i < [self.letters count]; i++)
     {
-        NSLog(@"i is %d", i);
         id rotateLeft = [CCRotateBy actionWithDuration:0.5 angle:-90];
         [[self.letters objectAtIndex:i] runAction:rotateLeft];
     }
@@ -192,7 +219,7 @@
     UITouch *touch = [touches anyObject];
     CGPoint location = [touch locationInView:[touch view]];
     location = [[CCDirector sharedDirector] convertToGL:location];
-    [self rotateBoard];
+    [self rotateClicked];
 }
 
 
