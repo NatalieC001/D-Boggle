@@ -7,6 +7,7 @@
 //
 
 #import "GameLayer.h"
+#import "Tile.h"
 #import "cocos2d.h"
 
 @interface GameLayer ()
@@ -30,22 +31,22 @@
 }
 
 - (NSArray *)lettersForBoard {
-    CCSprite *letter1 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-    CCSprite *letter2 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-    CCSprite *letter3 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-    CCSprite *letter4 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-    CCSprite *letter5 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-    CCSprite *letter6 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-    CCSprite *letter7 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-    CCSprite *letter8 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-    CCSprite *letter9 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-    CCSprite *letter10 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-    CCSprite *letter11 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-    CCSprite *letter12 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-    CCSprite *letter13 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-    CCSprite *letter14 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-    CCSprite *letter15 = [CCSprite spriteWithFile:@"letter_active_a.png"];
-    CCSprite *letter16 = [CCSprite spriteWithFile:@"letter_active_a.png"];
+    Tile *letter1 = [Tile spriteWithFile:@"letter_active_a.png"];
+    Tile *letter2 = [Tile spriteWithFile:@"letter_active_a.png"];
+    Tile *letter3 = [Tile spriteWithFile:@"letter_active_a.png"];
+    Tile *letter4 = [Tile spriteWithFile:@"letter_active_a.png"];
+    Tile *letter5 = [Tile spriteWithFile:@"letter_active_a.png"];
+    Tile *letter6 = [Tile spriteWithFile:@"letter_active_a.png"];
+    Tile *letter7 = [Tile spriteWithFile:@"letter_active_a.png"];
+    Tile *letter8 = [Tile spriteWithFile:@"letter_active_a.png"];
+    Tile *letter9 = [Tile spriteWithFile:@"letter_active_a.png"];
+    Tile *letter10 = [Tile spriteWithFile:@"letter_active_a.png"];
+    Tile *letter11 = [Tile spriteWithFile:@"letter_active_a.png"];
+    Tile *letter12 = [Tile spriteWithFile:@"letter_active_a.png"];
+    Tile *letter13 = [Tile spriteWithFile:@"letter_active_a.png"];
+    Tile *letter14 = [Tile spriteWithFile:@"letter_active_a.png"];
+    Tile *letter15 = [Tile spriteWithFile:@"letter_active_a.png"];
+    Tile *letter16 = [Tile spriteWithFile:@"letter_active_a.png"];
     
     
     //New Positions
@@ -65,6 +66,23 @@
     letter14.position = ccp(-37.5, -112.5);
     letter15.position = ccp(37.5, -112.5);
     letter16.position = ccp(112.5, -112.5);
+    
+    letter1.isActive = YES;
+    letter2.isActive = YES;
+    letter3.isActive = YES;
+    letter4.isActive = YES;
+    letter5.isActive = YES;
+    letter6.isActive = YES;
+    letter7.isActive = YES;
+    letter8.isActive = YES;
+    letter9.isActive = YES;
+    letter10.isActive = YES;
+    letter11.isActive = YES;
+    letter12.isActive = YES;
+    letter13.isActive = YES;
+    letter14.isActive = YES;
+    letter15.isActive = YES;
+    letter16.isActive = YES;
 
     
 //Old Positions
@@ -130,6 +148,13 @@
 //            [self addChild:[self.letters objectAtIndex:i]];
 //        }
         
+        CCMenuItemImage *rotate = [CCMenuItemImage itemWithNormalImage:@"Rotate.png" selectedImage:@"Rotate.png" target:self selector:@selector(rotateClicked)];
+        CCMenuItemImage *pause = [CCMenuItemImage itemWithNormalImage:@"Pause.png" selectedImage:@"Pause_HD.png" target:self selector:@selector(pauseGame)];
+        CCMenu *menu = [CCMenu menuWithItems:pause, rotate, nil];
+        [menu alignItemsHorizontallyWithPadding:0];
+        menu.position = ccp(64, 450);
+        [self addChild:menu];
+        
         self.userCanRotate = YES;
         self.boardManager = [CCNode node];
         self.boardManager.position = CGPointMake(160, 160);
@@ -160,6 +185,11 @@
     
 	}
 	return self;
+}
+
+- (void) pauseGame
+{
+    NSLog(@"Works!");
 }
 
 - (NSNumber *)decrement:(NSNumber *)number
@@ -202,6 +232,7 @@
 - (void)rotateBoard
 {
     [self disableRotate];
+    NSLog(@"Rotation = %f", [self.board rotation]);
     id enableRotateCallback = [CCCallFunc actionWithTarget:self selector:@selector(enableRotate)];
     id rotateAction = [CCRotateBy actionWithDuration:0.5 angle:90];
     id sequence = [CCSequence actions:rotateAction, enableRotateCallback, nil];
@@ -210,17 +241,55 @@
     {
         id rotateLeft = [CCRotateBy actionWithDuration:0.5 angle:-90];
         [[self.letters objectAtIndex:i] runAction:rotateLeft];
+        if (i==1)
+        {
+            CCSprite *tile = [self.letters objectAtIndex:1];
+            NSLog(@"%f, %f", tile.position.x, tile.position.y);
+            NSLog(@"Rotation = %f", [tile rotation]);
+        }
+    }
+    NSLog(@"Rotation = %f", [self.board rotation]);
+}
+
+- (void)tileTouchedAt:(NSUInteger)position
+{
+    NSLog(@"Touched");
+    Tile *tile = [self.letters objectAtIndex:position];
+    if ([tile isActive])
+    {
+        [tile setTexture:[[CCTextureCache sharedTextureCache] addImage:@"letter_inactive_a.png"]];
+        [tile deactivate];
+    }
+    else
+    {
+        [tile setTexture:[[CCTextureCache sharedTextureCache] addImage:@"letter_active_a.png"]];
+        [tile activate];
     }
     
 }
+
 
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     UITouch *touch = [touches anyObject];
     CGPoint location = [touch locationInView:[touch view]];
     location = [[CCDirector sharedDirector] convertToGL:location];
-    [self rotateClicked];
+    //[self rotateClicked];
+    double distance = 0;
+    for (int i = 0; i < 16; i++)
+    {
+        Tile *tile = [self.letters objectAtIndex:i];
+        distance = powf(location.x - tile.position.x - 160, 2) + powf(location.y - tile.position.y - 160, 2);
+        distance = powf(distance, 0.5);
+//        NSLog(@"Distance = %f", distance);
+//        NSLog(@"Location = %f", location.x);
+//        NSLog(@"Location = %f", tile.position.x);
+        if (distance <= 37.5)
+        {
+            NSLog(@"Tile - %d at distance %f", i, distance);
+            [self tileTouchedAt:i];
+        }
+    }
 }
-
 
 @end
