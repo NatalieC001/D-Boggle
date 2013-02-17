@@ -15,7 +15,7 @@
 @property (nonatomic) BOOL isActive;
 @property (nonatomic) CGPoint actualLocation;
 
-- (void)initialize;
+- (void)initializeWith:(NSString *)alphabet;
 - (void)activate;
 - (void)deactivate;
 - (void)updateActualLocationForAnticlockwiseRotationByNinetyDegrees;

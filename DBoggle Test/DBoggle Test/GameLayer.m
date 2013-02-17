@@ -9,17 +9,30 @@
 #import "GameLayer.h"
 #import "Tile.h"
 #import "cocos2d.h"
+#import "HelloWorldLayer.h"
 
 @interface GameLayer ()
 
 @property (nonatomic) BOOL *userCanRotate;
 @property (nonatomic) NSUInteger angle;
+@property (nonatomic) BOOL *isPaused;
+@property (nonatomic, strong) NSArray *letters;
+@property (nonatomic, strong) CCNode *boardManager;
+@property (nonatomic, strong) CCSprite *board;
+@property (nonatomic, strong) CCSprite *pauseButton;
+@property (nonatomic, strong) CCSprite *rotateButton;
+@property (nonatomic, strong) CCLabelTTF *timer;
+@property (nonatomic, strong) NSNumber *time; //to do - change this to a non-strong NSInteger
+@property (nonatomic, strong) CCLayer *pauseLayer;
+@property (nonatomic, strong) CCMenu *pauseMenu;
+
 
 @end
 
 
 @implementation GameLayer
 
+@synthesize pauseLayer = _pauseLayer;
 @synthesize board = _board;
 @synthesize letters = _letters;
 @synthesize boardManager = _boardManager;
@@ -32,6 +45,13 @@
 }
 
 - (NSArray *)lettersForBoard {
+    
+    /////////////////////////////////////////////////////////////////////////////////
+    // TODO                                                                        //
+    // This is where the board gets initialized. Implement that later.             //
+    /////////////////////////////////////////////////////////////////////////////////
+    
+    
     Tile *letter1 = [Tile spriteWithFile:@"letter_active_a.png"];
     Tile *letter2 = [Tile spriteWithFile:@"letter_active_a.png"];
     Tile *letter3 = [Tile spriteWithFile:@"letter_active_a.png"];
@@ -68,25 +88,25 @@
     letter15.position = ccp(37.5, -112.5);
     letter16.position = ccp(112.5, -112.5);
     
-    [letter1 initialize];
-    [letter2 initialize];
-    [letter3 initialize];
-    [letter4 initialize];
-    [letter5 initialize];
-    [letter6 initialize];
-    [letter7 initialize];
-    [letter8 initialize];
-    [letter9 initialize];
-    [letter10 initialize];
-    [letter11 initialize];
-    [letter12 initialize];
-    [letter13 initialize];
-    [letter14 initialize];
-    [letter15 initialize];
-    [letter16 initialize];
+    [letter1 initializeWith:@"a"];
+    [letter2 initializeWith:@"a"];
+    [letter3 initializeWith:@"a"];
+    [letter4 initializeWith:@"a"];
+    [letter5 initializeWith:@"a"];
+    [letter6 initializeWith:@"a"];
+    [letter7 initializeWith:@"a"];
+    [letter8 initializeWith:@"a"];
+    [letter9 initializeWith:@"a"];
+    [letter10 initializeWith:@"a"];
+    [letter11 initializeWith:@"a"];
+    [letter12 initializeWith:@"a"];
+    [letter13 initializeWith:@"a"];
+    [letter14 initializeWith:@"a"];
+    [letter15 initializeWith:@"a"];
+    [letter16 initializeWith:@"a"];
 
     
-//Old Positions
+//    Old Positions
 //    letter1.position = ccp(47.5, 272.5);
 //    letter2.position = ccp(122.5, 272.5);
 //    letter3.position = ccp(197.5, 272.5);
@@ -150,7 +170,7 @@
 //        }
         
         self.angle = 0;
-        
+        self.isPaused = NO;
         CCMenuItemImage *rotate = [CCMenuItemImage itemWithNormalImage:@"Rotate.png" selectedImage:@"Rotate.png" target:self selector:@selector(rotateClicked)];
         CCMenuItemImage *pause = [CCMenuItemImage itemWithNormalImage:@"Pause.png" selectedImage:@"Pause_HD.png" target:self selector:@selector(pauseGame)];
         CCMenu *menu = [CCMenu menuWithItems:pause, rotate, nil];
@@ -185,7 +205,13 @@
         self.timer.position = ccp(160,400);
         self.timer.color = ccYELLOW;
         [self addChild:self.timer];
-    
+        
+        /////////////////////////////////////////////////////////////////////////////////
+        // TODO                                                                        //
+        // Cover the board with a cover and animate it going down when the game starts //
+        /////////////////////////////////////////////////////////////////////////////////
+        
+        
 	}
 	return self;
 }
@@ -193,6 +219,61 @@
 - (void) pauseGame
 {
     NSLog(@"Works!");
+    if (!self.isPaused)
+    {
+        
+        
+        /////////////////////////////////////////////////////////////////////////////////
+        // TODO                                                                        //
+        // Place the layer to the north of the board and make it slide down for effect //
+        /////////////////////////////////////////////////////////////////////////////////
+        
+        
+        
+        self.isPaused = YES;
+        
+        //[[CCDirector sharedDirector] pause];
+        self.pauseLayer = [CCLayerColor layerWithColor: ccc4(0, 50, 0, 125) width: 300 height: 350];
+        self.pauseLayer.position = ccp(10, 50);
+        [self addChild: self.pauseLayer z:8];
+        CCMenuItemFont *resume = [CCMenuItemFont itemWithString:@"Resume" target:self selector:@selector(resumeGame)];
+		CCMenuItemFont *mainMenu = [CCMenuItemFont itemWithString:@"Main Menu" target:self selector:@selector(returnToMainMenu)];
+		CCMenuItemFont *newGame = [CCMenuItemFont itemWithString:@"New Game" target:self selector:@selector(newGame)];
+        self.pauseMenu = [CCMenu menuWithItems:resume, mainMenu, newGame, nil];
+        [self.pauseMenu alignItemsVertically];
+        [self addChild:self.pauseMenu z:10];
+    }
+    else
+    {
+        [self resumeGame];
+    }
+
+}
+
+- (void) resumeGame
+{
+    
+    /////////////////////////////////////////////////////////////////////////////////
+    // TODO                                                                        //
+    // Make the pause menu slide up to the north od the board then disappear       //
+    /////////////////////////////////////////////////////////////////////////////////
+    
+    
+    [self removeChild:self.pauseMenu cleanup:YES];
+    [self removeChild:self.pauseLayer cleanup:YES];
+//    [[CCDirector sharedDirector] resume];
+    self.isPaused = NO;
+
+}
+
+- (void) returnToMainMenu
+{
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionJumpZoom transitionWithDuration:0.5 scene:[HelloWorldLayer scene]]];
+}
+
+- (void) newGame
+{
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionJumpZoom transitionWithDuration:0.5 scene:[GameLayer scene]]];
 }
 
 - (NSNumber *)decrement:(NSNumber *)number
@@ -266,6 +347,7 @@
     {
         [tile setTexture:[[CCTextureCache sharedTextureCache] addImage:@"letter_inactive_a.png"]];
         [tile deactivate];
+        NSLog(@"%@", tile.letter);
     }
     else
     {
@@ -278,26 +360,29 @@
 
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    UITouch *touch = [touches anyObject];
-    CGPoint location = [touch locationInView:[touch view]];
-    location = [[CCDirector sharedDirector] convertToGL:location];
-    //[self rotateClicked];
-    double distance = 0;
-    for (int i = 0; i < 16; i++)
+    if (!self.isPaused)
     {
-        Tile *tile = [self.letters objectAtIndex:i];
-        distance = powf(location.x - tile.actualLocation.x, 2) + powf(location.y - tile.actualLocation.y, 2);
-        distance = powf(distance, 0.5);
-        if (i==0)
+        UITouch *touch = [touches anyObject];
+        CGPoint location = [touch locationInView:[touch view]];
+        location = [[CCDirector sharedDirector] convertToGL:location];
+        //[self rotateClicked];
+        double distance = 0;
+        for (int i = 0; i < 16; i++)
         {
-            NSLog(@"Distance = %f", distance);
-            NSLog(@"Location = %f, %f", location.x, location.y);
-            NSLog(@"Location = %f, %f", tile.actualLocation.x, tile.actualLocation.y);
-        }
-        if (distance <= 37.5)
-        {
-            NSLog(@"Tile - %d at distance %f", i, distance);
-            [self tileTouchedAt:i];
+            Tile *tile = [self.letters objectAtIndex:i];
+            distance = powf(location.x - tile.actualLocation.x, 2) + powf(location.y - tile.actualLocation.y, 2);
+            distance = powf(distance, 0.5);
+            if (i==0)
+            {
+                NSLog(@"Distance = %f", distance);
+                NSLog(@"Location = %f, %f", location.x, location.y);
+                NSLog(@"Location = %f, %f", tile.actualLocation.x, tile.actualLocation.y);
+            }
+            if (distance <= 37.5)
+            {
+                NSLog(@"Tile - %d at distance %f", i, distance);
+                [self tileTouchedAt:i];
+            }
         }
     }
 }

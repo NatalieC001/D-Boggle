@@ -15,10 +15,11 @@
 @synthesize isActive = _isActive;
 @synthesize actualLocation = _actualLocation;
 
-- (void) initialize
+- (void) initializeWith:(NSString *)alphabet
 {
     self.isActive = YES;
     self.actualLocation = CGPointMake(self.position.x + 160, self.position.y + 160);
+    self.letter = alphabet;
 }
 
 - (void) activate
