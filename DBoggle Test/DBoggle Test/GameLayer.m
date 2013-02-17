@@ -13,6 +13,7 @@
 @interface GameLayer ()
 
 @property (nonatomic) BOOL *userCanRotate;
+@property (nonatomic) NSUInteger angle;
 
 @end
 
@@ -24,7 +25,7 @@
 @synthesize boardManager = _boardManager;
 @synthesize time = _time;
 @synthesize userCanRotate = _userCanRotate;
-
+@synthesize angle = _angle;
 
 - (void)positionItems {
     //shift all the positioning code here.
@@ -67,22 +68,22 @@
     letter15.position = ccp(37.5, -112.5);
     letter16.position = ccp(112.5, -112.5);
     
-    letter1.isActive = YES;
-    letter2.isActive = YES;
-    letter3.isActive = YES;
-    letter4.isActive = YES;
-    letter5.isActive = YES;
-    letter6.isActive = YES;
-    letter7.isActive = YES;
-    letter8.isActive = YES;
-    letter9.isActive = YES;
-    letter10.isActive = YES;
-    letter11.isActive = YES;
-    letter12.isActive = YES;
-    letter13.isActive = YES;
-    letter14.isActive = YES;
-    letter15.isActive = YES;
-    letter16.isActive = YES;
+    [letter1 initialize];
+    [letter2 initialize];
+    [letter3 initialize];
+    [letter4 initialize];
+    [letter5 initialize];
+    [letter6 initialize];
+    [letter7 initialize];
+    [letter8 initialize];
+    [letter9 initialize];
+    [letter10 initialize];
+    [letter11 initialize];
+    [letter12 initialize];
+    [letter13 initialize];
+    [letter14 initialize];
+    [letter15 initialize];
+    [letter16 initialize];
 
     
 //Old Positions
@@ -147,6 +148,8 @@
 //        {
 //            [self addChild:[self.letters objectAtIndex:i]];
 //        }
+        
+        self.angle = 0;
         
         CCMenuItemImage *rotate = [CCMenuItemImage itemWithNormalImage:@"Rotate.png" selectedImage:@"Rotate.png" target:self selector:@selector(rotateClicked)];
         CCMenuItemImage *pause = [CCMenuItemImage itemWithNormalImage:@"Pause.png" selectedImage:@"Pause_HD.png" target:self selector:@selector(pauseGame)];
@@ -232,15 +235,19 @@
 - (void)rotateBoard
 {
     [self disableRotate];
+    self.angle += 90;
+    if (self.angle >= 360) self.angle -= 360;
     NSLog(@"Rotation = %f", [self.board rotation]);
     id enableRotateCallback = [CCCallFunc actionWithTarget:self selector:@selector(enableRotate)];
-    id rotateAction = [CCRotateBy actionWithDuration:0.5 angle:90];
+    id rotateAction = [CCRotateBy actionWithDuration:0.5 angle:-90];
     id sequence = [CCSequence actions:rotateAction, enableRotateCallback, nil];
     [self.boardManager runAction:sequence];
     for (int i = 0; i < [self.letters count]; i++)
     {
-        id rotateLeft = [CCRotateBy actionWithDuration:0.5 angle:-90];
-        [[self.letters objectAtIndex:i] runAction:rotateLeft];
+        Tile *tile = [self.letters objectAtIndex:i];
+        id rotateLetter = [CCRotateBy actionWithDuration:0.5 angle:90];
+        [tile runAction:rotateLetter];
+        [tile updateActualLocationForAnticlockwiseRotationByNinetyDegrees];
         if (i==1)
         {
             CCSprite *tile = [self.letters objectAtIndex:1];
@@ -279,11 +286,14 @@
     for (int i = 0; i < 16; i++)
     {
         Tile *tile = [self.letters objectAtIndex:i];
-        distance = powf(location.x - tile.position.x - 160, 2) + powf(location.y - tile.position.y - 160, 2);
+        distance = powf(location.x - tile.actualLocation.x, 2) + powf(location.y - tile.actualLocation.y, 2);
         distance = powf(distance, 0.5);
-//        NSLog(@"Distance = %f", distance);
-//        NSLog(@"Location = %f", location.x);
-//        NSLog(@"Location = %f", tile.position.x);
+        if (i==0)
+        {
+            NSLog(@"Distance = %f", distance);
+            NSLog(@"Location = %f, %f", location.x, location.y);
+            NSLog(@"Location = %f, %f", tile.actualLocation.x, tile.actualLocation.y);
+        }
         if (distance <= 37.5)
         {
             NSLog(@"Tile - %d at distance %f", i, distance);

@@ -13,8 +13,11 @@
 @property (nonatomic) NSUInteger tileNumber;
 @property (nonatomic, strong) NSString *letter;
 @property (nonatomic) BOOL isActive;
+@property (nonatomic) CGPoint actualLocation;
 
+- (void)initialize;
 - (void)activate;
 - (void)deactivate;
+- (void)updateActualLocationForAnticlockwiseRotationByNinetyDegrees;
 
 @end
