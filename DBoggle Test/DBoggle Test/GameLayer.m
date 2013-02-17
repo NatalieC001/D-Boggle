@@ -9,7 +9,9 @@
 #import "GameLayer.h"
 #import "Tile.h"
 #import "cocos2d.h"
+#import "ResultLayer.h"
 #import "HelloWorldLayer.h"
+#import "ScrollingMenuScene.h"
 
 @interface GameLayer ()
 
@@ -25,7 +27,7 @@
 @property (nonatomic, strong) NSNumber *time; //to do - change this to a non-strong NSInteger
 @property (nonatomic, strong) CCLayer *pauseLayer;
 @property (nonatomic, strong) CCMenu *pauseMenu;
-
+@property (nonatomic, strong) NSMutableArray *pressedTiles;
 
 @end
 
@@ -39,9 +41,11 @@
 @synthesize time = _time;
 @synthesize userCanRotate = _userCanRotate;
 @synthesize angle = _angle;
+@synthesize pressedTiles = _pressedTiles;
 
-- (void)positionItems {
-    //shift all the positioning code here.
+- (NSMutableArray *) pressedTiles {
+    if (!_pressedTiles) _pressedTiles = [[NSMutableArray alloc] init];
+    return _pressedTiles;
 }
 
 - (NSArray *)lettersForBoard {
@@ -52,22 +56,24 @@
     /////////////////////////////////////////////////////////////////////////////////
     
     
-    Tile *letter1 = [Tile spriteWithFile:@"letter_active_a.png"];
-    Tile *letter2 = [Tile spriteWithFile:@"letter_active_a.png"];
-    Tile *letter3 = [Tile spriteWithFile:@"letter_active_a.png"];
-    Tile *letter4 = [Tile spriteWithFile:@"letter_active_a.png"];
-    Tile *letter5 = [Tile spriteWithFile:@"letter_active_a.png"];
-    Tile *letter6 = [Tile spriteWithFile:@"letter_active_a.png"];
-    Tile *letter7 = [Tile spriteWithFile:@"letter_active_a.png"];
-    Tile *letter8 = [Tile spriteWithFile:@"letter_active_a.png"];
-    Tile *letter9 = [Tile spriteWithFile:@"letter_active_a.png"];
-    Tile *letter10 = [Tile spriteWithFile:@"letter_active_a.png"];
-    Tile *letter11 = [Tile spriteWithFile:@"letter_active_a.png"];
-    Tile *letter12 = [Tile spriteWithFile:@"letter_active_a.png"];
-    Tile *letter13 = [Tile spriteWithFile:@"letter_active_a.png"];
-    Tile *letter14 = [Tile spriteWithFile:@"letter_active_a.png"];
-    Tile *letter15 = [Tile spriteWithFile:@"letter_active_a.png"];
-    Tile *letter16 = [Tile spriteWithFile:@"letter_active_a.png"];
+    
+    //Change these all to no_letter.png
+    Tile *letter1 = [Tile spriteWithFile:@"A_active.png"];
+    Tile *letter2 = [Tile spriteWithFile:@"A_active.png"];
+    Tile *letter3 = [Tile spriteWithFile:@"A_active.png"];
+    Tile *letter4 = [Tile spriteWithFile:@"A_active.png"];
+    Tile *letter5 = [Tile spriteWithFile:@"A_active.png"];
+    Tile *letter6 = [Tile spriteWithFile:@"A_active.png"];
+    Tile *letter7 = [Tile spriteWithFile:@"A_active.png"];
+    Tile *letter8 = [Tile spriteWithFile:@"A_active.png"];
+    Tile *letter9 = [Tile spriteWithFile:@"A_active.png"];
+    Tile *letter10 = [Tile spriteWithFile:@"A_active.png"];
+    Tile *letter11 = [Tile spriteWithFile:@"A_active.png"];
+    Tile *letter12 = [Tile spriteWithFile:@"A_active.png"];
+    Tile *letter13 = [Tile spriteWithFile:@"A_active.png"];
+    Tile *letter14 = [Tile spriteWithFile:@"A_active.png"];
+    Tile *letter15 = [Tile spriteWithFile:@"A_active.png"];
+    Tile *letter16 = [Tile spriteWithFile:@"A_active.png"];
     
     
     //New Positions
@@ -88,6 +94,9 @@
     letter15.position = ccp(37.5, -112.5);
     letter16.position = ccp(112.5, -112.5);
     
+    
+    
+    //initialization code
     [letter1 initializeWith:@"a"];
     [letter2 initializeWith:@"a"];
     [letter3 initializeWith:@"a"];
@@ -239,7 +248,8 @@
         CCMenuItemFont *resume = [CCMenuItemFont itemWithString:@"Resume" target:self selector:@selector(resumeGame)];
 		CCMenuItemFont *mainMenu = [CCMenuItemFont itemWithString:@"Main Menu" target:self selector:@selector(returnToMainMenu)];
 		CCMenuItemFont *newGame = [CCMenuItemFont itemWithString:@"New Game" target:self selector:@selector(newGame)];
-        self.pauseMenu = [CCMenu menuWithItems:resume, mainMenu, newGame, nil];
+        CCMenuItemFont *playedWords = [CCMenuItemFont itemWithString:@"Played Words" target:self selector:@selector(playedWords)];
+        self.pauseMenu = [CCMenu menuWithItems:resume, mainMenu, newGame, playedWords, nil];
         [self.pauseMenu alignItemsVertically];
         [self addChild:self.pauseMenu z:10];
     }
@@ -268,12 +278,31 @@
 
 - (void) returnToMainMenu
 {
-    [[CCDirector sharedDirector] replaceScene:[CCTransitionJumpZoom transitionWithDuration:0.5 scene:[HelloWorldLayer scene]]];
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionPageTurn transitionWithDuration:0.5 scene:[HelloWorldLayer scene]]];
 }
 
 - (void) newGame
 {
-    [[CCDirector sharedDirector] replaceScene:[CCTransitionJumpZoom transitionWithDuration:0.5 scene:[GameLayer scene]]];
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionFlipX transitionWithDuration:0.5 scene:[GameLayer scene]]];
+}
+
+- (void) playedWords
+{
+    //try the other thing also. Here http://tonyngo.net/2011/11/scrolling-ccnode-in-cocos2d/
+    
+    //this is from http://www.pkclsoft.com/wp/?cat=12
+    ScrollingMenuScene *ns =
+    [ScrollingMenuScene nodeWithForeground:@"Pause.png"
+                             andBackground:@"Default.png"
+                                   andRect:CGRectMake(50.0, 40.0, 200.0, 260.0)
+                                  andItems:[NSArray arrayWithObjects:
+                                            @"First", @"Second", @"Third", @"Fourth",
+                                            @"Fifth", @"Sixth", @"Seventh", @"Eighth",
+                                            @"Ninth", @"Tenth", @"Eleventh", @"Twelfth",
+                                            @"Thirteenth", @"Fourteenth", @"Fifteenth", @"Sixteenth",
+                                            @"Seventeenth", @"Eighteenth", @"Nineteenth", @"Twentieth",
+                                            nil]];
+    [[CCDirector sharedDirector] replaceScene:ns];
 }
 
 - (NSNumber *)decrement:(NSNumber *)number
@@ -292,6 +321,7 @@
     if ([self.time integerValue] == 0) {
         [self.timer setString:[NSString stringWithFormat:@"Game Over!"]];
         [self unschedule:@selector(tick:)];
+        [[CCDirector sharedDirector] replaceScene:[CCTransitionFadeTR transitionWithDuration:0.5 scene:[ResultLayer scene]]];
     }
 }
 
@@ -339,24 +369,69 @@
     NSLog(@"Rotation = %f", [self.board rotation]);
 }
 
+- (BOOL)tileAtPositionCanBeClicked {
+    return YES;
+}
+
 - (void)tileTouchedAt:(NSUInteger)position
 {
     NSLog(@"Touched");
     Tile *tile = [self.letters objectAtIndex:position];
+    // put a validity if here and make the next if an else
+    
     if ([tile isActive])
     {
-        [tile setTexture:[[CCTextureCache sharedTextureCache] addImage:@"letter_inactive_a.png"]];
+        [self.pressedTiles addObject:tile];
         [tile deactivate];
         NSLog(@"%@", tile.letter);
     }
     else
     {
-        [tile setTexture:[[CCTextureCache sharedTextureCache] addImage:@"letter_active_a.png"]];
-        [tile activate];
+//        while ([self.pressedTiles lastObject] != tile)
+//        {
+//            //convert to do-while
+//            [[self.pressedTiles lastObject] activate];
+//            [self.pressedTiles removeLastObject];
+//        }
+//        [tile activate];
+//        [self.pressedTiles removeLastObject];
+        
+        Tile *lastTile;
+        do
+        {
+            lastTile = [self.pressedTiles lastObject];
+            [lastTile activate];
+            [self.pressedTiles removeLastObject];
+        } while ( lastTile != tile);
     }
-    
+    [self updateCurrentWord];
 }
 
+- (void)updateCurrentWord
+{
+    // this is where we check if the word is a valid word. If it is, I call the clear function.
+    // TODO - increase efficiency by maintaining a property and use this method to update.
+    NSString *currentWord = @"";
+    for (Tile *tile in self.pressedTiles)
+    {
+        currentWord = [currentWord stringByAppendingString:tile.letter];
+    }
+    NSLog(@"%@", currentWord);
+    if ([currentWord isEqualToString:@"aaaaa"]) //check validity here
+    {
+        [self clearAllPressedTiles];
+    }
+
+}
+
+- (void) clearAllPressedTiles
+{
+    [self.pressedTiles removeAllObjects];
+    for (int i = 0; i < 16; i++)
+    {
+        [[self.letters objectAtIndex:i] activate];
+    }
+}
 
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {

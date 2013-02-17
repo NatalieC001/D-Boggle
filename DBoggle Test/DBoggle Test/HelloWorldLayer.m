@@ -9,7 +9,7 @@
 
 // Import the interfaces
 #import "HelloWorldLayer.h"
-
+#import "InstructionsLayer.h"
 // Needed to obtain the Navigation Controller
 #import "AppDelegate.h"
 
@@ -39,12 +39,13 @@
 - (void) newGame
 {
     NSLog(@"New Game");
-    [[CCDirector sharedDirector] replaceScene:[CCTransitionJumpZoom transitionWithDuration:0.5 scene:[GameLayer scene]]];
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionSlideInR transitionWithDuration:0.5 scene:[GameLayer scene]]];
 }
 
 - (void) instructions
 {
     NSLog(@"Instructions");
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionSlideInB transitionWithDuration:0.5 scene:[InstructionsLayer scene]]];
 }
 
 - (void) otherOption

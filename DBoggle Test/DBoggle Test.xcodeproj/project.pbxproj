@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1502A80316D0E803005E77BC /* ResultLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1502A80216D0E803005E77BC /* ResultLayer.m */; };
+		1502A80616D0F42D005E77BC /* InstructionsLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1502A80516D0F42D005E77BC /* InstructionsLayer.m */; };
+		1502A80916D1137E005E77BC /* ScrollingMenuScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 1502A80816D112C3005E77BC /* ScrollingMenuScene.m */; };
 		156C199816CA27E2004591E6 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 156C199716CA27E2004591E6 /* QuartzCore.framework */; };
 		156C199A16CA27E2004591E6 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 156C199916CA27E2004591E6 /* OpenGLES.framework */; };
 		156C199C16CA27E2004591E6 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 156C199B16CA27E2004591E6 /* OpenAL.framework */; };
@@ -148,6 +151,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1502A80116D0E803005E77BC /* ResultLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResultLayer.h; sourceTree = "<group>"; };
+		1502A80216D0E803005E77BC /* ResultLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResultLayer.m; sourceTree = "<group>"; };
+		1502A80416D0F42D005E77BC /* InstructionsLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstructionsLayer.h; sourceTree = "<group>"; };
+		1502A80516D0F42D005E77BC /* InstructionsLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstructionsLayer.m; sourceTree = "<group>"; };
+		1502A80716D112C3005E77BC /* ScrollingMenuScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScrollingMenuScene.h; sourceTree = "<group>"; };
+		1502A80816D112C3005E77BC /* ScrollingMenuScene.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScrollingMenuScene.m; sourceTree = "<group>"; };
 		156C199416CA27E2004591E6 /* DBoggle Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DBoggle Test.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		156C199716CA27E2004591E6 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		156C199916CA27E2004591E6 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -486,8 +495,14 @@
 				156C1B2216CA27E4004591E6 /* AppDelegate.m */,
 				156C1B2416CA27E4004591E6 /* HelloWorldLayer.h */,
 				156C1B2516CA27E4004591E6 /* HelloWorldLayer.m */,
+				1502A80716D112C3005E77BC /* ScrollingMenuScene.h */,
+				1502A80816D112C3005E77BC /* ScrollingMenuScene.m */,
 				156C1B3316CA2FA2004591E6 /* GameLayer.h */,
 				156C1B3416CA2FA2004591E6 /* GameLayer.m */,
+				1502A80416D0F42D005E77BC /* InstructionsLayer.h */,
+				1502A80516D0F42D005E77BC /* InstructionsLayer.m */,
+				1502A80116D0E803005E77BC /* ResultLayer.h */,
+				1502A80216D0E803005E77BC /* ResultLayer.m */,
 				15A4841F16CF5913002B5EE5 /* Tile.h */,
 				15A4842016CF5913002B5EE5 /* Tile.m */,
 				156C1B2716CA27E4004591E6 /* IntroLayer.h */,
@@ -955,6 +970,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1502A80916D1137E005E77BC /* ScrollingMenuScene.m in Sources */,
 				156C19C816CA27E2004591E6 /* CCAction.m in Sources */,
 				156C19CB16CA27E2004591E6 /* CCActionCamera.m in Sources */,
 				156C19CE16CA27E2004591E6 /* CCActionCatmullRom.m in Sources */,
@@ -1061,6 +1077,8 @@
 				156C1B2916CA27E4004591E6 /* IntroLayer.m in Sources */,
 				156C1B3516CA2FA2004591E6 /* GameLayer.m in Sources */,
 				15A4842116CF5913002B5EE5 /* Tile.m in Sources */,
+				1502A80316D0E803005E77BC /* ResultLayer.m in Sources */,
+				1502A80616D0F42D005E77BC /* InstructionsLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
