@@ -369,8 +369,166 @@
     NSLog(@"Rotation = %f", [self.board rotation]);
 }
 
-- (BOOL)tileAtPositionCanBeClicked {
-    return YES;
+- (BOOL)canChooseTileAt:(NSUInteger)position {
+    NSArray *validLetters;
+    NSMutableIndexSet *indicesOfValidTiles = [[NSMutableIndexSet alloc] init];
+    switch (position) {
+        case 0:
+            //[indicesOfValidTiles addIndex:1];
+            //[indicesOfValidTiles addIndex:4];
+            //[indicesOfValidTiles addIndex:5];
+            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            //[[self.pressedTiles lastObject] letter]
+            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
+            break;
+        case 1:
+            [indicesOfValidTiles addIndex:0];
+            [indicesOfValidTiles addIndex:2];
+            [indicesOfValidTiles addIndex:4];
+            [indicesOfValidTiles addIndex:5];
+            [indicesOfValidTiles addIndex:6];
+            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
+            break;
+        case 2:
+            [indicesOfValidTiles addIndex:1];
+            [indicesOfValidTiles addIndex:3];
+            [indicesOfValidTiles addIndex:5];
+            [indicesOfValidTiles addIndex:6];
+            [indicesOfValidTiles addIndex:7];
+            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
+            break;
+        case 3:
+            [indicesOfValidTiles addIndex:2];
+            [indicesOfValidTiles addIndex:6];
+            [indicesOfValidTiles addIndex:7];
+            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
+            break;
+        case 4:
+            [indicesOfValidTiles addIndex:0];
+            [indicesOfValidTiles addIndex:1];
+            [indicesOfValidTiles addIndex:5];
+            [indicesOfValidTiles addIndex:8];
+            [indicesOfValidTiles addIndex:9];
+            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
+            break;
+        case 5:
+            [indicesOfValidTiles addIndex:0];
+            [indicesOfValidTiles addIndex:1];
+            [indicesOfValidTiles addIndex:2];
+            [indicesOfValidTiles addIndex:4];
+            [indicesOfValidTiles addIndex:6];
+            [indicesOfValidTiles addIndex:8];
+            [indicesOfValidTiles addIndex:9];
+            [indicesOfValidTiles addIndex:10];
+            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
+            break;
+        case 6:
+            [indicesOfValidTiles addIndex:1];
+            [indicesOfValidTiles addIndex:2];
+            [indicesOfValidTiles addIndex:3];
+            [indicesOfValidTiles addIndex:5];
+            [indicesOfValidTiles addIndex:7];
+            [indicesOfValidTiles addIndex:9];
+            [indicesOfValidTiles addIndex:10];
+            [indicesOfValidTiles addIndex:11];
+            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
+            break;
+        case 7:
+            [indicesOfValidTiles addIndex:2];
+            [indicesOfValidTiles addIndex:3];
+            [indicesOfValidTiles addIndex:6];
+            [indicesOfValidTiles addIndex:10];
+            [indicesOfValidTiles addIndex:11];
+            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
+            break;
+        case 8:
+            [indicesOfValidTiles addIndex:4];
+            [indicesOfValidTiles addIndex:5];
+            [indicesOfValidTiles addIndex:9];
+            [indicesOfValidTiles addIndex:12];
+            [indicesOfValidTiles addIndex:13];
+            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
+            break;
+        case 9:
+            [indicesOfValidTiles addIndex:4];
+            [indicesOfValidTiles addIndex:5];
+            [indicesOfValidTiles addIndex:6];
+            [indicesOfValidTiles addIndex:8];
+            [indicesOfValidTiles addIndex:10];
+            [indicesOfValidTiles addIndex:12];
+            [indicesOfValidTiles addIndex:13];
+            [indicesOfValidTiles addIndex:14];
+            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
+            break;
+        case 10:
+            [indicesOfValidTiles addIndex:5];
+            [indicesOfValidTiles addIndex:6];
+            [indicesOfValidTiles addIndex:7];
+            [indicesOfValidTiles addIndex:9];
+            [indicesOfValidTiles addIndex:11];
+            [indicesOfValidTiles addIndex:13];
+            [indicesOfValidTiles addIndex:14];
+            [indicesOfValidTiles addIndex:15];
+            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
+            break;
+        case 11:
+            [indicesOfValidTiles addIndex:6];
+            [indicesOfValidTiles addIndex:7];
+            [indicesOfValidTiles addIndex:10];
+            [indicesOfValidTiles addIndex:14];
+            [indicesOfValidTiles addIndex:15];
+            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
+            break;
+        case 12:
+            [indicesOfValidTiles addIndex:8];
+            [indicesOfValidTiles addIndex:9];
+            [indicesOfValidTiles addIndex:13];
+            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
+            break;
+        case 13:
+            [indicesOfValidTiles addIndex:8];
+            [indicesOfValidTiles addIndex:9];
+            [indicesOfValidTiles addIndex:10];
+            [indicesOfValidTiles addIndex:12];
+            [indicesOfValidTiles addIndex:14];
+            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
+            break;
+        case 14:
+            [indicesOfValidTiles addIndex:9];
+            [indicesOfValidTiles addIndex:10];
+            [indicesOfValidTiles addIndex:11];
+            [indicesOfValidTiles addIndex:13];
+            [indicesOfValidTiles addIndex:15];
+            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
+            break;
+        case 15:
+            [indicesOfValidTiles addIndex:10];
+            [indicesOfValidTiles addIndex:11];
+            [indicesOfValidTiles addIndex:15];
+            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
+            break;
+            
+        default:
+            return NO;
+            break;
+    }
+    
+    return NO;
 }
 
 - (void)tileTouchedAt:(NSUInteger)position
@@ -378,12 +536,21 @@
     NSLog(@"Touched");
     Tile *tile = [self.letters objectAtIndex:position];
     // put a validity if here and make the next if an else
-    
-    if ([tile isActive])
+    NSLog(@"%c", [self canChooseTileAt:position]);
+    NSLog(@"came here");
+    if ([tile isActive])// && [self canChooseTileAt:position])
     {
+        NSLog(@"came here inside");
         [self.pressedTiles addObject:tile];
         [tile deactivate];
         NSLog(@"%@", tile.letter);
+        
+        
+        NSArray *a = [NSArray arrayWithObjects:@"1", @"2", nil];
+        if ([a indexOfObject:@"3"] == NSNotFound)
+            NSLog(@"works");
+        
+        
     }
     else
     {
