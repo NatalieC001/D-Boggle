@@ -58,22 +58,22 @@
     
     
     //Change these all to no_letter.png
-    Tile *letter1 = [Tile spriteWithFile:@"A_active.png"];
-    Tile *letter2 = [Tile spriteWithFile:@"A_active.png"];
-    Tile *letter3 = [Tile spriteWithFile:@"A_active.png"];
-    Tile *letter4 = [Tile spriteWithFile:@"A_active.png"];
-    Tile *letter5 = [Tile spriteWithFile:@"A_active.png"];
-    Tile *letter6 = [Tile spriteWithFile:@"A_active.png"];
-    Tile *letter7 = [Tile spriteWithFile:@"A_active.png"];
-    Tile *letter8 = [Tile spriteWithFile:@"A_active.png"];
-    Tile *letter9 = [Tile spriteWithFile:@"A_active.png"];
-    Tile *letter10 = [Tile spriteWithFile:@"A_active.png"];
-    Tile *letter11 = [Tile spriteWithFile:@"A_active.png"];
-    Tile *letter12 = [Tile spriteWithFile:@"A_active.png"];
-    Tile *letter13 = [Tile spriteWithFile:@"A_active.png"];
-    Tile *letter14 = [Tile spriteWithFile:@"A_active.png"];
-    Tile *letter15 = [Tile spriteWithFile:@"A_active.png"];
-    Tile *letter16 = [Tile spriteWithFile:@"A_active.png"];
+    Tile *letter1 = [Tile spriteWithFile:@"empty_letter_active.png"];
+    Tile *letter2 = [Tile spriteWithFile:@"empty_letter_active.png"];
+    Tile *letter3 = [Tile spriteWithFile:@"empty_letter_active.png"];
+    Tile *letter4 = [Tile spriteWithFile:@"empty_letter_active.png"];
+    Tile *letter5 = [Tile spriteWithFile:@"empty_letter_active.png"];
+    Tile *letter6 = [Tile spriteWithFile:@"empty_letter_active.png"];
+    Tile *letter7 = [Tile spriteWithFile:@"empty_letter_active.png"];
+    Tile *letter8 = [Tile spriteWithFile:@"empty_letter_active.png"];
+    Tile *letter9 = [Tile spriteWithFile:@"empty_letter_active.png"];
+    Tile *letter10 = [Tile spriteWithFile:@"empty_letter_active.png"];
+    Tile *letter11 = [Tile spriteWithFile:@"empty_letter_active.png"];
+    Tile *letter12 = [Tile spriteWithFile:@"empty_letter_active.png"];
+    Tile *letter13 = [Tile spriteWithFile:@"empty_letter_active.png"];
+    Tile *letter14 = [Tile spriteWithFile:@"empty_letter_active.png"];
+    Tile *letter15 = [Tile spriteWithFile:@"empty_letter_active.png"];
+    Tile *letter16 = [Tile spriteWithFile:@"empty_letter_active.png"];
     
     
     //New Positions
