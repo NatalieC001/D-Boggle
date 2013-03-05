@@ -8,6 +8,8 @@
 
 #import "ResultLayer.h"
 #import "cocos2d.h"
+#import "HelloWorldLayer.h"
+#import "GameLayer.h"
 
 @implementation ResultLayer
 
@@ -61,5 +63,14 @@
 	return self;
 }
 
+- (void) returnToMainMenu
+{
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionSlideInT transitionWithDuration:0.5 scene:[HelloWorldLayer scene]]];
+}
+
+- (void) newGame
+{
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionFlipX transitionWithDuration:0.5 scene:[GameLayer scene]]];
+}
 
 @end

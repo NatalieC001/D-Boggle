@@ -265,7 +265,7 @@
     
     /////////////////////////////////////////////////////////////////////////////////
     // TODO                                                                        //
-    // Make the pause menu slide up to the north od the board then disappear       //
+    // Make the pause menu slide up to the north of the board then disappear       //
     /////////////////////////////////////////////////////////////////////////////////
     
     
@@ -370,11 +370,11 @@
 }
 
 - (BOOL)canChooseTileAt:(NSUInteger)position {
-    NSArray *validLetters;
+//    NSArray *validLetters;
     if ([self.pressedTiles count] == 0)
         return YES;
-    NSUInteger lastIndex = [[self.pressedTiles lastObject] index];
-    NSMutableIndexSet *indicesOfValidTiles = [[NSMutableIndexSet alloc] init];
+    NSUInteger lastIndex = [[self.pressedTiles lastObject] tileNumber];
+//    NSMutableIndexSet *indicesOfValidTiles = [[NSMutableIndexSet alloc] init];
     switch (position) {
         case 0:
             return (lastIndex == 1 || lastIndex == 4 || lastIndex == 5);
