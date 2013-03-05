@@ -13,7 +13,8 @@
 @property (nonatomic) NSUInteger tileNumber;
 @property (nonatomic, strong) NSString *letter;
 @property (nonatomic) BOOL isActive;
-@property (nonatomic) CGPoint actualLocation;
+@property (nonatomic) CGPoint actualLocation;   //Holds ccp location with the game layer as frame of reference, not
+                                                //boardManager
 
 - (void)initializeWith:(NSString *)alphabet at:(NSUInteger) index;
 - (void)activate;

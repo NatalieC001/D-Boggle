@@ -15,19 +15,19 @@
 
 @interface GameLayer ()
 
-@property (nonatomic) BOOL *userCanRotate;
-@property (nonatomic) NSUInteger angle;
-@property (nonatomic) BOOL *isPaused;
-@property (nonatomic, strong) NSArray *letters;
-@property (nonatomic, strong) CCNode *boardManager;
-@property (nonatomic, strong) CCSprite *board;
+@property (nonatomic) BOOL *userCanRotate; //user is allowed to rotate the board or not
+@property (nonatomic) NSUInteger angle; // total angle by which the board is rotated till that point
+@property (nonatomic) BOOL *isPaused;   // checks whether game is paused
+@property (nonatomic, strong) NSArray *letters; //array of the letters on screen
+@property (nonatomic, strong) CCNode *boardManager; //Frame of reference at centre of board. Holds 'board' and 'letters'
+@property (nonatomic, strong) CCSprite *board;  //A sprite on board manager. Holds all the letters.
 @property (nonatomic, strong) CCSprite *pauseButton;
 @property (nonatomic, strong) CCSprite *rotateButton;
-@property (nonatomic, strong) CCLabelTTF *timer;
+@property (nonatomic, strong) CCLabelTTF *timer;    //Label to display time remaning
 @property (nonatomic, strong) NSNumber *time; //to do - change this to a non-strong NSInteger
-@property (nonatomic, strong) CCLayer *pauseLayer;
+@property (nonatomic, strong) CCLayer *pauseLayer;  //the translucent layer that appears on going to the pause menu
 @property (nonatomic, strong) CCMenu *pauseMenu;
-@property (nonatomic, strong) NSMutableArray *pressedTiles;
+@property (nonatomic, strong) NSMutableArray *pressedTiles; //Array to hold all the currently selected letters
 
 @end
 
@@ -57,7 +57,7 @@
     
     
     
-    //Change these all to no_letter.png
+    //All tiles initialized as empty tiles. No letter.
     Tile *letter1 = [Tile spriteWithFile:@"empty_letter_active.png"];
     Tile *letter2 = [Tile spriteWithFile:@"empty_letter_active.png"];
     Tile *letter3 = [Tile spriteWithFile:@"empty_letter_active.png"];
@@ -94,9 +94,9 @@
     letter15.position = ccp(37.5, -112.5);
     letter16.position = ccp(112.5, -112.5);
     
-    
-    
-    //initialization code
+    //grid initialization code
+    //Need to implement randomization code
+    //Suggestion: use a 0-15 loop for all the indices and a 26-char array from which randomization is done.
     [letter1 initializeWith:@"a" at:0];
     [letter2 initializeWith:@"a" at:1];
     [letter3 initializeWith:@"a" at:2];
@@ -113,29 +113,29 @@
     [letter14 initializeWith:@"a" at:13];
     [letter15 initializeWith:@"a" at:14];
     [letter16 initializeWith:@"a" at:15];
-
-    
-//    Old Positions
-//    letter1.position = ccp(47.5, 272.5);
-//    letter2.position = ccp(122.5, 272.5);
-//    letter3.position = ccp(197.5, 272.5);
-//    letter4.position = ccp(272.5, 272.5);
-//    letter5.position = ccp(47.5, 197.5);
-//    letter6.position = ccp(122.5, 197.5);
-//    letter7.position = ccp(197.5, 197.5);
-//    letter8.position = ccp(272.5, 197.5);
-//    letter9.position = ccp(47.5, 122.5);
-//    letter10.position = ccp(122.5, 122.5);
-//    letter11.position = ccp(197.5, 122.5);
-//    letter12.position = ccp(272.5, 122.5);
-//    letter13.position = ccp(47.5, 47.5);
-//    letter14.position = ccp(122.5, 47.5);
-//    letter15.position = ccp(197.5, 47.5);
-//    letter16.position = ccp(272.5, 47.5);
     
     
+    //    Old Positions
+    //    letter1.position = ccp(47.5, 272.5);
+    //    letter2.position = ccp(122.5, 272.5);
+    //    letter3.position = ccp(197.5, 272.5);
+    //    letter4.position = ccp(272.5, 272.5);
+    //    letter5.position = ccp(47.5, 197.5);
+    //    letter6.position = ccp(122.5, 197.5);
+    //    letter7.position = ccp(197.5, 197.5);
+    //    letter8.position = ccp(272.5, 197.5);
+    //    letter9.position = ccp(47.5, 122.5);
+    //    letter10.position = ccp(122.5, 122.5);
+    //    letter11.position = ccp(197.5, 122.5);
+    //    letter12.position = ccp(272.5, 122.5);
+    //    letter13.position = ccp(47.5, 47.5);
+    //    letter14.position = ccp(122.5, 47.5);
+    //    letter15.position = ccp(197.5, 47.5);
+    //    letter16.position = ccp(272.5, 47.5);
     
-
+    
+    
+    
     NSArray *array = [[NSArray alloc] initWithObjects:letter1, letter2, letter3, letter4, letter5, letter6, letter7, letter8, letter9, letter10, letter11, letter12, letter13, letter14, letter15, letter16, nil];
     return array;
 }
@@ -168,43 +168,43 @@
         
         isTouchEnabled_ = YES;
 		
-//        self.board = [CCSprite spriteWithFile:@"BoggleTray.png"];
-//        self.board.position = ccp(160, 160);
-//        self.letters = [self lettersForBoard];
-//        
-//        [self addChild:self.board z:0];
-//        for (int i = 0; i < 16; i++)
-//        {
-//            [self addChild:[self.letters objectAtIndex:i]];
-//        }
+        //        self.board = [CCSprite spriteWithFile:@"BoggleTray.png"];
+        //        self.board.position = ccp(160, 160);
+        //        self.letters = [self lettersForBoard];
+        //
+        //        [self addChild:self.board z:0];
+        //        for (int i = 0; i < 16; i++)
+        //        {
+        //            [self addChild:[self.letters objectAtIndex:i]];
+        //        }
         
         self.angle = 0;
         self.isPaused = NO;
-        CCMenuItemImage *rotate = [CCMenuItemImage itemWithNormalImage:@"Rotate.png" selectedImage:@"Rotate.png" target:self selector:@selector(rotateClicked)];
-        CCMenuItemImage *pause = [CCMenuItemImage itemWithNormalImage:@"Pause.png" selectedImage:@"Pause_HD.png" target:self selector:@selector(pauseGame)];
-        CCMenu *menu = [CCMenu menuWithItems:pause, rotate, nil];
+        CCMenuItemImage *rotate = [CCMenuItemImage itemWithNormalImage:@"Rotate.png" selectedImage:@"Rotate.png" target:self selector:@selector(rotateClicked)];    //Rotate button
+        CCMenuItemImage *pause = [CCMenuItemImage itemWithNormalImage:@"Pause.png" selectedImage:@"Pause_HD.png" target:self selector:@selector(pauseGame)];        //Pause button
+        CCMenu *menu = [CCMenu menuWithItems:pause, rotate, nil];   //The top banner
         [menu alignItemsHorizontallyWithPadding:0];
         menu.position = ccp(64, 450);
         [self addChild:menu];
         
-        self.userCanRotate = YES;
+        self.userCanRotate = YES;                   //to be changed based on time remaining
         self.boardManager = [CCNode node];
-        self.boardManager.position = CGPointMake(160, 160);
+        self.boardManager.position = ccp(160, 160);    //CGPointMake makes a new point at those coordinates
         [self addChild:self.boardManager];
         
         
-        
         self.board = [CCSprite spriteWithFile:@"BoggleTray.png"];
-        self.board.position = ccp(0, 0);
+        self.board.position = ccp(0, 0);        //The frame of reference for these coordinates is boardManager, not the
+                                                //screen
         self.letters = [self lettersForBoard];
         
-        [self.boardManager addChild:self.board z:0];
-        for (int i = 0; i < 16; i++)
+        [self.boardManager addChild:self.board z:0];    //Add board to boardManager
+        for (int i = 0; i < 16; i++)        //Add each letter one by one to the board.
         {
             [self.boardManager addChild:[self.letters objectAtIndex:i]];
         }
         
-        self.time = [[NSNumber alloc] initWithInt:60];
+        self.time = [[NSNumber alloc] initWithInt:60];      //to-do: Change to 300
         
         //[self schedule: @selector(tick:)];
         [self schedule: @selector(tick:) interval:1];
@@ -257,7 +257,7 @@
     {
         [self resumeGame];
     }
-
+    
 }
 
 - (void) resumeGame
@@ -265,15 +265,15 @@
     
     /////////////////////////////////////////////////////////////////////////////////
     // TODO                                                                        //
-    // Make the pause menu slide up to the north of the board then disappear       //
+    // Make the pause menu slide up to the north od the board then disappear       //
     /////////////////////////////////////////////////////////////////////////////////
     
     
     [self removeChild:self.pauseMenu cleanup:YES];
     [self removeChild:self.pauseLayer cleanup:YES];
-//    [[CCDirector sharedDirector] resume];
+    //    [[CCDirector sharedDirector] resume];
     self.isPaused = NO;
-
+    
 }
 
 - (void) returnToMainMenu
@@ -320,7 +320,7 @@
     
     if ([self.time integerValue] == 0) {
         [self.timer setString:[NSString stringWithFormat:@"Game Over!"]];
-        [self unschedule:@selector(tick:)];
+        [self unschedule:@selector(tick:)]; //to stop the tick call
         [[CCDirector sharedDirector] replaceScene:[CCTransitionFadeTR transitionWithDuration:0.5 scene:[ResultLayer scene]]];
     }
 }
@@ -350,214 +350,216 @@
     if (self.angle >= 360) self.angle -= 360;
     NSLog(@"Rotation = %f", [self.board rotation]);
     id enableRotateCallback = [CCCallFunc actionWithTarget:self selector:@selector(enableRotate)];
-    id rotateAction = [CCRotateBy actionWithDuration:0.5 angle:-90];
+    id rotateAction = [CCRotateBy actionWithDuration:0.5 angle:-90];    //rotates the board by 90 deg anti-clockwise
     id sequence = [CCSequence actions:rotateAction, enableRotateCallback, nil];
     [self.boardManager runAction:sequence];
     for (int i = 0; i < [self.letters count]; i++)
     {
         Tile *tile = [self.letters objectAtIndex:i];
-        id rotateLetter = [CCRotateBy actionWithDuration:0.5 angle:90];
+        id rotateLetter = [CCRotateBy actionWithDuration:0.01 angle:90]; //rotates each letter by 90 deg clockwise
         [tile runAction:rotateLetter];
         [tile updateActualLocationForAnticlockwiseRotationByNinetyDegrees];
-        if (i==1)
-        {
-            CCSprite *tile = [self.letters objectAtIndex:1];
-            NSLog(@"%f, %f", tile.position.x, tile.position.y);
-            NSLog(@"Rotation = %f", [tile rotation]);
-        }
+//        if (i==1)
+//        {
+//            CCSprite *tile = [self.letters objectAtIndex:1];
+//            NSLog(@"%f, %f", tile.position.x, tile.position.y);
+//            NSLog(@"Rotation = %f", [tile rotation]);
+//        }
     }
     NSLog(@"Rotation = %f", [self.board rotation]);
 }
 
+
+//Ensures only tiles adjacent to last chosen tile can be selected
 - (BOOL)canChooseTileAt:(NSUInteger)position {
-//    NSArray *validLetters;
+    NSArray *validLetters;
     if ([self.pressedTiles count] == 0)
         return YES;
-    NSUInteger lastIndex = [[self.pressedTiles lastObject] tileNumber];
-//    NSMutableIndexSet *indicesOfValidTiles = [[NSMutableIndexSet alloc] init];
+    NSUInteger lastIndex = [[self.pressedTiles lastObject] index];
+    NSMutableIndexSet *indicesOfValidTiles = [[NSMutableIndexSet alloc] init];
     switch (position) {
         case 0:
             return (lastIndex == 1 || lastIndex == 4 || lastIndex == 5);
             break;
         case 1:
             return (lastIndex == 0 || lastIndex == 2 || lastIndex == 4 || lastIndex == 5 || lastIndex == 6);
-//            [indicesOfValidTiles addIndex:0];
-//            [indicesOfValidTiles addIndex:2];
-//            [indicesOfValidTiles addIndex:4];
-//            [indicesOfValidTiles addIndex:5];
-//            [indicesOfValidTiles addIndex:6];
-//            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
-//            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
+            //            [indicesOfValidTiles addIndex:0];
+            //            [indicesOfValidTiles addIndex:2];
+            //            [indicesOfValidTiles addIndex:4];
+            //            [indicesOfValidTiles addIndex:5];
+            //            [indicesOfValidTiles addIndex:6];
+            //            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            //            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
             break;
         case 2:
             return (lastIndex == 1 || lastIndex == 3 || lastIndex == 5 || lastIndex == 6 || lastIndex == 7);
             
-//            [indicesOfValidTiles addIndex:1];
-//            [indicesOfValidTiles addIndex:3];
-//            [indicesOfValidTiles addIndex:5];
-//            [indicesOfValidTiles addIndex:6];
-//            [indicesOfValidTiles addIndex:7];
-//            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
-//            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
+            //            [indicesOfValidTiles addIndex:1];
+            //            [indicesOfValidTiles addIndex:3];
+            //            [indicesOfValidTiles addIndex:5];
+            //            [indicesOfValidTiles addIndex:6];
+            //            [indicesOfValidTiles addIndex:7];
+            //            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            //            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
             break;
         case 3:
             return (lastIndex == 2 || lastIndex == 6 || lastIndex == 7);
-//            [indicesOfValidTiles addIndex:2];
-//            [indicesOfValidTiles addIndex:6];
-//            [indicesOfValidTiles addIndex:7];
-//            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
-//            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
+            //            [indicesOfValidTiles addIndex:2];
+            //            [indicesOfValidTiles addIndex:6];
+            //            [indicesOfValidTiles addIndex:7];
+            //            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            //            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
             break;
         case 4:
             return (lastIndex == 0 || lastIndex == 1 || lastIndex == 5 || lastIndex == 8 || lastIndex == 9);
             
-//            [indicesOfValidTiles addIndex:0];
-//            [indicesOfValidTiles addIndex:1];
-//            [indicesOfValidTiles addIndex:5];
-//            [indicesOfValidTiles addIndex:8];
-//            [indicesOfValidTiles addIndex:9];
-//            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
-//            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
+            //            [indicesOfValidTiles addIndex:0];
+            //            [indicesOfValidTiles addIndex:1];
+            //            [indicesOfValidTiles addIndex:5];
+            //            [indicesOfValidTiles addIndex:8];
+            //            [indicesOfValidTiles addIndex:9];
+            //            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            //            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
             break;
         case 5:
             return (lastIndex == 0 || lastIndex == 1 || lastIndex == 2 || lastIndex == 4 || lastIndex == 6 || lastIndex == 8 || lastIndex == 9 || lastIndex == 10);
-//            [indicesOfValidTiles addIndex:0];
-//            [indicesOfValidTiles addIndex:1];
-//            [indicesOfValidTiles addIndex:2];
-//            [indicesOfValidTiles addIndex:4];
-//            [indicesOfValidTiles addIndex:6];
-//            [indicesOfValidTiles addIndex:8];
-//            [indicesOfValidTiles addIndex:9];
-//            [indicesOfValidTiles addIndex:10];
-//            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
-//            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
+            //            [indicesOfValidTiles addIndex:0];
+            //            [indicesOfValidTiles addIndex:1];
+            //            [indicesOfValidTiles addIndex:2];
+            //            [indicesOfValidTiles addIndex:4];
+            //            [indicesOfValidTiles addIndex:6];
+            //            [indicesOfValidTiles addIndex:8];
+            //            [indicesOfValidTiles addIndex:9];
+            //            [indicesOfValidTiles addIndex:10];
+            //            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            //            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
             break;
         case 6:
             
             return (lastIndex == 1 || lastIndex == 2 || lastIndex == 3 || lastIndex == 5 || lastIndex == 7 || lastIndex == 9 || lastIndex == 10 || lastIndex == 11);
             
-//            [indicesOfValidTiles addIndex:1];
-//            [indicesOfValidTiles addIndex:2];
-//            [indicesOfValidTiles addIndex:3];
-//            [indicesOfValidTiles addIndex:5];
-//            [indicesOfValidTiles addIndex:7];
-//            [indicesOfValidTiles addIndex:9];
-//            [indicesOfValidTiles addIndex:10];
-//            [indicesOfValidTiles addIndex:11];
-//            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
-//            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
+            //            [indicesOfValidTiles addIndex:1];
+            //            [indicesOfValidTiles addIndex:2];
+            //            [indicesOfValidTiles addIndex:3];
+            //            [indicesOfValidTiles addIndex:5];
+            //            [indicesOfValidTiles addIndex:7];
+            //            [indicesOfValidTiles addIndex:9];
+            //            [indicesOfValidTiles addIndex:10];
+            //            [indicesOfValidTiles addIndex:11];
+            //            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            //            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
             break;
         case 7:
             
             return (lastIndex == 2 || lastIndex == 3 || lastIndex == 6 || lastIndex == 10 || lastIndex == 11);
             
-//            [indicesOfValidTiles addIndex:2];
-//            [indicesOfValidTiles addIndex:3];
-//            [indicesOfValidTiles addIndex:6];
-//            [indicesOfValidTiles addIndex:10];
-//            [indicesOfValidTiles addIndex:11];
-//            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
-//            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
+            //            [indicesOfValidTiles addIndex:2];
+            //            [indicesOfValidTiles addIndex:3];
+            //            [indicesOfValidTiles addIndex:6];
+            //            [indicesOfValidTiles addIndex:10];
+            //            [indicesOfValidTiles addIndex:11];
+            //            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            //            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
             break;
         case 8:
             
             return (lastIndex == 4 || lastIndex == 5 || lastIndex == 9 || lastIndex == 12 || lastIndex == 13);
             
-//            [indicesOfValidTiles addIndex:4];
-//            [indicesOfValidTiles addIndex:5];
-//            [indicesOfValidTiles addIndex:9];
-//            [indicesOfValidTiles addIndex:12];
-//            [indicesOfValidTiles addIndex:13];
-//            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
-//            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
+            //            [indicesOfValidTiles addIndex:4];
+            //            [indicesOfValidTiles addIndex:5];
+            //            [indicesOfValidTiles addIndex:9];
+            //            [indicesOfValidTiles addIndex:12];
+            //            [indicesOfValidTiles addIndex:13];
+            //            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            //            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
             break;
         case 9:
             
             return (lastIndex == 4 || lastIndex == 5 || lastIndex == 6 || lastIndex == 8 || lastIndex == 10 || lastIndex == 12 || lastIndex == 13 || lastIndex == 14);
             
-//            [indicesOfValidTiles addIndex:4];
-//            [indicesOfValidTiles addIndex:5];
-//            [indicesOfValidTiles addIndex:6];
-//            [indicesOfValidTiles addIndex:8];
-//            [indicesOfValidTiles addIndex:10];
-//            [indicesOfValidTiles addIndex:12];
-//            [indicesOfValidTiles addIndex:13];
-//            [indicesOfValidTiles addIndex:14];
-//            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
-//            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
+            //            [indicesOfValidTiles addIndex:4];
+            //            [indicesOfValidTiles addIndex:5];
+            //            [indicesOfValidTiles addIndex:6];
+            //            [indicesOfValidTiles addIndex:8];
+            //            [indicesOfValidTiles addIndex:10];
+            //            [indicesOfValidTiles addIndex:12];
+            //            [indicesOfValidTiles addIndex:13];
+            //            [indicesOfValidTiles addIndex:14];
+            //            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            //            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
             break;
         case 10:
             
             return (lastIndex == 5 || lastIndex == 6 || lastIndex == 7 || lastIndex == 9 || lastIndex == 11 || lastIndex == 13 || lastIndex == 14 || lastIndex == 15);
             
             
-//            [indicesOfValidTiles addIndex:5];
-//            [indicesOfValidTiles addIndex:6];
-//            [indicesOfValidTiles addIndex:7];
-//            [indicesOfValidTiles addIndex:9];
-//            [indicesOfValidTiles addIndex:11];
-//            [indicesOfValidTiles addIndex:13];
-//            [indicesOfValidTiles addIndex:14];
-//            [indicesOfValidTiles addIndex:15];
-//            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
-//            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
+            //            [indicesOfValidTiles addIndex:5];
+            //            [indicesOfValidTiles addIndex:6];
+            //            [indicesOfValidTiles addIndex:7];
+            //            [indicesOfValidTiles addIndex:9];
+            //            [indicesOfValidTiles addIndex:11];
+            //            [indicesOfValidTiles addIndex:13];
+            //            [indicesOfValidTiles addIndex:14];
+            //            [indicesOfValidTiles addIndex:15];
+            //            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            //            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
             break;
         case 11:
             
             return (lastIndex == 6 || lastIndex == 7 || lastIndex == 10 || lastIndex == 14 || lastIndex == 15);
             
-//            [indicesOfValidTiles addIndex:6];
-//            [indicesOfValidTiles addIndex:7];
-//            [indicesOfValidTiles addIndex:10];
-//            [indicesOfValidTiles addIndex:14];
-//            [indicesOfValidTiles addIndex:15];
-//            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
-//            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
+            //            [indicesOfValidTiles addIndex:6];
+            //            [indicesOfValidTiles addIndex:7];
+            //            [indicesOfValidTiles addIndex:10];
+            //            [indicesOfValidTiles addIndex:14];
+            //            [indicesOfValidTiles addIndex:15];
+            //            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            //            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
             break;
         case 12:
             
             return (lastIndex == 8 || lastIndex == 9 || lastIndex == 13);
             
-//            [indicesOfValidTiles addIndex:8];
-//            [indicesOfValidTiles addIndex:9];
-//            [indicesOfValidTiles addIndex:13];
-//            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
-//            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
+            //            [indicesOfValidTiles addIndex:8];
+            //            [indicesOfValidTiles addIndex:9];
+            //            [indicesOfValidTiles addIndex:13];
+            //            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            //            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
             break;
         case 13:
             
             return (lastIndex == 8 || lastIndex == 9 || lastIndex == 10 || lastIndex == 12 || lastIndex == 14);
             
-//            [indicesOfValidTiles addIndex:8];
-//            [indicesOfValidTiles addIndex:9];
-//            [indicesOfValidTiles addIndex:10];
-//            [indicesOfValidTiles addIndex:12];
-//            [indicesOfValidTiles addIndex:14];
-//            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
-//            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
+            //            [indicesOfValidTiles addIndex:8];
+            //            [indicesOfValidTiles addIndex:9];
+            //            [indicesOfValidTiles addIndex:10];
+            //            [indicesOfValidTiles addIndex:12];
+            //            [indicesOfValidTiles addIndex:14];
+            //            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            //            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
             break;
         case 14:
             
             return (lastIndex == 9 || lastIndex == 10 || lastIndex == 11 || lastIndex == 13 || lastIndex == 15);
             
             
-//            [indicesOfValidTiles addIndex:9];
-//            [indicesOfValidTiles addIndex:10];
-//            [indicesOfValidTiles addIndex:11];
-//            [indicesOfValidTiles addIndex:13];
-//            [indicesOfValidTiles addIndex:15];
-//            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
-//            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
+            //            [indicesOfValidTiles addIndex:9];
+            //            [indicesOfValidTiles addIndex:10];
+            //            [indicesOfValidTiles addIndex:11];
+            //            [indicesOfValidTiles addIndex:13];
+            //            [indicesOfValidTiles addIndex:15];
+            //            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            //            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
             break;
         case 15:
             
             return (lastIndex == 10  || lastIndex == 11 || lastIndex == 14);
             
-//            [indicesOfValidTiles addIndex:10];
-//            [indicesOfValidTiles addIndex:11];
-//            [indicesOfValidTiles addIndex:14];
-//            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
-//            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
+            //            [indicesOfValidTiles addIndex:10];
+            //            [indicesOfValidTiles addIndex:11];
+            //            [indicesOfValidTiles addIndex:14];
+            //            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            //            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
             break;
             
         default:
@@ -585,22 +587,22 @@
             NSLog(@"%@", tile.letter);
             
             
-            NSArray *a = [NSArray arrayWithObjects:@"1", @"2", nil];
-            if ([a indexOfObject:@"3"] == NSNotFound)
-                NSLog(@"works");
-        
+//            NSArray *a = [NSArray arrayWithObjects:@"1", @"2", nil];
+//            if ([a indexOfObject:@"3"] == NSNotFound)
+//                NSLog(@"works");
+            
         }
     }
     else
     {
-//        while ([self.pressedTiles lastObject] != tile)
-//        {
-//            //convert to do-while
-//            [[self.pressedTiles lastObject] activate];
-//            [self.pressedTiles removeLastObject];
-//        }
-//        [tile activate];
-//        [self.pressedTiles removeLastObject];
+        //        while ([self.pressedTiles lastObject] != tile)
+        //        {
+        //            //convert to do-while
+        //            [[self.pressedTiles lastObject] activate];
+        //            [self.pressedTiles removeLastObject];
+        //        }
+        //        [tile activate];
+        //        [self.pressedTiles removeLastObject];
         
         Tile *lastTile;
         do
@@ -625,9 +627,9 @@
     NSLog(@"%@", currentWord);
     if ([currentWord isEqualToString:@"aaaaa"]) //check validity here
     {
+        //to-do: Implement the dictionary
         [self clearAllPressedTiles];
     }
-
 }
 
 - (void) clearAllPressedTiles
