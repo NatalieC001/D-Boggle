@@ -14,8 +14,9 @@
 @property (nonatomic, strong) NSString *letter;
 @property (nonatomic) BOOL isActive;
 @property (nonatomic) CGPoint actualLocation;
+@property (nonatomic) NSUInteger index;
 
-- (void)initializeWith:(NSString *)alphabet;
+- (void)initializeWith:(NSString *)alphabet at:(NSUInteger) index;
 - (void)activate;
 - (void)deactivate;
 - (void)updateActualLocationForAnticlockwiseRotationByNinetyDegrees;

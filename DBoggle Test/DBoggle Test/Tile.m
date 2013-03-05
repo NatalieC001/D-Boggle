@@ -15,10 +15,12 @@
 @synthesize letter = _letter;
 @synthesize isActive = _isActive;
 @synthesize actualLocation = _actualLocation;
+@synthesize index = _index;
 
-- (void) initializeWith:(NSString *)alphabet
+- (void)initializeWith:(NSString *)alphabet at:(NSUInteger) index
 {
     self.isActive = YES;
+    self.index = index;
     self.actualLocation = CGPointMake(self.position.x + 160, self.position.y + 160);
     self.letter = alphabet;
     NSString *imageFileName = [NSString stringWithFormat:@"letter_active_%@.png", self.letter];
