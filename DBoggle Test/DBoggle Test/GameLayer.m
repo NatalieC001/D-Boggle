@@ -27,12 +27,9 @@
 @property (nonatomic, strong) NSNumber *time; //to do - change this to a non-strong NSInteger
 @property (nonatomic, strong) CCLayer *pauseLayer;  //the translucent layer that appears on going to the pause menu
 @property (nonatomic, strong) CCMenu *pauseMenu;
-<<<<<<< HEAD
 @property (nonatomic, strong) NSMutableArray *pressedTiles; //Array to hold all the currently selected letters
-=======
-@property (nonatomic, strong) NSMutableArray *pressedTiles;
+
 @property (nonatomic) NSUInteger score;
->>>>>>> Adding rudimentary score.
 
 @end
 
@@ -185,16 +182,10 @@
         
         self.angle = 0;
         self.isPaused = NO;
-<<<<<<< HEAD
         CCMenuItemImage *rotate = [CCMenuItemImage itemWithNormalImage:@"Rotate.png" selectedImage:@"Rotate.png" target:self selector:@selector(rotateClicked)];    //Rotate button
         CCMenuItemImage *pause = [CCMenuItemImage itemWithNormalImage:@"Pause.png" selectedImage:@"Pause_HD.png" target:self selector:@selector(pauseGame)];        //Pause button
         CCMenu *menu = [CCMenu menuWithItems:pause, rotate, nil];   //The top banner
-=======
         self.score = 0;
-        CCMenuItemImage *rotate = [CCMenuItemImage itemWithNormalImage:@"Rotate.png" selectedImage:@"Rotate.png" target:self selector:@selector(rotateClicked)];
-        CCMenuItemImage *pause = [CCMenuItemImage itemWithNormalImage:@"Pause.png" selectedImage:@"Pause_HD.png" target:self selector:@selector(pauseGame)];
-        CCMenu *menu = [CCMenu menuWithItems:pause, rotate, nil];
->>>>>>> Adding rudimentary score.
         [menu alignItemsHorizontallyWithPadding:0];
         menu.position = ccp(64, 450);
         [self addChild:menu];
@@ -384,11 +375,11 @@
 
 //Ensures only tiles adjacent to last chosen tile can be selected
 - (BOOL)canChooseTileAt:(NSUInteger)position {
-    NSArray *validLetters;
+//    NSArray *validLetters;
     if ([self.pressedTiles count] == 0)
         return YES;
-    NSUInteger lastIndex = [[self.pressedTiles lastObject] index];
-    NSMutableIndexSet *indicesOfValidTiles = [[NSMutableIndexSet alloc] init];
+    NSUInteger lastIndex = [[self.pressedTiles lastObject] tileNumber];
+//    NSMutableIndexSet *indicesOfValidTiles = [[NSMutableIndexSet alloc] init];
     switch (position) {
         case 0:
             return (lastIndex == 1 || lastIndex == 4 || lastIndex == 5);
