@@ -128,16 +128,38 @@
     NSArray *array = [[NSArray alloc] initWithObjects:letter1, letter2, letter3, letter4, letter5,
                       letter6, letter7, letter8, letter9, letter10, letter11, letter12, letter13, letter14, letter15, letter16, nil];
     
-    NSInteger boardNum = arc4random() % 10;
+    NSInteger boardNum;
     NSString *f;
     NSString *filepath;
+    NSData *data;
 //    board_num++;
     NSLog(@"%d", boardNum);
+    BOOL flag = YES;
     do {
+        boardNum = arc4random() % 10;
+        flag = YES;
         filepath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"board_%d", boardNum] ofType:@"txt"];
-        NSData *data = [NSData dataWithContentsOfFile:filepath];
+        NSLog(@"fp%@", filepath);
+        if (!filepath)
+        {
+            flag = NO;
+            continue;
+        }
+        data = [NSData dataWithContentsOfFile:filepath];
+        NSLog(@"data%@", data);
+        if (!data)
+        {
+            flag = NO;
+            continue;
+        }
         f = [NSString stringWithUTF8String:[data bytes]];
-    } while (f == nil || (!f));
+        NSLog(@"ffff%@", f);
+        if (!f)
+        {
+            flag = NO;
+            continue;
+        }
+    } while (flag == NO);
     
     NSLog(@"%@", filepath);
     
