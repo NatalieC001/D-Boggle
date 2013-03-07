@@ -10,8 +10,8 @@
 #import "AppDelegate.h"
 #import "NSData+AES256.h"
 
-#define APPNAME @"MyAppName"
-#define AESKEY @"RandomKeyHere"
+#define APPNAME @"D-Boggle!"
+#define AESKEY @"thisistheverysafekey"
 
 @implementation ABGameKitHelper
 

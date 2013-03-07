@@ -171,7 +171,7 @@
 	// 'layer' is an autorelease object.
 	GameLayer *layer = [GameLayer node];
 	
-    CCSprite *background = [CCSprite spriteWithFile:@"background.jpg"];
+    CCSprite *background = [CCSprite spriteWithFile:@"background.png"];
     background.anchorPoint = ccp (0,0);
     [layer addChild:background z:-1];
     

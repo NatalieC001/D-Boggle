@@ -10,6 +10,7 @@
 #import "cocos2d.h"
 #import "HelloWorldLayer.h"
 #import "GameLayer.h"
+#import "ABGameKitHelper.h"
 #import <Social/Social.h>
 
 @implementation ResultLayer
@@ -89,7 +90,8 @@
 
 - (void) returnToMainMenu
 {
-    [[CCDirector sharedDirector] replaceScene:[CCTransitionSlideInT transitionWithDuration:0.5 scene:[HelloWorldLayer scene]]];
+    //[[CCDirector sharedDirector] replaceScene:[CCTransitionSlideInT transitionWithDuration:0.5 scene:[HelloWorldLayer scene]]];
+    [[ABGameKitHelper sharedClass] showLeaderboard:@"leaderboardID"];
 }
 
 - (void) newGame

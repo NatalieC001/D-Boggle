@@ -10,6 +10,7 @@
 
 #import "AppDelegate.h"
 #import "IntroLayer.h"
+#import "ABGameKitHelper.h"
 
 @implementation AppController
 
@@ -66,6 +67,7 @@
 	CCFileUtils *sharedFileUtils = [CCFileUtils sharedFileUtils];
 	[sharedFileUtils setEnableFallbackSuffixes:NO];				// Default: NO. No fallback suffixes are going to be used
 	[sharedFileUtils setiPhoneRetinaDisplaySuffix:@"-hd"];		// Default on iPhone RetinaDisplay is "-hd"
+    [sharedFileUtils setiPhoneFourInchDisplaySuffix:@"-568h"];	// Default on iPhone RetinaDisplay (4") is "-568h"
 	[sharedFileUtils setiPadSuffix:@"-ipad"];					// Default on iPad is "ipad"
 	[sharedFileUtils setiPadRetinaDisplaySuffix:@"-ipadhd"];	// Default on iPad RetinaDisplay is "-ipadhd"
 
@@ -87,6 +89,8 @@
 	// make main window visible
 	[window_ makeKeyAndVisible];
 	
+    [[ABGameKitHelper sharedClass] authenticatePlayer];
+    
 	return YES;
 }
 
