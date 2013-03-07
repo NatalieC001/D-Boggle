@@ -12,6 +12,7 @@
 #import "ResultLayer.h"
 #import "HelloWorldLayer.h"
 #import "ScrollingMenuScene.h"
+#import "Dictionary.h"
 
 @interface GameLayer ()
 
@@ -28,11 +29,11 @@
 @property (nonatomic, strong) CCLayer *pauseLayer;  //the translucent layer that appears on going to the pause menu
 @property (nonatomic, strong) CCMenu *pauseMenu;
 @property (nonatomic, strong) NSMutableArray *pressedTiles; //Array to hold all the currently selected letters
-
+@property (nonatomic, strong) NSMutableArray *playedWordsList;  //Array to hold all words played
+@property (nonatomic, strong) Dictionary *dict; //Dictionary object
 @property (nonatomic) NSUInteger score;
-
+@property (nonatomic, strong) CCLabelTTF *score_disp;
 @end
-
 
 @implementation GameLayer
 
@@ -44,10 +45,23 @@
 @synthesize userCanRotate = _userCanRotate;
 @synthesize angle = _angle;
 @synthesize pressedTiles = _pressedTiles;
+@synthesize dict = _dict;
+@synthesize playedWordsList = _playedWords;
 
 - (NSMutableArray *) pressedTiles {
     if (!_pressedTiles) _pressedTiles = [[NSMutableArray alloc] init];
     return _pressedTiles;
+}
+
+- (NSMutableArray *) playedWordsList {
+    if (!_playedWords) _playedWords = [[NSMutableArray alloc] init];
+    return _playedWords;
+}
+
+//
+- (Dictionary *) dict {
+    if (!_dict) _dict = [[Dictionary alloc] init];
+    return _dict;
 }
 
 - (NSArray *)lettersForBoard {
@@ -180,6 +194,8 @@
         //            [self addChild:[self.letters objectAtIndex:i]];
         //        }
         
+        [self.dict initializeDictionary];
+        
         self.angle = 0;
         self.isPaused = NO;
         CCMenuItemImage *rotate = [CCMenuItemImage itemWithNormalImage:@"Rotate.png" selectedImage:@"Rotate.png" target:self selector:@selector(rotateClicked)];    //Rotate button
@@ -217,6 +233,12 @@
         self.timer.position = ccp(160,400);
         self.timer.color = ccYELLOW;
         [self addChild:self.timer];
+        
+        self.score_disp = [CCLabelTTF labelWithString:@"Score: " fontName:@"Marker Felt" fontSize:30];
+        
+        self.score_disp.position = ccp(60, 360);
+        self.timer.color = ccWHITE;
+        [self addChild:self.score_disp];
         
         /////////////////////////////////////////////////////////////////////////////////
         // TODO                                                                        //
@@ -370,6 +392,22 @@
 //        }
     }
     NSLog(@"Rotation = %f", [self.board rotation]);
+}
+
+-(void) updateScoreLabel:(NSUInteger) wordLength{
+    if (wordLength <= 4)
+        self.score += 1;
+    else if (wordLength == 5)
+        self.score += 2;
+    else if (wordLength == 6)
+        self.score += 3;
+    else if (wordLength == 7)
+        self.score += 4;
+    else if (wordLength >= 8)
+        self.score += 11;
+    
+    [self.score_disp setString:[NSString stringWithFormat:@"%lu", (unsigned long)self.score]];
+    
 }
 
 
@@ -618,6 +656,10 @@
     [self updateCurrentWord];
 }
 
+- (void) updatePlayedWordList:(NSString *)currentWord{
+    [self.playedWordsList addObject:currentWord];
+}
+
 - (void)updateCurrentWord
 {
     // this is where we check if the word is a valid word. If it is, I call the clear function.
@@ -628,11 +670,14 @@
         currentWord = [currentWord stringByAppendingString:tile.letter];
     }
     NSLog(@"%@", currentWord);
-    if ([currentWord isEqualToString:@"aaaaa"]) //check validity here
+    if (([currentWord isEqualToString:@"aaaaa"] || [currentWord isEqualToString:@"aaaa"])
+        && currentWord.length >= 3
+        && ![self.playedWordsList containsObject:currentWord])//check validity here
     {
         //to-do: Implement the dictionary
         [self clearAllPressedTiles];
-        self.score += 3;
+        [self updateScoreLabel:currentWord.length];
+        [self updatePlayedWordList:currentWord];
     }
 }
 

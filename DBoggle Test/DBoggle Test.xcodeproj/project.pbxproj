@@ -153,6 +153,8 @@
 		15E38B8316DA450700199557 /* empty_letter_inactive.png in Resources */ = {isa = PBXBuildFile; fileRef = 15E38B7F16DA450700199557 /* empty_letter_inactive.png */; };
 		15E38B8416DA450700199557 /* iPhone4_640x960.png in Resources */ = {isa = PBXBuildFile; fileRef = 15E38B8016DA450700199557 /* iPhone4_640x960.png */; };
 		15E38B8516DA450700199557 /* iPhone5_640x1136.png in Resources */ = {isa = PBXBuildFile; fileRef = 15E38B8116DA450700199557 /* iPhone5_640x1136.png */; };
+		D6E8206F16E89D7B00083D44 /* Dictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = D6E8206E16E89D7B00083D44 /* Dictionary.m */; };
+		D6E8207116E8A60100083D44 /* sowpods.txt in Resources */ = {isa = PBXBuildFile; fileRef = D6E8207016E8A60100083D44 /* sowpods.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -443,6 +445,9 @@
 		15E38B7F16DA450700199557 /* empty_letter_inactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = empty_letter_inactive.png; sourceTree = "<group>"; };
 		15E38B8016DA450700199557 /* iPhone4_640x960.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPhone4_640x960.png; sourceTree = "<group>"; };
 		15E38B8116DA450700199557 /* iPhone5_640x1136.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPhone5_640x1136.png; sourceTree = "<group>"; };
+		D6E8206D16E89D7B00083D44 /* Dictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dictionary.h; sourceTree = "<group>"; };
+		D6E8206E16E89D7B00083D44 /* Dictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dictionary.m; sourceTree = "<group>"; };
+		D6E8207016E8A60100083D44 /* sowpods.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sowpods.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -517,6 +522,9 @@
 				15A4842016CF5913002B5EE5 /* Tile.m */,
 				156C1B2716CA27E4004591E6 /* IntroLayer.h */,
 				156C1B2816CA27E4004591E6 /* IntroLayer.m */,
+				D6E8206D16E89D7B00083D44 /* Dictionary.h */,
+				D6E8206E16E89D7B00083D44 /* Dictionary.m */,
+				D6E8207016E8A60100083D44 /* sowpods.txt */,
 				156C19AA16CA27E2004591E6 /* Resources */,
 				156C19C416CA27E2004591E6 /* libs */,
 				156C1B1D16CA27E4004591E6 /* Supporting Files */,
@@ -980,6 +988,7 @@
 				15E38B8316DA450700199557 /* empty_letter_inactive.png in Resources */,
 				15E38B8416DA450700199557 /* iPhone4_640x960.png in Resources */,
 				15E38B8516DA450700199557 /* iPhone5_640x1136.png in Resources */,
+				D6E8207116E8A60100083D44 /* sowpods.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1099,6 +1108,7 @@
 				15A4842116CF5913002B5EE5 /* Tile.m in Sources */,
 				1502A80316D0E803005E77BC /* ResultLayer.m in Sources */,
 				1502A80616D0F42D005E77BC /* InstructionsLayer.m in Sources */,
+				D6E8206F16E89D7B00083D44 /* Dictionary.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
