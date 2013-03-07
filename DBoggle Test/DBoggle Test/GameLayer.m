@@ -30,6 +30,7 @@
 @property (nonatomic, strong) CCMenu *pauseMenu;
 @property (nonatomic, strong) NSMutableArray *pressedTiles; //Array to hold all the currently selected letters
 @property (nonatomic, strong) NSMutableArray *playedWordsList;  //Array to hold all words played
+@property (nonatomic, strong) NSMutableArray *possibleWordList;
 @property (nonatomic, strong) Dictionary *dict; //Dictionary object
 @property (nonatomic) NSUInteger score;
 @property (nonatomic, strong) CCLabelTTF *score_disp;
@@ -47,6 +48,7 @@
 @synthesize pressedTiles = _pressedTiles;
 @synthesize dict = _dict;
 @synthesize playedWordsList = _playedWords;
+@synthesize possibleWordList = _possibleWordList;
 
 - (NSMutableArray *) pressedTiles {
     if (!_pressedTiles) _pressedTiles = [[NSMutableArray alloc] init];
@@ -56,6 +58,11 @@
 - (NSMutableArray *) playedWordsList {
     if (!_playedWords) _playedWords = [[NSMutableArray alloc] init];
     return _playedWords;
+}
+
+- (NSMutableArray *) possibleWordList {
+    if(!_possibleWordList) _possibleWordList = [[NSMutableArray alloc] init];
+    return _possibleWordList;
 }
 
 //
@@ -118,24 +125,54 @@
     //get string here
     //loop through it
     
+    NSArray *array = [[NSArray alloc] initWithObjects:letter1, letter2, letter3, letter4, letter5,
+                      letter6, letter7, letter8, letter9, letter10, letter11, letter12, letter13, letter14, letter15, letter16, nil];
     
+    NSInteger boardNum = arc4random() % 10;
+    NSString *f;
+    NSString *filepath;
+//    board_num++;
+    NSLog(@"%d", boardNum);
+    do {
+        filepath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"board_%d", boardNum] ofType:@"txt"];
+        NSData *data = [NSData dataWithContentsOfFile:filepath];
+        f = [NSString stringWithUTF8String:[data bytes]];
+
+    } while (f == nil);
+    NSLog(@"%@", filepath);
     
-    [letter1 initializeWith:@"r" at:0];
-    [letter2 initializeWith:@"s" at:1];
-    [letter3 initializeWith:@"l" at:2];
-    [letter4 initializeWith:@"c" at:3];
-    [letter5 initializeWith:@"d" at:4];
-    [letter6 initializeWith:@"e" at:5];
-    [letter7 initializeWith:@"i" at:6];
-    [letter8 initializeWith:@"a" at:7];
-    [letter9 initializeWith:@"g" at:8];
-    [letter10 initializeWith:@"n" at:9];
-    [letter11 initializeWith:@"t" at:10];
-    [letter12 initializeWith:@"r" at:11];
-    [letter13 initializeWith:@"a" at:12];
-    [letter14 initializeWith:@"t" at:13];
-    [letter15 initializeWith:@"e" at:14];
-    [letter16 initializeWith:@"s" at:15];
+    NSCharacterSet *cs = [NSCharacterSet newlineCharacterSet];
+    NSScanner *scanner = [NSScanner scannerWithString:f];
+    
+    BOOL firstCopy = YES;
+    
+    NSString *line;
+    NSString *boardLetters;
+    while(![scanner isAtEnd]) {
+        if([scanner scanUpToCharactersFromSet:cs intoString:&line]) {
+            NSString *copy = [NSString stringWithString:line];
+            if(firstCopy) {
+                boardLetters = [NSString stringWithString:copy];
+                firstCopy = NO;
+            }
+            else {
+                [self.possibleWordList addObject:copy];
+//                NSLog(@"%@", [self.possibleWordList lastObject]);
+            }
+        }
+    }
+
+//    boardLetters = [self.possibleWordList objectAtIndex:0];     //First line of text file has the grid letters
+//    [self.possibleWordList removeLastObject];
+
+//    NSLog(@"BOOYTEAH!%@", [self.possibleWordList objectAtIndex:1]);
+    
+    for(NSUInteger i = 0; i < 16; i++){
+        const unichar charAtIndex = [boardLetters characterAtIndex:i];
+        NSString *currChar = [NSString stringWithFormat:@"%C", charAtIndex];
+        NSLog(@" Current character is: %@", currChar);
+        [[array objectAtIndex:i] initializeWith:currChar at:i];
+    }
     
     
     //    Old Positions
@@ -156,10 +193,6 @@
     //    letter15.position = ccp(197.5, 47.5);
     //    letter16.position = ccp(272.5, 47.5);
     
-    
-    
-    
-    NSArray *array = [[NSArray alloc] initWithObjects:letter1, letter2, letter3, letter4, letter5, letter6, letter7, letter8, letter9, letter10, letter11, letter12, letter13, letter14, letter15, letter16, nil];
     return array;
 }
 
