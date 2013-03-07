@@ -114,21 +114,21 @@
     //Need to implement randomization code
     //Suggestion: use a 0-15 loop for all the indices and a 26-char array from which randomization is done.
     [letter1 initializeWith:@"a" at:0];
-    [letter2 initializeWith:@"a" at:1];
-    [letter3 initializeWith:@"a" at:2];
-    [letter4 initializeWith:@"a" at:3];
-    [letter5 initializeWith:@"a" at:4];
-    [letter6 initializeWith:@"a" at:5];
-    [letter7 initializeWith:@"a" at:6];
-    [letter8 initializeWith:@"a" at:7];
-    [letter9 initializeWith:@"a" at:8];
-    [letter10 initializeWith:@"a" at:9];
-    [letter11 initializeWith:@"a" at:10];
-    [letter12 initializeWith:@"a" at:11];
-    [letter13 initializeWith:@"a" at:12];
-    [letter14 initializeWith:@"a" at:13];
-    [letter15 initializeWith:@"a" at:14];
-    [letter16 initializeWith:@"a" at:15];
+    [letter2 initializeWith:@"b" at:1];
+    [letter3 initializeWith:@"c" at:2];
+    [letter4 initializeWith:@"d" at:3];
+    [letter5 initializeWith:@"e" at:4];
+    [letter6 initializeWith:@"f" at:5];
+    [letter7 initializeWith:@"g" at:6];
+    [letter8 initializeWith:@"h" at:7];
+    [letter9 initializeWith:@"i" at:8];
+    [letter10 initializeWith:@"j" at:9];
+    [letter11 initializeWith:@"k" at:10];
+    [letter12 initializeWith:@"l" at:11];
+    [letter13 initializeWith:@"m" at:12];
+    [letter14 initializeWith:@"n" at:13];
+    [letter15 initializeWith:@"o" at:14];
+    [letter16 initializeWith:@"p" at:15];
     
     
     //    Old Positions
