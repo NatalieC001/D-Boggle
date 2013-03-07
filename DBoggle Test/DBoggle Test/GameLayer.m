@@ -343,10 +343,10 @@
     [self.timer setString:[NSString stringWithFormat:@"%ld", (long)[self.time integerValue]]];
     NSLog(@"%ld", (long)[self.time integerValue]);
     
-    if ([self.time integerValue] == 0) {
+    if ([self.time integerValue] == 50) {
         [self.timer setString:[NSString stringWithFormat:@"Game Over!"]];
         [self unschedule:@selector(tick:)]; //to stop the tick call
-        [[CCDirector sharedDirector] replaceScene:[CCTransitionFadeTR transitionWithDuration:0.5 scene:[ResultLayer scene]]];
+        [[CCDirector sharedDirector] replaceScene:[CCTransitionFadeTR transitionWithDuration:0.5 scene:[ResultLayer sceneWith:100]]];
     }
 }
 

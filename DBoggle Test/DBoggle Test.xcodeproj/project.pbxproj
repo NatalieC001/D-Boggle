@@ -145,6 +145,7 @@
 		156C1B3F16CA4F99004591E6 /* BoggleTray.png in Resources */ = {isa = PBXBuildFile; fileRef = 156C1B3E16CA4F99004591E6 /* BoggleTray.png */; };
 		156C1B4116CAA194004591E6 /* Pause.png in Resources */ = {isa = PBXBuildFile; fileRef = 156C1B4016CAA194004591E6 /* Pause.png */; };
 		156C1B4316CAA19C004591E6 /* Rotate.png in Resources */ = {isa = PBXBuildFile; fileRef = 156C1B4216CAA19C004591E6 /* Rotate.png */; };
+		157269FA16E8A07C002E5764 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 157269F916E8A07C002E5764 /* Social.framework */; };
 		15A4842116CF5913002B5EE5 /* Tile.m in Sources */ = {isa = PBXBuildFile; fileRef = 15A4842016CF5913002B5EE5 /* Tile.m */; };
 		15A4842316CF7F43002B5EE5 /* Rotate_HD.png in Resources */ = {isa = PBXBuildFile; fileRef = 15A4842216CF7F42002B5EE5 /* Rotate_HD.png */; };
 		15A4842516CF80D4002B5EE5 /* Pause_HD.png in Resources */ = {isa = PBXBuildFile; fileRef = 15A4842416CF80D4002B5EE5 /* Pause_HD.png */; };
@@ -436,6 +437,7 @@
 		156C1B3E16CA4F99004591E6 /* BoggleTray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BoggleTray.png; sourceTree = "<group>"; };
 		156C1B4016CAA194004591E6 /* Pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Pause.png; sourceTree = "<group>"; };
 		156C1B4216CAA19C004591E6 /* Rotate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Rotate.png; sourceTree = "<group>"; };
+		157269F916E8A07C002E5764 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		15A4841F16CF5913002B5EE5 /* Tile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tile.h; sourceTree = "<group>"; };
 		15A4842016CF5913002B5EE5 /* Tile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tile.m; sourceTree = "<group>"; };
 		15A4842216CF7F42002B5EE5 /* Rotate_HD.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Rotate_HD.png; sourceTree = "<group>"; };
@@ -455,6 +457,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				157269FA16E8A07C002E5764 /* Social.framework in Frameworks */,
 				156C199816CA27E2004591E6 /* QuartzCore.framework in Frameworks */,
 				156C199A16CA27E2004591E6 /* OpenGLES.framework in Frameworks */,
 				156C199C16CA27E2004591E6 /* OpenAL.framework in Frameworks */,
@@ -473,6 +476,7 @@
 		156C198B16CA27E1004591E6 = {
 			isa = PBXGroup;
 			children = (
+				157269F916E8A07C002E5764 /* Social.framework */,
 				156C19A916CA27E2004591E6 /* DBoggle Test */,
 				156C199616CA27E2004591E6 /* Frameworks */,
 				156C199516CA27E2004591E6 /* Products */,
