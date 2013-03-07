@@ -67,7 +67,7 @@
 	CCFileUtils *sharedFileUtils = [CCFileUtils sharedFileUtils];
 	[sharedFileUtils setEnableFallbackSuffixes:NO];				// Default: NO. No fallback suffixes are going to be used
 	[sharedFileUtils setiPhoneRetinaDisplaySuffix:@"-hd"];		// Default on iPhone RetinaDisplay is "-hd"
-    [sharedFileUtils setiPhoneFourInchDisplaySuffix:@"-568h"];	// Default on iPhone RetinaDisplay (4") is "-568h"
+    //[sharedFileUtils setiPhoneFourInchDisplaySuffix:@"-568h"];	// Default on iPhone RetinaDisplay (4") is "-568h"
 	[sharedFileUtils setiPadSuffix:@"-ipad"];					// Default on iPad is "ipad"
 	[sharedFileUtils setiPadRetinaDisplaySuffix:@"-ipadhd"];	// Default on iPad RetinaDisplay is "-ipadhd"
 

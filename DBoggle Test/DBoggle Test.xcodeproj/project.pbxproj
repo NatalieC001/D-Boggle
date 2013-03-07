@@ -1257,7 +1257,6 @@
 				15726A6016E8E0D9002E5764 /* letter_inactive_x.png in Resources */,
 				15726A6116E8E0D9002E5764 /* letter_inactive_y.png in Resources */,
 				15726A6216E8E0D9002E5764 /* letter_inactive_z.png in Resources */,
-<<<<<<< HEAD
 				524CFD3816E90E9600BC7431 /* board_1.txt in Resources */,
 				524CFD3916E90E9600BC7431 /* board_2.txt in Resources */,
 				524CFD3A16E90E9600BC7431 /* board_3.txt in Resources */,
@@ -1268,13 +1267,11 @@
 				524CFD3F16E90E9600BC7431 /* board_8.txt in Resources */,
 				524CFD4016E90E9600BC7431 /* board_9.txt in Resources */,
 				524CFD4116E90E9600BC7431 /* board_10.txt in Resources */,
-=======
 				15726A6A16E9016D002E5764 /* empty_letter_active-hd.png in Resources */,
 				15726A6C16E9018F002E5764 /* BoggleTray-hd.png in Resources */,
 				15726A6F16E90230002E5764 /* background-hd.png in Resources */,
 				15726A7016E90230002E5764 /* background.png in Resources */,
 				15726A7216E9038D002E5764 /* Default-568h@2x.png in Resources */,
->>>>>>> Updated for retina
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
