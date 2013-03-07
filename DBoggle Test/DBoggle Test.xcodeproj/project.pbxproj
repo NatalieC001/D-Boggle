@@ -204,6 +204,7 @@
 		15E38B8316DA450700199557 /* empty_letter_inactive.png in Resources */ = {isa = PBXBuildFile; fileRef = 15E38B7F16DA450700199557 /* empty_letter_inactive.png */; };
 		15E38B8416DA450700199557 /* iPhone4_640x960.png in Resources */ = {isa = PBXBuildFile; fileRef = 15E38B8016DA450700199557 /* iPhone4_640x960.png */; };
 		15E38B8516DA450700199557 /* iPhone5_640x1136.png in Resources */ = {isa = PBXBuildFile; fileRef = 15E38B8116DA450700199557 /* iPhone5_640x1136.png */; };
+		524CFD2B16E9046C00BC7431 /* BoardList.txt in Resources */ = {isa = PBXBuildFile; fileRef = 524CFD2A16E9046C00BC7431 /* BoardList.txt */; };
 		D6E8206F16E89D7B00083D44 /* Dictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = D6E8206E16E89D7B00083D44 /* Dictionary.m */; };
 		D6E8207116E8A60100083D44 /* sowpods.txt in Resources */ = {isa = PBXBuildFile; fileRef = D6E8207016E8A60100083D44 /* sowpods.txt */; };
 /* End PBXBuildFile section */
@@ -547,6 +548,7 @@
 		15E38B7F16DA450700199557 /* empty_letter_inactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = empty_letter_inactive.png; sourceTree = "<group>"; };
 		15E38B8016DA450700199557 /* iPhone4_640x960.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPhone4_640x960.png; sourceTree = "<group>"; };
 		15E38B8116DA450700199557 /* iPhone5_640x1136.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPhone5_640x1136.png; sourceTree = "<group>"; };
+		524CFD2A16E9046C00BC7431 /* BoardList.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BoardList.txt; sourceTree = SOURCE_ROOT; };
 		D6E8206D16E89D7B00083D44 /* Dictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dictionary.h; sourceTree = "<group>"; };
 		D6E8206E16E89D7B00083D44 /* Dictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dictionary.m; sourceTree = "<group>"; };
 		D6E8207016E8A60100083D44 /* sowpods.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sowpods.txt; sourceTree = "<group>"; };
@@ -629,6 +631,7 @@
 				D6E8206D16E89D7B00083D44 /* Dictionary.h */,
 				D6E8206E16E89D7B00083D44 /* Dictionary.m */,
 				D6E8207016E8A60100083D44 /* sowpods.txt */,
+				524CFD2A16E9046C00BC7431 /* BoardList.txt */,
 				157269FC16E8DFFB002E5764 /* Letters */,
 				156C19AA16CA27E2004591E6 /* Resources */,
 				156C19C416CA27E2004591E6 /* libs */,
@@ -1202,6 +1205,7 @@
 				15726A6016E8E0D9002E5764 /* letter_inactive_x.png in Resources */,
 				15726A6116E8E0D9002E5764 /* letter_inactive_y.png in Resources */,
 				15726A6216E8E0D9002E5764 /* letter_inactive_z.png in Resources */,
+				524CFD2B16E9046C00BC7431 /* BoardList.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

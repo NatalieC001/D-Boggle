@@ -113,22 +113,29 @@
     //grid initialization code
     //Need to implement randomization code
     //Suggestion: use a 0-15 loop for all the indices and a 26-char array from which randomization is done.
-    [letter1 initializeWith:@"a" at:0];
-    [letter2 initializeWith:@"b" at:1];
-    [letter3 initializeWith:@"c" at:2];
-    [letter4 initializeWith:@"d" at:3];
-    [letter5 initializeWith:@"e" at:4];
-    [letter6 initializeWith:@"f" at:5];
-    [letter7 initializeWith:@"g" at:6];
-    [letter8 initializeWith:@"h" at:7];
-    [letter9 initializeWith:@"i" at:8];
-    [letter10 initializeWith:@"j" at:9];
-    [letter11 initializeWith:@"k" at:10];
-    [letter12 initializeWith:@"l" at:11];
-    [letter13 initializeWith:@"m" at:12];
-    [letter14 initializeWith:@"n" at:13];
-    [letter15 initializeWith:@"o" at:14];
-    [letter16 initializeWith:@"p" at:15];
+    
+    
+    //get string here
+    //loop through it
+    
+    
+    
+    [letter1 initializeWith:@"r" at:0];
+    [letter2 initializeWith:@"s" at:1];
+    [letter3 initializeWith:@"l" at:2];
+    [letter4 initializeWith:@"c" at:3];
+    [letter5 initializeWith:@"d" at:4];
+    [letter6 initializeWith:@"e" at:5];
+    [letter7 initializeWith:@"i" at:6];
+    [letter8 initializeWith:@"a" at:7];
+    [letter9 initializeWith:@"g" at:8];
+    [letter10 initializeWith:@"n" at:9];
+    [letter11 initializeWith:@"t" at:10];
+    [letter12 initializeWith:@"r" at:11];
+    [letter13 initializeWith:@"a" at:12];
+    [letter14 initializeWith:@"t" at:13];
+    [letter15 initializeWith:@"e" at:14];
+    [letter16 initializeWith:@"s" at:15];
     
     
     //    Old Positions
@@ -342,8 +349,8 @@
     self.time = [self decrement:self.time];
     [self.timer setString:[NSString stringWithFormat:@"%ld", (long)[self.time integerValue]]];
     NSLog(@"%ld", (long)[self.time integerValue]);
-    
-    if ([self.time integerValue] == 50) {
+
+    if ([self.time integerValue] == 0) {
         [self.timer setString:[NSString stringWithFormat:@"Game Over!"]];
         [self unschedule:@selector(tick:)]; //to stop the tick call
         [[CCDirector sharedDirector] replaceScene:[CCTransitionFadeTR transitionWithDuration:0.5 scene:[ResultLayer sceneWith:100]]];
@@ -670,11 +677,13 @@
         currentWord = [currentWord stringByAppendingString:tile.letter];
     }
     NSLog(@"%@", currentWord);
-    if (([currentWord isEqualToString:@"aaaaa"] || [currentWord isEqualToString:@"aaaa"])
+    
+    if ([self.dict validate:[currentWord uppercaseString]]
         && currentWord.length >= 3
         && ![self.playedWordsList containsObject:currentWord])//check validity here
     {
         //to-do: Implement the dictionary
+        NSLog(@"Word valid");
         [self clearAllPressedTiles];
         [self updateScoreLabel:currentWord.length];
         [self updatePlayedWordList:currentWord];
