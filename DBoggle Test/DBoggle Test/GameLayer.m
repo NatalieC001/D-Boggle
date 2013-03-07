@@ -137,8 +137,8 @@
         filepath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"board_%d", boardNum] ofType:@"txt"];
         NSData *data = [NSData dataWithContentsOfFile:filepath];
         f = [NSString stringWithUTF8String:[data bytes]];
-
-    } while (f == nil);
+    } while (f == nil || (!f));
+    
     NSLog(@"%@", filepath);
     
     NSCharacterSet *cs = [NSCharacterSet newlineCharacterSet];
@@ -386,7 +386,7 @@
     if ([self.time integerValue] == 0) {
         [self.timer setString:[NSString stringWithFormat:@"Game Over!"]];
         [self unschedule:@selector(tick:)]; //to stop the tick call
-        [[CCDirector sharedDirector] replaceScene:[CCTransitionFadeTR transitionWithDuration:0.5 scene:[ResultLayer sceneWith:100]]];
+        [[CCDirector sharedDirector] replaceScene:[CCTransitionFadeTR transitionWithDuration:0.5 scene:[ResultLayer sceneWith:self.score]]];
     }
 }
 
