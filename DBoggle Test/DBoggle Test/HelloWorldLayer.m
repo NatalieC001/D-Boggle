@@ -74,7 +74,7 @@
 		
 		// add the label as a child to this Layer
 		[self addChild: label];
-		
+		[CCMenuItemFont setFontName:@"open-dyslexic"];
 		CCMenuItemFont *newGameItem = [CCMenuItemFont itemWithString:@"New Game" target:self selector:@selector(newGame)];
 		CCMenuItemFont *instructions = [CCMenuItemFont itemWithString:@"Instructions" target:self selector:@selector(instructions)];
 		CCMenuItemFont *anotherOption = [CCMenuItemFont itemWithString:@"New Game" target:self selector:@selector(otherOption)];

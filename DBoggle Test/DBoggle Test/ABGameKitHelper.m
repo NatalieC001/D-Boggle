@@ -274,7 +274,7 @@
         tempDic = [[NSMutableDictionary alloc] init];
     } else {
         NSData *binaryFile = [NSData dataWithContentsOfFile:[self getBinaryPath]];
-        NSData *dataKey = [[NSString stringWithString:AESKEY] dataUsingEncoding:NSUTF8StringEncoding];
+        NSData *dataKey = [AESKEY dataUsingEncoding:NSUTF8StringEncoding];
         NSData *decryptedData = [binaryFile decryptedWithKey:dataKey];
         tempDic = [NSKeyedUnarchiver unarchiveObjectWithData:decryptedData];
     }
@@ -285,7 +285,7 @@
     
     NSData *dicData = [NSKeyedArchiver archivedDataWithRootObject:tempDic];
     
-    NSData *dataKey = [[NSString stringWithString:AESKEY] dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *dataKey = [AESKEY dataUsingEncoding:NSUTF8StringEncoding];
     NSData *encryptedData = [dicData encryptedWithKey:dataKey];
     
     [encryptedData writeToFile:[self getBinaryPath] atomically:YES];
@@ -296,7 +296,7 @@
 
 -(NSData*) loadDataForKey:(NSString*)key {
     NSData *binaryFile = [NSData dataWithContentsOfFile:[self getBinaryPath]];
-    NSData *dataKey = [[NSString stringWithString:AESKEY] dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *dataKey = [AESKEY dataUsingEncoding:NSUTF8StringEncoding];
     NSData *decryptedData = [binaryFile decryptedWithKey:dataKey];
     
     NSMutableDictionary *tempDic = [NSKeyedUnarchiver unarchiveObjectWithData:decryptedData];

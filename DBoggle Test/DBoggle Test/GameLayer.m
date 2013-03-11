@@ -33,7 +33,7 @@
 @property (nonatomic, strong) NSMutableArray *possibleWordList;
 @property (nonatomic, strong) Dictionary *dict; //Dictionary object
 @property (nonatomic) NSUInteger score;
-@property (nonatomic, strong) CCLabelTTF *score_disp;
+@property (nonatomic, strong) CCLabelTTF *scoreLabel;
 @end
 
 @implementation GameLayer
@@ -261,7 +261,7 @@
         self.angle = 0;
         self.isPaused = NO;
         CCMenuItemImage *rotate = [CCMenuItemImage itemWithNormalImage:@"Rotate.png" selectedImage:@"Rotate.png" target:self selector:@selector(rotateClicked)];    //Rotate button
-        CCMenuItemImage *pause = [CCMenuItemImage itemWithNormalImage:@"Pause.png" selectedImage:@"Pause_HD.png" target:self selector:@selector(pauseGame)];        //Pause button
+        CCMenuItemImage *pause = [CCMenuItemImage itemWithNormalImage:@"Pause.png" selectedImage:@"Pause.png" target:self selector:@selector(pauseGame)];        //Pause button
         CCMenu *menu = [CCMenu menuWithItems:pause, rotate, nil];   //The top banner
         self.score = 0;
         [menu alignItemsHorizontallyWithPadding:0];
@@ -290,17 +290,17 @@
         //[self schedule: @selector(tick:)];
         [self schedule: @selector(tick:) interval:1];
         
-        self.timer = [CCLabelTTF labelWithString:@"D-Boggle!" fontName:@"Marker Felt" fontSize:30];
+        self.timer = [CCLabelTTF labelWithString:@"D-Boggle!" fontName:@"open-dyslexic" fontSize:30];
         
         self.timer.position = ccp(160,400);
         self.timer.color = ccYELLOW;
         [self addChild:self.timer];
         
-        self.score_disp = [CCLabelTTF labelWithString:@"Score: " fontName:@"Marker Felt" fontSize:30];
+        self.scoreLabel = [CCLabelTTF labelWithString:@"Score: " fontName:@"open-dyslexic" fontSize:30];
         
-        self.score_disp.position = ccp(60, 360);
+        self.scoreLabel.position = ccp(60, 360);
         self.timer.color = ccWHITE;
-        [self addChild:self.score_disp];
+        [self addChild:self.scoreLabel];
         
         /////////////////////////////////////////////////////////////////////////////////
         // TODO                                                                        //
@@ -332,6 +332,7 @@
         self.pauseLayer = [CCLayerColor layerWithColor: ccc4(0, 50, 0, 125) width: 300 height: 350];
         self.pauseLayer.position = ccp(10, 50);
         [self addChild: self.pauseLayer z:8];
+        [CCMenuItemFont setFontName:@"open-dyslexic"];
         CCMenuItemFont *resume = [CCMenuItemFont itemWithString:@"Resume" target:self selector:@selector(resumeGame)];
 		CCMenuItemFont *mainMenu = [CCMenuItemFont itemWithString:@"Main Menu" target:self selector:@selector(returnToMainMenu)];
 		CCMenuItemFont *newGame = [CCMenuItemFont itemWithString:@"New Game" target:self selector:@selector(newGame)];
@@ -456,7 +457,7 @@
     NSLog(@"Rotation = %f", [self.board rotation]);
 }
 
--(void) updateScoreLabel:(NSUInteger) wordLength{
+-(void) updateScoreLabel:(NSUInteger) wordLength {
     if (wordLength <= 4)
         self.score += 1;
     else if (wordLength == 5)
@@ -468,7 +469,7 @@
     else if (wordLength >= 8)
         self.score += 11;
     
-    [self.score_disp setString:[NSString stringWithFormat:@"%lu", (unsigned long)self.score]];
+    [self.scoreLabel setString:[NSString stringWithFormat:@"%lu", (unsigned long)self.score]];
     
 }
 
