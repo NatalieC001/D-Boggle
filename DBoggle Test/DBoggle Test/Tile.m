@@ -22,20 +22,20 @@
     self.tileNumber = index;
     self.actualLocation = CGPointMake(self.position.x + 160, self.position.y + 160);
     self.letter = alphabet;
-    NSString *imageFileName = [NSString stringWithFormat:@"letter_active_%@.png", self.letter];
+    NSString *imageFileName = [NSString stringWithFormat:@"letter_inactive_%@.png", self.letter];
     [self setTexture:[[CCTextureCache sharedTextureCache] addImage:imageFileName]];
 }
 
 - (void) activate
 {
-    NSString *imageFileName = [NSString stringWithFormat:@"letter_active_%@.png", self.letter];
+    NSString *imageFileName = [NSString stringWithFormat:@"letter_inactive_%@.png", self.letter];
     [self setTexture:[[CCTextureCache sharedTextureCache] addImage:imageFileName]];
     self.isActive = YES;
 }
 
 - (void) deactivate
 {
-    NSString *imageFileName = [NSString stringWithFormat:@"letter_inactive_%@.png", self.letter];
+    NSString *imageFileName = [NSString stringWithFormat:@"letter_active_%@.png", self.letter];
     [self setTexture:[[CCTextureCache sharedTextureCache] addImage:imageFileName]];
     self.isActive = NO;
 }

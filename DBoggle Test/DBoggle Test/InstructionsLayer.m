@@ -8,7 +8,7 @@
 
 #import "InstructionsLayer.h"
 #import "cocos2d.h"
-#import "HelloWorldLayer.h"
+#import "MainMenuLayer.h"
 #import "GameLayer.h"
 
 @implementation InstructionsLayer
@@ -64,7 +64,7 @@
 
 - (void) returnToMainMenu
 {
-    [[CCDirector sharedDirector] replaceScene:[CCTransitionSlideInT transitionWithDuration:0.5 scene:[HelloWorldLayer scene]]];
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionSlideInT transitionWithDuration:0.5 scene:[MainMenuLayer scene]]];
 }
 
 - (void) newGame

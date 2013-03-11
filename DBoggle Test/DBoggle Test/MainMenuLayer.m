@@ -8,17 +8,17 @@
 
 
 // Import the interfaces
-#import "HelloWorldLayer.h"
+#import "MainMenuLayer.h"
 #import "InstructionsLayer.h"
 // Needed to obtain the Navigation Controller
 #import "AppDelegate.h"
 
 #import "GameLayer.h"
 
-#pragma mark - HelloWorldLayer
+#pragma mark - MainMenuLayer
 
 // HelloWorldLayer implementation
-@implementation HelloWorldLayer
+@implementation MainMenuLayer
 
 // Helper class method that creates a Scene with the HelloWorldLayer as the only child.
 +(CCScene *) scene
@@ -27,8 +27,22 @@
 	CCScene *scene = [CCScene node];
 	
 	// 'layer' is an autorelease object.
-	HelloWorldLayer *layer = [HelloWorldLayer node];
+	MainMenuLayer *layer = [MainMenuLayer node];
 	
+    CGSize size = [[CCDirector sharedDirector] winSize];
+    NSLog(@"Height yo! %f", size.height);
+    if (size.height == 480)
+    {
+        CCSprite *background = [CCSprite spriteWithFile:@"mainmenu.png"];
+        background.anchorPoint = ccp (0,0);
+        [layer addChild:background z:-1];
+    }
+    else
+    {
+        CCSprite *background = [CCSprite spriteWithFile:@"mainmenu-568h.png"];
+        background.anchorPoint = ccp (0,0);
+        [layer addChild:background z:-1];
+    }
 	// add layer as a child to scene
 	[scene addChild: layer];
 	
@@ -64,22 +78,28 @@
         isTouchEnabled_ = YES;
 		
 		// create and initialize a Label
-		CCLabelTTF *label = [CCLabelTTF labelWithString:@"D-Boggle!" fontName:@"Marker Felt" fontSize:64];
-
+		//CCLabelTTF *label = [CCLabelTTF labelWithString:@"D-Boggle!" fontName:@"Marker Felt" fontSize:64];
+        CCSprite *logo = [CCSprite spriteWithFile:@"logoDB.png"];
 		// ask director for the window size
 		CGSize size = [[CCDirector sharedDirector] winSize];
 	
 		// position the label on the center of the screen
-		label.position =  ccp( size.width /2 , size.height*0.75 );
+		logo.position =  ccp( size.width /2 , size.height*0.80 );
 		
 		// add the label as a child to this Layer
-		[self addChild: label];
+		[self addChild: logo];
 		[CCMenuItemFont setFontName:@"open-dyslexic"];
-		CCMenuItemFont *newGameItem = [CCMenuItemFont itemWithString:@"New Game" target:self selector:@selector(newGame)];
-		CCMenuItemFont *instructions = [CCMenuItemFont itemWithString:@"Instructions" target:self selector:@selector(instructions)];
-		CCMenuItemFont *anotherOption = [CCMenuItemFont itemWithString:@"New Game" target:self selector:@selector(otherOption)];
         
-        CCMenu *menu = [CCMenu menuWithItems:newGameItem, instructions, anotherOption, nil];
+		//CCMenuItemFont *newGameItem = [CCMenuItemFont itemWithString:@"New Game" target:self selector:@selector(newGame)];
+		//CCMenuItemFont *instructions = [CCMenuItemFont itemWithString:@"Instructions" target:self selector:@selector(instructions)];
+		//CCMenuItemFont *highscores = [CCMenuItemFont itemWithString:@"New Game" target:self selector:@selector(otherOption)];
+        
+        CCMenuItemImage *newGameItem = [CCMenuItemImage itemWithNormalImage:@"newgame.png" selectedImage:@"newgame.png" target:self selector:@selector(newGame)];
+        CCMenuItemImage *instructions = [CCMenuItemImage itemWithNormalImage:@"instructions.png" selectedImage:@"instructions.png" target:self selector:@selector(instructions)];
+        CCMenuItemImage *highscores = [CCMenuItemImage itemWithNormalImage:@"highscores.png" selectedImage:@"highscores.png" target:self selector:@selector(otherOption)];
+        
+        
+        CCMenu *menu = [CCMenu menuWithItems:newGameItem, instructions, highscores, nil];
         [menu alignItemsVerticallyWithPadding:5];
         
         [self addChild:menu];

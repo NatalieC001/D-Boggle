@@ -10,7 +10,7 @@
 #import "Tile.h"
 #import "cocos2d.h"
 #import "ResultLayer.h"
-#import "HelloWorldLayer.h"
+#import "MainMenuLayer.h"
 #import "ScrollingMenuScene.h"
 #import "Dictionary.h"
 
@@ -226,9 +226,22 @@
 	// 'layer' is an autorelease object.
 	GameLayer *layer = [GameLayer node];
 	
-    CCSprite *background = [CCSprite spriteWithFile:@"background.png"];
-    background.anchorPoint = ccp (0,0);
-    [layer addChild:background z:-1];
+    CGSize size = [[CCDirector sharedDirector] winSize];
+    NSLog(@"Height yo! %f", size.height);
+    if (size.height == 480)
+    {
+        CCSprite *background = [CCSprite spriteWithFile:@"background.png"];
+        background.anchorPoint = ccp (0,0);
+        [layer addChild:background z:-1];
+    }
+    else
+    {
+        CCSprite *background = [CCSprite spriteWithFile:@"background-568h.png"];
+        background.anchorPoint = ccp (0,0);
+        [layer addChild:background z:-1];
+    }
+
+    
     
 	// add layer as a child to scene
 	[scene addChild: layer];
@@ -262,11 +275,20 @@
         self.isPaused = NO;
         CCMenuItemImage *rotate = [CCMenuItemImage itemWithNormalImage:@"Rotate.png" selectedImage:@"Rotate.png" target:self selector:@selector(rotateClicked)];    //Rotate button
         CCMenuItemImage *pause = [CCMenuItemImage itemWithNormalImage:@"Pause.png" selectedImage:@"Pause.png" target:self selector:@selector(pauseGame)];        //Pause button
+        
+        CGSize size = [[CCDirector sharedDirector] winSize];
+        
         CCMenu *menu = [CCMenu menuWithItems:pause, rotate, nil];   //The top banner
         self.score = 0;
         [menu alignItemsHorizontallyWithPadding:0];
-        menu.position = ccp(64, 450);
+        menu.position = ccp(64, size.height - 30);
         [self addChild:menu];
+        
+        
+        CCSprite *timerBorder = [CCSprite spriteWithFile:@"timer.png"];
+        timerBorder.position = ccp(267, size.height - 30);
+        [self addChild:timerBorder];
+        
         
         self.userCanRotate = YES;                   //to be changed based on time remaining
         self.boardManager = [CCNode node];
@@ -274,7 +296,7 @@
         [self addChild:self.boardManager];
         
         
-        self.board = [CCSprite spriteWithFile:@"BoggleTray.png"];
+        self.board = [CCSprite spriteWithFile:@"tray.png"];
         self.board.position = ccp(0, 0);        //The frame of reference for these coordinates is boardManager, not the
                                                 //screen
         self.letters = [self lettersForBoard];
@@ -285,14 +307,14 @@
             [self.boardManager addChild:[self.letters objectAtIndex:i]];
         }
         
-        self.time = [[NSNumber alloc] initWithInt:60];      //to-do: Change to 300
+        self.time = [[NSNumber alloc] initWithInt:120];      //to-do: Change to 300
         
         //[self schedule: @selector(tick:)];
         [self schedule: @selector(tick:) interval:1];
         
-        self.timer = [CCLabelTTF labelWithString:@"D-Boggle!" fontName:@"open-dyslexic" fontSize:30];
+        self.timer = [CCLabelTTF labelWithString:@"Go!" fontName:@"open-dyslexic" fontSize:30];
         
-        self.timer.position = ccp(160,400);
+        self.timer.position = ccp(267, size.height - 30);
         self.timer.color = ccYELLOW;
         [self addChild:self.timer];
         
@@ -366,7 +388,7 @@
 
 - (void) returnToMainMenu
 {
-    [[CCDirector sharedDirector] replaceScene:[CCTransitionPageTurn transitionWithDuration:0.5 scene:[HelloWorldLayer scene]]];
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionPageTurn transitionWithDuration:0.5 scene:[MainMenuLayer scene]]];
 }
 
 - (void) newGame
@@ -403,11 +425,16 @@
 -(void) tick: (ccTime) dt
 {
     self.time = [self decrement:self.time];
-    [self.timer setString:[NSString stringWithFormat:@"%ld", (long)[self.time integerValue]]];
+    long sec = (long)[self.time integerValue] % 60;
+    if ( sec < 10 )
+        [self.timer setString:[NSString stringWithFormat:@"%ld:0%ld", (long)[self.time integerValue]/60, sec]];
+    else
+        [self.timer setString:[NSString stringWithFormat:@"%ld:%ld", (long)[self.time integerValue]/60, sec]];
+    
     NSLog(@"%ld", (long)[self.time integerValue]);
-
     if ([self.time integerValue] == 0) {
-        [self.timer setString:[NSString stringWithFormat:@"Game Over!"]];
+        [self.timer setString:[NSString stringWithFormat:@"Done!"]];
+        [self.timer setFontSize:25];
         [self unschedule:@selector(tick:)]; //to stop the tick call
         [[CCDirector sharedDirector] replaceScene:[CCTransitionFadeTR transitionWithDuration:0.5 scene:[ResultLayer sceneWith:self.score]]];
     }
