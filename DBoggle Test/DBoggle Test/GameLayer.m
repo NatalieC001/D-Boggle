@@ -327,10 +327,23 @@
         self.timer.color = ccc3(0,0,0);
         [self addChild:self.timer];
         
-        self.scoreLabel = [CCLabelTTF labelWithString:@"Score: " fontName:@"open-dyslexic" fontSize:30];
         
-        self.scoreLabel.position = ccp(60, 360);
+        CCSprite *scoreBorder = [CCSprite spriteWithFile:@"plaintab.png"];
+        scoreBorder.position = ccp(size.width / 2, size.height - 150);
+        [self addChild: scoreBorder];
+        
+        
+        
+        
+        self.scoreLabel = [CCLabelTTF labelWithString:@"Score: " fontName:@"open-dyslexic" fontSize:25];
+        self.scoreLabel.color = ccBLACK;
+        self.scoreLabel.position = ccp(size.width / 2, size.height - 150);
         [self addChild:self.scoreLabel];
+        
+        CCSprite *currentWordBorder = [CCSprite spriteWithFile:@"plaintab_currentword.png"];
+        currentWordBorder.position = ccp(size.width / 2, size.height - 200);
+        [self addChild: currentWordBorder];
+        
         
         /////////////////////////////////////////////////////////////////////////////////
         // TODO                                                                        //
@@ -568,7 +581,17 @@
     else if (wordLength >= 8)
         self.score += 11;
     
-    [self.scoreLabel setString:[NSString stringWithFormat:@"Score: %lu", (unsigned long)self.score]];
+    if (self.score < 10) {
+        [self.scoreLabel setString:[NSString stringWithFormat:@"Score:   %lu", (unsigned long)self.score]];
+    }
+    else if (self.score >= 10 && self.score < 100)
+    {
+        [self.scoreLabel setString:[NSString stringWithFormat:@"Score:  %lu", (unsigned long)self.score]];
+    }
+    else
+    {
+        [self.scoreLabel setString:[NSString stringWithFormat:@"Score: %lu", (unsigned long)self.score]];
+    }
     
 }
 
