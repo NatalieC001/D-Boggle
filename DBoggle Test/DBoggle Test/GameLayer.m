@@ -438,7 +438,7 @@
         [self.timer setString:[NSString stringWithFormat:@"%ld:%ld", (long)[self.time integerValue]/60, sec]];
     
     NSLog(@"%ld", (long)[self.time integerValue]);
-    if ([self.time integerValue] == 110) {
+    if ([self.time integerValue] == 0) {
         [self.timer setString:[NSString stringWithFormat:@"Done!"]];
         [self.timer setFontSize:25];
         [self unschedule:@selector(tick:)]; //to stop the tick call
