@@ -130,22 +130,22 @@
         CCMenu *menu = [CCMenu menuWithItems:newGame, highScores, mainMenu, playedWords, possibleWords, nil];
 
         [menu alignItemsVerticallyWithPadding:5];
-        menu.position = ccp(size.width / 2, size.height - 400);
+        menu.position = ccp(size.width / 2, size.height * 0.28);
         [self addChild:menu];
         
         
         CCSprite *scorePalette = [CCSprite spriteWithFile:@"scorepalette.png"];
-        scorePalette.position = ccp(size.width / 2, size.height - 256.5);
+        scorePalette.position = ccp(size.width / 2, size.height * 0.65);
         [self addChild:scorePalette];
         
         CCLabelTTF *scoreLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%lu", (unsigned long)self.score] fontName:@"open-dyslexic" fontSize:48];
         scoreLabel.color = ccc3(0,0,0);
-        scoreLabel.position = ccp(size.width / 2, size.height - 270);
+        scoreLabel.position = ccp(size.width / 2, size.height * 0.65 - 13.5);
         [self addChild:scoreLabel];
         
         
         CCSprite *gameOverImage = [CCSprite spriteWithFile:@"gameover.png"];
-        gameOverImage.position = ccp(size.width / 2, size.height - 100);
+        gameOverImage.position = ccp(size.width / 2, size.height * 0.8333);
         [self addChild:gameOverImage];
         
 
@@ -177,31 +177,75 @@
 {
     CGSize size = [[CCDirector sharedDirector] winSize];
     
-    self.playedWordsLayer = [CCLayerColor layerWithColor: ccc4(0, 50, 0, 125) width: 300 height: 480];
-    self.playedWordsLayer.position = ccp(10, 50);
-    [self addChild: self.playedWordsLayer z:1];
+    CCSprite *background = [CCSprite spriteWithFile:@"playedwordslayer.png"];
+    background.position = ccp (size.width/2, size.height/2);
+    //[[CCDirector sharedDirector] pause];
+    self.playedWordsLayer = [CCLayerColor layerWithColor: ccc4(0, 0, 0, 0)];
+    self.playedWordsLayer.position = ccp(0, 0);
+    [self.playedWordsLayer addChild:background z:3];
+    
+    CCSprite *pausedLogo = [CCSprite spriteWithFile:@"playedwordslogo.png"];
+    pausedLogo.position = ccp(size.width/2, size.height - 100);
+    [self.playedWordsLayer addChild:pausedLogo z:4];
     
     CCLabelTTF *wordLabel = [CCLabelTTF labelWithString:self.wordList dimensions:CGSizeMake(size.width*0.85, size.height*0.6) hAlignment:kCCTextAlignmentCenter lineBreakMode:kCCLineBreakModeWordWrap fontName:@"open-dyslexic" fontSize:20];
+    wordLabel.position = ccp(size.width/2, size.height - 300);
+    wordLabel.color = ccBLACK;
     
-    CCMenuItemLabel *wordListLabel = [CCMenuItemLabel itemWithLabel:wordLabel];
-    wordListLabel.position = ccp(size.width/2, size.height - 80);
+    [self.playedWordsLayer addChild:wordLabel z:5];
     
-    CCMenuItem *backToMenu = [CCMenuItemImage itemWithNormalImage:@"plaintab.png" selectedImage:@"plaintab.png" target:self selector:@selector(backToMenu)];
+//    CCMenuItemLabel *wordListLabel = [CCMenuItemLabel itemWithLabel:wordLabel];
+//    wordListLabel.position = ccp(size.width/2, size.height - 80);
+    
+    CCMenuItem *backToMenu = [CCMenuItemImage itemWithNormalImage:@"plaintab.png" selectedImage:@"plaintab.png" target:self selector:@selector(backToMenuFromPlayed)];
     backToMenu.position = ccp(160, 40);
     
-    self.playedWordsMenu = [CCMenu menuWithItems:wordListLabel, backToMenu, nil];
+    self.playedWordsMenu = [CCMenu menuWithItems: backToMenu, nil];
     [self.playedWordsMenu alignItemsVertically];
-    [self.playedWordsLayer addChild:self.playedWordsMenu z:3];
+    [self.playedWordsLayer addChild:self.playedWordsMenu z:4];
 }
 
-- (void) backToMenu
+- (void) backToMenuFromPlayed
 {
     [self removeChild:self.playedWordsLayer cleanup:YES];
 }
 
 - (void) showPossibleWords
 {
+    CGSize size = [[CCDirector sharedDirector] winSize];
     
+    CCSprite *background = [CCSprite spriteWithFile:@"playedwordslayer.png"];
+    background.position = ccp (size.width/2, size.height/2);
+    //[[CCDirector sharedDirector] pause];
+    self.possibleWordsLayer = [CCLayerColor layerWithColor: ccc4(0, 0, 0, 0)];
+    self.possibleWordsLayer.position = ccp(0, 0);
+    [self.possibleWordsLayer addChild:background z:-1];
+    
+    CCSprite *pausedLogo = [CCSprite spriteWithFile:@"playedwordslogo.png"];
+    pausedLogo.position = ccp(size.width/2, size.height - 100);
+    [self.possibleWordsLayer addChild:pausedLogo z:0];
+    
+    CCLabelTTF *wordLabel = [CCLabelTTF labelWithString:self.possibleList dimensions:CGSizeMake(size.width*0.85, size.height*0.6) hAlignment:kCCTextAlignmentCenter lineBreakMode:kCCLineBreakModeWordWrap fontName:@"open-dyslexic" fontSize:20];
+    wordLabel.position = ccp(size.width/2, size.height - 300);
+    wordLabel.color = ccBLACK;
+    
+    [self.possibleWordsLayer addChild:wordLabel z:11];
+    
+    //    CCMenuItemLabel *wordListLabel = [CCMenuItemLabel itemWithLabel:wordLabel];
+    //    wordListLabel.position = ccp(size.width/2, size.height - 80);
+    
+    CCMenuItem *backToMenu = [CCMenuItemImage itemWithNormalImage:@"plaintab.png" selectedImage:@"plaintab.png" target:self selector:@selector(backToMenuFromPossible)];
+    backToMenu.position = ccp(160, 40);
+    
+    self.possibleWordsMenu = [CCMenu menuWithItems: backToMenu, nil];
+    [self.possibleWordsMenu alignItemsVertically];
+    [self.possibleWordsLayer addChild:self.possibleWordsLayer z:3];
+    
+}
+
+- (void) backToMenuFromPossible
+{
+    [self removeChild:self.possibleWordsLayer cleanup:YES];
 }
 
 - (void) share
