@@ -276,6 +276,7 @@
         
         self.angle = 0;
         self.isPaused = NO;
+        
         CCMenuItemImage *rotate = [CCMenuItemImage itemWithNormalImage:@"rotation.png" selectedImage:@"rotation_inactive.png" target:self selector:@selector(rotateClicked)];    //Rotate button
         CCMenuItemImage *pause = [CCMenuItemImage itemWithNormalImage:@"pause.png" selectedImage:@"pause_inactive.png" target:self selector:@selector(pauseGame)];        //Pause button
         
@@ -284,7 +285,7 @@
         CCMenu *menu = [CCMenu menuWithItems:rotate, pause, nil];   //The top banner
         self.score = 0;
         [menu alignItemsHorizontallyWithPadding:0];
-        menu.position = ccp(267, size.height - 30);
+        menu.position = ccp(263, size.height - 30);
         [self addChild:menu];
         
         
@@ -357,20 +358,30 @@
         
         self.isPaused = YES;
         
+        
+        CGSize size = [[CCDirector sharedDirector] winSize];
+        CCSprite *background = [CCSprite spriteWithFile:@"pauselayer.png"];
+        background.position = ccp (size.width/2, size.height/2);
         //[[CCDirector sharedDirector] pause];
-        self.pauseLayer = [CCLayerColor layerWithColor: ccc4(0, 50, 0, 125) width: 300 height: 350];
-        self.pauseLayer.position = ccp(10, 50);
+        self.pauseLayer = [CCLayerColor layerWithColor: ccc4(0, 0, 0, 0)];
+        self.pauseLayer.position = ccp(0, 0);
+        [self.pauseLayer addChild:background z:-1];
+        
+        CCSprite *pausedLogo = [CCSprite spriteWithFile:@"pauselogo.png"];
+        pausedLogo.position = ccp(size.width/2, size.height - 100);
+        [self.pauseLayer addChild:pausedLogo z:0];
+        
         [self addChild: self.pauseLayer z:8];
         [CCMenuItemFont setFontName:@"open-dyslexic"];
 //        CCMenuItemFont *resume = [CCMenuItemFont itemWithString:@"Resume" target:self selector:@selector(resumeGame)];
 //		CCMenuItemFont *mainMenu = [CCMenuItemFont itemWithString:@"Main Menu" target:self selector:@selector(returnToMainMenu)];
 //		CCMenuItemFont *newGame = [CCMenuItemFont itemWithString:@"New Game" target:self selector:@selector(newGame)];
-        CCMenuItemFont *playedWords = [CCMenuItemFont itemWithString:@"Played Words" target:self selector:@selector(playedWords)];
+//        CCMenuItemFont *playedWords = [CCMenuItemFont itemWithString:@"Played Words" target:self selector:@selector(playedWords)];
         
         CCMenuItemImage *resume = [CCMenuItemImage itemWithNormalImage:@"resume_inactive.png" selectedImage:@"resume_active.png" target:self selector:@selector(resumeGame)];
         CCMenuItemImage *mainMenu = [CCMenuItemImage itemWithNormalImage:@"mainmenu_inactive.png" selectedImage:@"mainmenu_active.png" target:self selector:@selector(returnToMainMenu)];
         CCMenuItemImage *newGame = [CCMenuItemImage itemWithNormalImage:@"newgame_inactive.png" selectedImage:@"newgame_active.png" target:self selector:@selector(newGame)];
-//        CCMenuItemImage *playedWords = [CCMenuItemImage itemWithNormalImage:@"resume.png" selectedImage:@"resume.png" target:self selector:@selector(playedWords)];
+        CCMenuItemImage *playedWords = [CCMenuItemImage itemWithNormalImage:@"playedwords_inactive.png" selectedImage:@"playedwords_active.png" target:self selector:@selector(playedWords)];
         
         self.pauseMenu = [CCMenu menuWithItems:resume, mainMenu, newGame, playedWords, nil];
         [self.pauseMenu alignItemsVertically];
@@ -433,25 +444,47 @@
     [self removeChild:self.pauseMenu cleanup:YES];
     [self removeChild:self.pauseLayer cleanup:YES];
     
-    self.playedWordsLayer = [CCLayerColor layerWithColor: ccc4(0, 50, 0, 125) width: 300 height: 480];
-    self.playedWordsLayer.position = ccp(10, 50);
-    [self addChild: self.playedWordsLayer z:8];
+    
+    CCSprite *background = [CCSprite spriteWithFile:@"playedwordslayer.png"];
+    background.position = ccp (size.width/2, size.height/2);
+    //[[CCDirector sharedDirector] pause];
+    self.playedWordsLayer = [CCLayerColor layerWithColor: ccc4(0, 0, 0, 0)];
+    self.playedWordsLayer.position = ccp(0, 0);
+    [self.playedWordsLayer addChild:background z:-1];
+    
+    CCSprite *pausedLogo = [CCSprite spriteWithFile:@"playedwordslogo.png"];
+    pausedLogo.position = ccp(size.width/2, size.height - 100);
+    [self.playedWordsLayer addChild:pausedLogo z:0];
+    
+    
+
+    
     
     NSString *wordList = [self.playedWordsList componentsJoinedByString:@", "];
     NSLog(@"%@", wordList);
     
     CCLabelTTF *wordLabel = [CCLabelTTF labelWithString:wordList dimensions:CGSizeMake(size.width*0.85, size.height*0.6) hAlignment:kCCTextAlignmentCenter lineBreakMode:kCCLineBreakModeWordWrap fontName:@"open-dyslexic" fontSize:20];
+    wordLabel.position = ccp(size.width/2, size.height - 300);
+    wordLabel.color = ccBLACK;
     
-    CCMenuItemLabel *wordListLabel = [CCMenuItemLabel itemWithLabel:wordLabel];
-    wordListLabel.position = ccp(size.width/2, size.height - 80);
-//    [self.playedWordsLayer addChild:wordLabel z:10];
+    [self.playedWordsLayer addChild:wordLabel z:11];
     
-    CCMenuItem *resume = [CCMenuItemImage itemWithNormalImage:@"resume.png" selectedImage:@"resume.png" target:self selector:@selector(resumeGameFromPlayedWords)];
-    resume.position = ccp(160, 40);
     
-    self.playedWordsMenu = [CCMenu menuWithItems:wordListLabel, resume, nil];
-    [self.playedWordsMenu alignItemsVertically];
+    
+    //CCMenuItemLabel *wordListLabel = [CCMenuItemLabel itemWithLabel:wordLabel];
+    //wordListLabel.color = ccBLACK;
+    //wordListLabel.position = ccp(size.width/2, size.height - 80);
+    
+    
+    CCMenuItem *resume = [CCMenuItemImage itemWithNormalImage:@"resume_inactive.png" selectedImage:@"resume_active.png" target:self selector:@selector(resumeGameFromPlayedWords)];
+        
+    self.playedWordsMenu = [CCMenu menuWithItems:resume, nil];
+    self.playedWordsMenu.position = ccp(size.width/2, 40);
+
+    //[self.playedWordsMenu alignItemsVertically];
     [self.playedWordsLayer addChild:self.playedWordsMenu z:10];
+    
+    [self addChild: self.playedWordsLayer z:8];
 }
 
 - (NSNumber *)decrement:(NSNumber *)number
@@ -471,7 +504,7 @@
         [self.timer setString:[NSString stringWithFormat:@"%ld:%ld", (long)[self.time integerValue]/60, sec]];
     
     NSLog(@"%ld", (long)[self.time integerValue]);
-    if ([self.time integerValue] == 110) {
+    if ([self.time integerValue] == 0) {
         [self.timer setString:[NSString stringWithFormat:@"Done!"]];
         [self.timer setFontSize:18];
         [self unschedule:@selector(tick:)]; //to stop the tick call
