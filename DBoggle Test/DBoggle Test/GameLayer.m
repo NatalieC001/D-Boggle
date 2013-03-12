@@ -535,7 +535,7 @@
     else if (wordLength >= 8)
         self.score += 11;
     
-    [self.scoreLabel setString:[NSString stringWithFormat:@"%lu", (unsigned long)self.score]];
+    [self.scoreLabel setString:[NSString stringWithFormat:@"Score: %lu", (unsigned long)self.score]];
     
 }
 
