@@ -44,6 +44,24 @@
 	ResultLayer *layer = [ResultLayer node];
 	layer.score = score;
     
+    
+    CGSize size = [[CCDirector sharedDirector] winSize];
+    NSLog(@"Height yo! %f", size.height);
+    if (size.height == 480)
+    {
+        CCSprite *background = [CCSprite spriteWithFile:@"mainmenu.png"];
+        background.anchorPoint = ccp (0,0);
+        [layer addChild:background z:-1];
+    }
+    else
+    {
+        CCSprite *background = [CCSprite spriteWithFile:@"mainmenu-568h.png"];
+        background.anchorPoint = ccp (0,0);
+        [layer addChild:background z:-1];
+    }
+    
+    
+    
 	// add layer as a child to scene
 	[scene addChild: layer];
 	
@@ -79,13 +97,25 @@
 //		CCMenuItemFont *instructions = [CCMenuItemFont itemWithString:@"Instructions" target:self selector:@selector(instructions)];
 		CCMenuItemFont *share = [CCMenuItemFont itemWithString:@"Tweet about it!" target:self selector:@selector(share)];
         
+        
         CCMenuItemImage *newGame = [CCMenuItemImage itemWithNormalImage:@"newgame.png" selectedImage:@"newgame.png" target:self selector:@selector(newGame)];
         CCMenuItemImage *instructions = [CCMenuItemImage itemWithNormalImage:@"instructions.png" selectedImage:@"instructions.png" target:self selector:@selector(newGame)];
         
         CCMenu *menu = [CCMenu menuWithItems:newGame, instructions, share, nil];
         [menu alignItemsVerticallyWithPadding:5];
-        
+        menu.position = ccp(size.width / 2, size.height * 0.3);
         [self addChild:menu];
+        
+        
+        CCSprite *scorePalette = [CCSprite spriteWithFile:@"scorepalette.png"];
+        scorePalette.position = ccp(size.width / 2, size.height - 256.5);
+        [self addChild:scorePalette];
+        
+        CCLabelTTF *scoreLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%lu", (unsigned long)self.score] fontName:@"open-dyslexic" fontSize:48];
+        scoreLabel.color = ccc3(0,0,0);
+        scoreLabel.position = ccp(size.width / 2, size.height - 270);
+        
+        [self addChild:scoreLabel];
         
 	}
 	return self;
@@ -153,6 +183,4 @@
         }
     }
 }
-
-
 @end

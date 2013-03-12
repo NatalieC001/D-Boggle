@@ -230,13 +230,13 @@
     NSLog(@"Height yo! %f", size.height);
     if (size.height == 480)
     {
-        CCSprite *background = [CCSprite spriteWithFile:@"background.png"];
+        CCSprite *background = [CCSprite spriteWithFile:@"mainmenu.png"];
         background.anchorPoint = ccp (0,0);
         [layer addChild:background z:-1];
     }
     else
     {
-        CCSprite *background = [CCSprite spriteWithFile:@"background-568h.png"];
+        CCSprite *background = [CCSprite spriteWithFile:@"mainmenu-568h.png"];
         background.anchorPoint = ccp (0,0);
         [layer addChild:background z:-1];
     }
@@ -273,8 +273,8 @@
         
         self.angle = 0;
         self.isPaused = NO;
-        CCMenuItemImage *rotate = [CCMenuItemImage itemWithNormalImage:@"Rotate.png" selectedImage:@"Rotate.png" target:self selector:@selector(rotateClicked)];    //Rotate button
-        CCMenuItemImage *pause = [CCMenuItemImage itemWithNormalImage:@"Pause.png" selectedImage:@"Pause.png" target:self selector:@selector(pauseGame)];        //Pause button
+        CCMenuItemImage *rotate = [CCMenuItemImage itemWithNormalImage:@"rotate.png" selectedImage:@"rotate_inactive.png" target:self selector:@selector(rotateClicked)];    //Rotate button
+        CCMenuItemImage *pause = [CCMenuItemImage itemWithNormalImage:@"pause.png" selectedImage:@"pause_inactive.png" target:self selector:@selector(pauseGame)];        //Pause button
         
         CGSize size = [[CCDirector sharedDirector] winSize];
         
@@ -438,7 +438,7 @@
         [self.timer setString:[NSString stringWithFormat:@"%ld:%ld", (long)[self.time integerValue]/60, sec]];
     
     NSLog(@"%ld", (long)[self.time integerValue]);
-    if ([self.time integerValue] == 0) {
+    if ([self.time integerValue] == 110) {
         [self.timer setString:[NSString stringWithFormat:@"Done!"]];
         [self.timer setFontSize:25];
         [self unschedule:@selector(tick:)]; //to stop the tick call
@@ -779,13 +779,26 @@
     }
 }
 
-- (void) clearAllPressedTiles
+- (void) clearAllTiles
 {
     [self.pressedTiles removeAllObjects];
     for (int i = 0; i < 16; i++)
     {
         [[self.letters objectAtIndex:i] activate];
     }
+}
+
+- (void) clearAllPressedTiles
+{
+    Tile *lastTile;
+    do
+    {
+        //id action = [CCWaves actionWithWaves:10 amplitude:10 horizontal:YES vertical:YES grid:ccg(10, 10) duration:0.5];
+        lastTile = [self.pressedTiles lastObject];
+        [lastTile activate];
+        //[lastTile runAction:action];
+        [self.pressedTiles removeLastObject];
+    } while ( lastTile != nil);
 }
 
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
