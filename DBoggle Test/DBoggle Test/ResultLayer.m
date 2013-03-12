@@ -104,7 +104,7 @@
         
         CCMenu *menu = [CCMenu menuWithItems:newGame, highScores, mainMenu, nil];
         [menu alignItemsVerticallyWithPadding:5];
-        menu.position = ccp(size.width / 2, size.height * 0.3);
+        menu.position = ccp(size.width / 2, size.height - 400);
         [self addChild:menu];
         
         
