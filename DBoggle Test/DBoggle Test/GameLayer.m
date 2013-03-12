@@ -28,6 +28,8 @@
 @property (nonatomic, strong) NSNumber *time; //to do - change this to a non-strong NSInteger
 @property (nonatomic, strong) CCLayer *pauseLayer;  //the translucent layer that appears on going to the pause menu
 @property (nonatomic, strong) CCMenu *pauseMenu;
+@property (nonatomic, strong) CCLayer *playedWordsLayer;
+@property (nonatomic, strong) CCMenu *playedWordsMenu;
 @property (nonatomic, strong) NSMutableArray *pressedTiles; //Array to hold all the currently selected letters
 @property (nonatomic, strong) NSMutableArray *playedWordsList;  //Array to hold all words played
 @property (nonatomic, strong) NSMutableArray *possibleWordList;
@@ -47,8 +49,9 @@
 @synthesize angle = _angle;
 @synthesize pressedTiles = _pressedTiles;
 @synthesize dict = _dict;
-@synthesize playedWordsList = _playedWords;
+@synthesize playedWordsList = _playedWordsList;
 @synthesize possibleWordList = _possibleWordList;
+@synthesize playedWordsLayer = _playedWordsLayer;
 
 - (NSMutableArray *) pressedTiles {
     if (!_pressedTiles) _pressedTiles = [[NSMutableArray alloc] init];
@@ -56,8 +59,8 @@
 }
 
 - (NSMutableArray *) playedWordsList {
-    if (!_playedWords) _playedWords = [[NSMutableArray alloc] init];
-    return _playedWords;
+    if (!_playedWordsList) _playedWordsList = [[NSMutableArray alloc] init];
+    return _playedWordsList;
 }
 
 - (NSMutableArray *) possibleWordList {
@@ -189,7 +192,7 @@
 
 //    NSLog(@"BOOYTEAH!%@", [self.possibleWordList objectAtIndex:1]);
     
-    for(NSUInteger i = 0; i < 16; i++){
+    for(NSUInteger i = 0; i < 16; i++) {
         const unichar charAtIndex = [boardLetters characterAtIndex:i];
         NSString *currChar = [NSString stringWithFormat:@"%C", charAtIndex];
         NSLog(@" Current character is: %@", currChar);
@@ -392,6 +395,13 @@
     
 }
 
+- (void) resumeGameFromPlayedWords
+{
+    [self removeChild:self.playedWordsMenu cleanup:YES];
+    [self removeChild:self.playedWordsLayer cleanup:YES];
+    self.isPaused = NO;
+}
+
 - (void) returnToMainMenu
 {
     [[CCDirector sharedDirector] replaceScene:[CCTransitionPageTurn transitionWithDuration:0.5 scene:[MainMenuLayer scene]]];
@@ -407,18 +417,37 @@
     //try the other thing also. Here http://tonyngo.net/2011/11/scrolling-ccnode-in-cocos2d/
     
     //this is from http://www.pkclsoft.com/wp/?cat=12
-    ScrollingMenuScene *ns =
-    [ScrollingMenuScene nodeWithForeground:@"Pause.png"
-                             andBackground:@"Default.png"
-                                   andRect:CGRectMake(50.0, 40.0, 200.0, 260.0)
-                                  andItems:[NSArray arrayWithObjects:
-                                            @"First", @"Second", @"Third", @"Fourth",
-                                            @"Fifth", @"Sixth", @"Seventh", @"Eighth",
-                                            @"Ninth", @"Tenth", @"Eleventh", @"Twelfth",
-                                            @"Thirteenth", @"Fourteenth", @"Fifteenth", @"Sixteenth",
-                                            @"Seventeenth", @"Eighteenth", @"Nineteenth", @"Twentieth",
-                                            nil]];
-    [[CCDirector sharedDirector] replaceScene:ns];
+//    ScrollingMenuScene *ns =
+//    [ScrollingMenuScene nodeWithForeground:@"Pause.png"
+//                             andBackground:@"Default.png"
+//                                   andRect:CGRectMake(50.0, 40.0, 200.0, 260.0)
+//                                  andItems:[NSArray arrayWithArray:self.playedWordsList]];
+//    [[CCDirector sharedDirector] replaceScene:ns];
+    CGSize size = [[CCDirector sharedDirector] winSize];
+    
+    //[[CCDirector sharedDirector] pause];
+    [self removeChild:self.pauseMenu cleanup:YES];
+    [self removeChild:self.pauseLayer cleanup:YES];
+    
+    self.playedWordsLayer = [CCLayerColor layerWithColor: ccc4(0, 50, 0, 125) width: 300 height: 480];
+    self.playedWordsLayer.position = ccp(10, 50);
+    [self addChild: self.playedWordsLayer z:8];
+    
+    NSString *wordList = [self.playedWordsList componentsJoinedByString:@", "];
+    NSLog(@"%@", wordList);
+    
+    CCLabelTTF *wordLabel = [CCLabelTTF labelWithString:wordList dimensions:CGSizeMake(size.width*0.85, size.height*0.6) hAlignment:kCCTextAlignmentCenter lineBreakMode:kCCLineBreakModeWordWrap fontName:@"open-dyslexic" fontSize:20];
+    
+    CCMenuItemLabel *wordListLabel = [CCMenuItemLabel itemWithLabel:wordLabel];
+    wordListLabel.position = ccp(size.width/2, size.height - 80);
+//    [self.playedWordsLayer addChild:wordLabel z:10];
+    
+    CCMenuItem *resume = [CCMenuItemImage itemWithNormalImage:@"resume.png" selectedImage:@"resume.png" target:self selector:@selector(resumeGameFromPlayedWords)];
+    resume.position = ccp(160, 40);
+    
+    self.playedWordsMenu = [CCMenu menuWithItems:wordListLabel, resume, nil];
+    [self.playedWordsMenu alignItemsVertically];
+    [self.playedWordsLayer addChild:self.playedWordsMenu z:10];
 }
 
 - (NSNumber *)decrement:(NSNumber *)number
@@ -754,6 +783,7 @@
 
 - (void) updatePlayedWordList:(NSString *)currentWord{
     [self.playedWordsList addObject:currentWord];
+    NSLog(@"added word");
 }
 
 - (void)updateCurrentWord
