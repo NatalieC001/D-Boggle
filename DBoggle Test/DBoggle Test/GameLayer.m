@@ -276,21 +276,26 @@
         
         self.angle = 0;
         self.isPaused = NO;
-        CCMenuItemImage *rotate = [CCMenuItemImage itemWithNormalImage:@"rotate.png" selectedImage:@"rotate_inactive.png" target:self selector:@selector(rotateClicked)];    //Rotate button
+        CCMenuItemImage *rotate = [CCMenuItemImage itemWithNormalImage:@"rotation.png" selectedImage:@"rotation_inactive.png" target:self selector:@selector(rotateClicked)];    //Rotate button
         CCMenuItemImage *pause = [CCMenuItemImage itemWithNormalImage:@"pause.png" selectedImage:@"pause_inactive.png" target:self selector:@selector(pauseGame)];        //Pause button
         
         CGSize size = [[CCDirector sharedDirector] winSize];
         
-        CCMenu *menu = [CCMenu menuWithItems:pause, rotate, nil];   //The top banner
+        CCMenu *menu = [CCMenu menuWithItems:rotate, pause, nil];   //The top banner
         self.score = 0;
         [menu alignItemsHorizontallyWithPadding:0];
-        menu.position = ccp(64, size.height - 30);
+        menu.position = ccp(267, size.height - 30);
         [self addChild:menu];
         
         
         CCSprite *timerBorder = [CCSprite spriteWithFile:@"timer.png"];
-        timerBorder.position = ccp(267, size.height - 30);
+        timerBorder.position = ccp(size.width / 2, size.height - 30);
         [self addChild:timerBorder];
+        
+        CCSprite *logo = [CCSprite spriteWithFile:@"logosmall.png"];
+        logo.position = ccp(60, size.height - 30);
+        [self addChild:logo];
+        
         
         
         self.userCanRotate = YES;                   //to be changed based on time remaining
@@ -315,16 +320,15 @@
         //[self schedule: @selector(tick:)];
         [self schedule: @selector(tick:) interval:1];
         
-        self.timer = [CCLabelTTF labelWithString:@"Go!" fontName:@"open-dyslexic" fontSize:30];
+        self.timer = [CCLabelTTF labelWithString:@"Go!" fontName:@"open-dyslexic" fontSize:20];
         
-        self.timer.position = ccp(267, size.height - 30);
-        self.timer.color = ccYELLOW;
+        self.timer.position = ccp(size.width / 2, size.height - 30);
+        self.timer.color = ccc3(0,0,0);
         [self addChild:self.timer];
         
         self.scoreLabel = [CCLabelTTF labelWithString:@"Score: " fontName:@"open-dyslexic" fontSize:30];
         
         self.scoreLabel.position = ccp(60, 360);
-        self.timer.color = ccWHITE;
         [self addChild:self.scoreLabel];
         
         /////////////////////////////////////////////////////////////////////////////////
@@ -363,9 +367,9 @@
 //		CCMenuItemFont *newGame = [CCMenuItemFont itemWithString:@"New Game" target:self selector:@selector(newGame)];
         CCMenuItemFont *playedWords = [CCMenuItemFont itemWithString:@"Played Words" target:self selector:@selector(playedWords)];
         
-        CCMenuItemImage *resume = [CCMenuItemImage itemWithNormalImage:@"resume.png" selectedImage:@"resume.png" target:self selector:@selector(resumeGame)];
-        CCMenuItemImage *mainMenu = [CCMenuItemImage itemWithNormalImage:@"mainm.png" selectedImage:@"mainm.png" target:self selector:@selector(returnToMainMenu)];
-        CCMenuItemImage *newGame = [CCMenuItemImage itemWithNormalImage:@"newgame.png" selectedImage:@"newgame.png" target:self selector:@selector(newGame)];
+        CCMenuItemImage *resume = [CCMenuItemImage itemWithNormalImage:@"resume_inactive.png" selectedImage:@"resume_active.png" target:self selector:@selector(resumeGame)];
+        CCMenuItemImage *mainMenu = [CCMenuItemImage itemWithNormalImage:@"mainmenu_inactive.png" selectedImage:@"mainmenu_active.png" target:self selector:@selector(returnToMainMenu)];
+        CCMenuItemImage *newGame = [CCMenuItemImage itemWithNormalImage:@"newgame_inactive.png" selectedImage:@"newgame_active.png" target:self selector:@selector(newGame)];
 //        CCMenuItemImage *playedWords = [CCMenuItemImage itemWithNormalImage:@"resume.png" selectedImage:@"resume.png" target:self selector:@selector(playedWords)];
         
         self.pauseMenu = [CCMenu menuWithItems:resume, mainMenu, newGame, playedWords, nil];
@@ -467,9 +471,9 @@
         [self.timer setString:[NSString stringWithFormat:@"%ld:%ld", (long)[self.time integerValue]/60, sec]];
     
     NSLog(@"%ld", (long)[self.time integerValue]);
-    if ([self.time integerValue] == 0) {
+    if ([self.time integerValue] == 110) {
         [self.timer setString:[NSString stringWithFormat:@"Done!"]];
-        [self.timer setFontSize:25];
+        [self.timer setFontSize:18];
         [self unschedule:@selector(tick:)]; //to stop the tick call
         [[CCDirector sharedDirector] replaceScene:[CCTransitionFadeTR transitionWithDuration:0.5 scene:[ResultLayer sceneWith:self.score]]];
     }

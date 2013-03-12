@@ -84,7 +84,7 @@
 		CGSize size = [[CCDirector sharedDirector] winSize];
 	
 		// position the label on the center of the screen
-		logo.position =  ccp( size.width /2 , size.height*0.80 );
+		logo.position = ccp(size.width / 2, size.height - 100);
 		
 		// add the label as a child to this Layer
 		[self addChild: logo];
@@ -94,9 +94,9 @@
 		//CCMenuItemFont *instructions = [CCMenuItemFont itemWithString:@"Instructions" target:self selector:@selector(instructions)];
 		//CCMenuItemFont *highscores = [CCMenuItemFont itemWithString:@"New Game" target:self selector:@selector(otherOption)];
         
-        CCMenuItemImage *newGameItem = [CCMenuItemImage itemWithNormalImage:@"newgame.png" selectedImage:@"newgame.png" target:self selector:@selector(newGame)];
-        CCMenuItemImage *instructions = [CCMenuItemImage itemWithNormalImage:@"instructions.png" selectedImage:@"instructions.png" target:self selector:@selector(instructions)];
-        CCMenuItemImage *highscores = [CCMenuItemImage itemWithNormalImage:@"highscores.png" selectedImage:@"highscores.png" target:self selector:@selector(otherOption)];
+        CCMenuItemImage *newGameItem = [CCMenuItemImage itemWithNormalImage:@"newgame_inactive.png" selectedImage:@"newgame_active.png" target:self selector:@selector(newGame)];
+        CCMenuItemImage *instructions = [CCMenuItemImage itemWithNormalImage:@"instructions_inactive.png" selectedImage:@"instructions_active.png" target:self selector:@selector(instructions)];
+        CCMenuItemImage *highscores = [CCMenuItemImage itemWithNormalImage:@"highscores_inactive.png" selectedImage:@"highscores_active.png" target:self selector:@selector(otherOption)];
         
         
         CCMenu *menu = [CCMenu menuWithItems:newGameItem, instructions, highscores, nil];

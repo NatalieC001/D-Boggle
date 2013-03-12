@@ -81,27 +81,28 @@
         viewController = [[UIViewController alloc] init];
         
         
-		// create and initialize a Label
-		CCLabelTTF *label = [CCLabelTTF labelWithString:@"Game Over!" fontName:@"Verdana" fontSize:48];
+		//create and initialize a Label
+		//CCLabelTTF *label = [CCLabelTTF labelWithString:@"Game Over!" fontName:@"Verdana" fontSize:48];
         
 		// ask director for the window size
 		CGSize size = [[CCDirector sharedDirector] winSize];
         
 		// position the label on the center of the screen
-		label.position =  ccp( size.width / 2 , size.height * 0.75 );
+		//label.position =  ccp( size.width / 2 , size.height * 0.75 );
 		
 		// add the label as a child to this Layer
-		[self addChild: label];
+		//[self addChild: label];
 		
 //		CCMenuItemFont *newGameItem = [CCMenuItemFont itemWithString:@"New Game" target:self selector:@selector(newGame)];
 //		CCMenuItemFont *instructions = [CCMenuItemFont itemWithString:@"Instructions" target:self selector:@selector(instructions)];
-		CCMenuItemFont *share = [CCMenuItemFont itemWithString:@"Tweet about it!" target:self selector:@selector(share)];
+//		CCMenuItemFont *share = [CCMenuItemFont itemWithString:@"Tweet about it!" target:self selector:@selector(share)];
         
         
-        CCMenuItemImage *newGame = [CCMenuItemImage itemWithNormalImage:@"newgame.png" selectedImage:@"newgame.png" target:self selector:@selector(newGame)];
-        CCMenuItemImage *instructions = [CCMenuItemImage itemWithNormalImage:@"instructions.png" selectedImage:@"instructions.png" target:self selector:@selector(newGame)];
+        CCMenuItemImage *newGame = [CCMenuItemImage itemWithNormalImage:@"newgame_inactive.png" selectedImage:@"newgame_active.png" target:self selector:@selector(newGame)];
+        CCMenuItemImage *highScores = [CCMenuItemImage itemWithNormalImage:@"highscores_inactive.png" selectedImage:@"highscores_active.png" target:self selector:@selector(highScores)];
+        CCMenuItemImage *mainMenu = [CCMenuItemImage itemWithNormalImage:@"mainmenu_inactive.png" selectedImage:@"mainmenu_active.png" target:self selector:@selector(returnToMainMenu)];
         
-        CCMenu *menu = [CCMenu menuWithItems:newGame, instructions, share, nil];
+        CCMenu *menu = [CCMenu menuWithItems:newGame, highScores, mainMenu, nil];
         [menu alignItemsVerticallyWithPadding:5];
         menu.position = ccp(size.width / 2, size.height * 0.3);
         [self addChild:menu];
@@ -114,8 +115,18 @@
         CCLabelTTF *scoreLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%lu", (unsigned long)self.score] fontName:@"open-dyslexic" fontSize:48];
         scoreLabel.color = ccc3(0,0,0);
         scoreLabel.position = ccp(size.width / 2, size.height - 270);
-        
         [self addChild:scoreLabel];
+        
+        
+        CCSprite *gameOverImage = [CCSprite spriteWithFile:@"gameover.png"];
+        gameOverImage.position = ccp(size.width / 2, size.height - 100);
+        [self addChild:gameOverImage];
+        
+
+        CCMenuItemImage *twitter = [CCMenuItemImage itemWithNormalImage:@"twitter.png" selectedImage:@"twitter.png" target:self selector:@selector(share)];
+        CCMenu *shareMenu = [CCMenu menuWithItems:twitter, nil];
+        shareMenu.position = ccp(290, 30);
+        [self addChild:shareMenu];
         
 	}
 	return self;
@@ -123,13 +134,17 @@
 
 - (void) returnToMainMenu
 {
-    //[[CCDirector sharedDirector] replaceScene:[CCTransitionSlideInT transitionWithDuration:0.5 scene:[HelloWorldLayer scene]]];
-    [[ABGameKitHelper sharedClass] showLeaderboard:@"leaderboardID"];
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionSlideInT transitionWithDuration:0.5 scene:[MainMenuLayer scene]]];
 }
 
 - (void) newGame
 {
     [[CCDirector sharedDirector] replaceScene:[CCTransitionFlipX transitionWithDuration:0.5 scene:[GameLayer scene]]];
+}
+
+- (void) highScores
+{
+    [[ABGameKitHelper sharedClass] showLeaderboard:@"leaderboardID"];
 }
 
 - (void) share
