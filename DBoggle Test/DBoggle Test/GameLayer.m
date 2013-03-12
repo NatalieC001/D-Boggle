@@ -508,7 +508,7 @@
         [self.timer setString:[NSString stringWithFormat:@"Done!"]];
         [self.timer setFontSize:18];
         [self unschedule:@selector(tick:)]; //to stop the tick call
-        [[CCDirector sharedDirector] replaceScene:[CCTransitionFadeTR transitionWithDuration:0.5 scene:[ResultLayer sceneWith:self.score]]];
+        [[CCDirector sharedDirector] replaceScene:[CCTransitionFadeTR transitionWithDuration:0.5 scene:[ResultLayer sceneWith:self.score andWordList:self.playedWordsList andPossibleList:self.possibleWordList]]];
     }
 }
 

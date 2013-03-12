@@ -13,11 +13,31 @@
 #import "ABGameKitHelper.h"
 #import <Social/Social.h>
 
+@interface ResultLayer ()
+
+@property (nonatomic, strong) CCLayer *playedWordsLayer;
+@property (nonatomic, strong) CCMenu *playedWordsMenu;
+@property (nonatomic, strong) CCLayer *possibleWordsLayer;
+@property (nonatomic, strong) CCMenu *possibleWordsMenu;
+
+@end
+
 @implementation ResultLayer
 
 @synthesize viewController = _viewController;
 @synthesize score = _score;
+@synthesize wordList = _wordList;
+@synthesize possibleList = _possibleList;
 
+- (id) wordList{
+    if(!_wordList) _wordList = [[NSString alloc] init];
+    return _wordList;
+}
+
+- (id) possibleList{
+    if(!_possibleList) _possibleList = [[NSString alloc] init];
+    return _possibleList;
+}
 
 // Helper class method that creates a Scene with the HelloWorldLayer as the only child.
 +(CCScene *) scene
@@ -35,7 +55,7 @@
 	return scene;
 }
 
-+ (CCScene *) sceneWith:(NSUInteger)score
++ (CCScene *) sceneWith:(NSUInteger)score andWordList:(NSArray *)wordList andPossibleList:(NSArray *)possibleList
 {
     // 'scene' is an autorelease object.
 	CCScene *scene = [CCScene node];
@@ -43,7 +63,12 @@
 	// 'layer' is an autorelease object.
 	ResultLayer *layer = [ResultLayer node];
 	layer.score = score;
+    if([wordList count] > 0)
+    {
+        layer.wordList = [wordList componentsJoinedByString:@", "];
+    }
     
+    layer.possibleList = [possibleList componentsJoinedByString:@", "];
     
     CGSize size = [[CCDirector sharedDirector] winSize];
     NSLog(@"Height yo! %f", size.height);
@@ -59,8 +84,6 @@
         background.anchorPoint = ccp (0,0);
         [layer addChild:background z:-1];
     }
-    
-    
     
 	// add layer as a child to scene
 	[scene addChild: layer];
@@ -101,8 +124,11 @@
         CCMenuItemImage *newGame = [CCMenuItemImage itemWithNormalImage:@"newgame_inactive.png" selectedImage:@"newgame_active.png" target:self selector:@selector(newGame)];
         CCMenuItemImage *highScores = [CCMenuItemImage itemWithNormalImage:@"highscores_inactive.png" selectedImage:@"highscores_active.png" target:self selector:@selector(highScores)];
         CCMenuItemImage *mainMenu = [CCMenuItemImage itemWithNormalImage:@"mainmenu_inactive.png" selectedImage:@"mainmenu_active.png" target:self selector:@selector(returnToMainMenu)];
+        CCMenuItemImage *playedWords = [CCMenuItemImage itemWithNormalImage:@"playedwords_inactive.png" selectedImage:@"playedwords_active.png" target:self selector:@selector(showPlayedWords)];
+        CCMenuItemImage *possibleWords = [CCMenuItemImage itemWithNormalImage:@"plaintab.png" selectedImage:@"plaintab.png" target:self selector:@selector(showPossibleWords)];
         
-        CCMenu *menu = [CCMenu menuWithItems:newGame, highScores, mainMenu, nil];
+        CCMenu *menu = [CCMenu menuWithItems:newGame, highScores, mainMenu, playedWords, possibleWords, nil];
+
         [menu alignItemsVerticallyWithPadding:5];
         menu.position = ccp(size.width / 2, size.height - 400);
         [self addChild:menu];
@@ -145,6 +171,37 @@
 - (void) highScores
 {
     [[ABGameKitHelper sharedClass] showLeaderboard:@"leaderboardID"];
+}
+
+- (void) showPlayedWords
+{
+    CGSize size = [[CCDirector sharedDirector] winSize];
+    
+    self.playedWordsLayer = [CCLayerColor layerWithColor: ccc4(0, 50, 0, 125) width: 300 height: 480];
+    self.playedWordsLayer.position = ccp(10, 50);
+    [self addChild: self.playedWordsLayer z:1];
+    
+    CCLabelTTF *wordLabel = [CCLabelTTF labelWithString:self.wordList dimensions:CGSizeMake(size.width*0.85, size.height*0.6) hAlignment:kCCTextAlignmentCenter lineBreakMode:kCCLineBreakModeWordWrap fontName:@"open-dyslexic" fontSize:20];
+    
+    CCMenuItemLabel *wordListLabel = [CCMenuItemLabel itemWithLabel:wordLabel];
+    wordListLabel.position = ccp(size.width/2, size.height - 80);
+    
+    CCMenuItem *backToMenu = [CCMenuItemImage itemWithNormalImage:@"plaintab.png" selectedImage:@"plaintab.png" target:self selector:@selector(backToMenu)];
+    backToMenu.position = ccp(160, 40);
+    
+    self.playedWordsMenu = [CCMenu menuWithItems:wordListLabel, backToMenu, nil];
+    [self.playedWordsMenu alignItemsVertically];
+    [self.playedWordsLayer addChild:self.playedWordsMenu z:3];
+}
+
+- (void) backToMenu
+{
+    [self removeChild:self.playedWordsLayer cleanup:YES];
+}
+
+- (void) showPossibleWords
+{
+    
 }
 
 - (void) share

@@ -16,7 +16,9 @@
 
 @property (nonatomic, retain) UIViewController *viewController;
 @property (nonatomic) NSUInteger score;
+@property (nonatomic, strong) NSString *wordList;
+@property (nonatomic, strong) NSString *possibleList;
 +(CCScene *) scene;
-+(CCScene *) sceneWith:(NSUInteger)score;
++(CCScene *) sceneWith:(NSUInteger)score andWordList:(NSArray *)wordList andPossibleList:(NSArray *)possibleList;
 
 @end
