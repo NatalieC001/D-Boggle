@@ -355,10 +355,16 @@
         self.pauseLayer.position = ccp(10, 50);
         [self addChild: self.pauseLayer z:8];
         [CCMenuItemFont setFontName:@"open-dyslexic"];
-        CCMenuItemFont *resume = [CCMenuItemFont itemWithString:@"Resume" target:self selector:@selector(resumeGame)];
-		CCMenuItemFont *mainMenu = [CCMenuItemFont itemWithString:@"Main Menu" target:self selector:@selector(returnToMainMenu)];
-		CCMenuItemFont *newGame = [CCMenuItemFont itemWithString:@"New Game" target:self selector:@selector(newGame)];
+//        CCMenuItemFont *resume = [CCMenuItemFont itemWithString:@"Resume" target:self selector:@selector(resumeGame)];
+//		CCMenuItemFont *mainMenu = [CCMenuItemFont itemWithString:@"Main Menu" target:self selector:@selector(returnToMainMenu)];
+//		CCMenuItemFont *newGame = [CCMenuItemFont itemWithString:@"New Game" target:self selector:@selector(newGame)];
         CCMenuItemFont *playedWords = [CCMenuItemFont itemWithString:@"Played Words" target:self selector:@selector(playedWords)];
+        
+        CCMenuItemImage *resume = [CCMenuItemImage itemWithNormalImage:@"resume.png" selectedImage:@"resume.png" target:self selector:@selector(resumeGame)];
+        CCMenuItemImage *mainMenu = [CCMenuItemImage itemWithNormalImage:@"mainm.png" selectedImage:@"mainm.png" target:self selector:@selector(returnToMainMenu)];
+        CCMenuItemImage *newGame = [CCMenuItemImage itemWithNormalImage:@"newgame.png" selectedImage:@"newgame.png" target:self selector:@selector(newGame)];
+//        CCMenuItemImage *playedWords = [CCMenuItemImage itemWithNormalImage:@"resume.png" selectedImage:@"resume.png" target:self selector:@selector(playedWords)];
+        
         self.pauseMenu = [CCMenu menuWithItems:resume, mainMenu, newGame, playedWords, nil];
         [self.pauseMenu alignItemsVertically];
         [self addChild:self.pauseMenu z:10];

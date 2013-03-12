@@ -75,11 +75,14 @@
 		// add the label as a child to this Layer
 		[self addChild: label];
 		
-		CCMenuItemFont *newGameItem = [CCMenuItemFont itemWithString:@"New Game" target:self selector:@selector(newGame)];
-		CCMenuItemFont *instructions = [CCMenuItemFont itemWithString:@"Instructions" target:self selector:@selector(instructions)];
-		CCMenuItemFont *anotherOption = [CCMenuItemFont itemWithString:@"Tweet about it!" target:self selector:@selector(share)];
+//		CCMenuItemFont *newGameItem = [CCMenuItemFont itemWithString:@"New Game" target:self selector:@selector(newGame)];
+//		CCMenuItemFont *instructions = [CCMenuItemFont itemWithString:@"Instructions" target:self selector:@selector(instructions)];
+		CCMenuItemFont *share = [CCMenuItemFont itemWithString:@"Tweet about it!" target:self selector:@selector(share)];
         
-        CCMenu *menu = [CCMenu menuWithItems:newGameItem, instructions, anotherOption, nil];
+        CCMenuItemImage *newGame = [CCMenuItemImage itemWithNormalImage:@"newgame.png" selectedImage:@"newgame.png" target:self selector:@selector(newGame)];
+        CCMenuItemImage *instructions = [CCMenuItemImage itemWithNormalImage:@"instructions.png" selectedImage:@"instructions.png" target:self selector:@selector(newGame)];
+        
+        CCMenu *menu = [CCMenu menuWithItems:newGame, instructions, share, nil];
         [menu alignItemsVerticallyWithPadding:5];
         
         [self addChild:menu];
