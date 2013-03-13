@@ -395,8 +395,9 @@
         CCMenuItemImage *mainMenu = [CCMenuItemImage itemWithNormalImage:@"mainmenu_inactive.png" selectedImage:@"mainmenu_active.png" target:self selector:@selector(returnToMainMenu)];
         CCMenuItemImage *newGame = [CCMenuItemImage itemWithNormalImage:@"newgame_inactive.png" selectedImage:@"newgame_active.png" target:self selector:@selector(newGame)];
         CCMenuItemImage *playedWords = [CCMenuItemImage itemWithNormalImage:@"playedwords_inactive.png" selectedImage:@"playedwords_active.png" target:self selector:@selector(playedWords)];
+        CCMenuItemImage *endCurrentGame = [CCMenuItemImage itemWithNormalImage:@"endgame.png" selectedImage:@"endgame_active.png" target:self selector:@selector(endCurrentGame)];
         
-        self.pauseMenu = [CCMenu menuWithItems:resume, mainMenu, newGame, playedWords, nil];
+        self.pauseMenu = [CCMenu menuWithItems:resume, mainMenu, newGame, playedWords, endCurrentGame, nil];
         [self.pauseMenu alignItemsVertically];
         [self addChild:self.pauseMenu z:10];
     }
@@ -500,6 +501,11 @@
     [self addChild: self.playedWordsLayer z:8];
 }
 
+- (void) endCurrentGame
+{
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionFadeTR transitionWithDuration:0.5 scene:[ResultLayer sceneWith:self.score andWordList:self.playedWordsList andPossibleList:self.possibleWordList]]];
+}
+
 - (NSNumber *)decrement:(NSNumber *)number
 {
     int val = [number integerValue];
@@ -517,7 +523,7 @@
         [self.timer setString:[NSString stringWithFormat:@"%ld:%ld", (long)[self.time integerValue]/60, sec]];
     
     NSLog(@"%ld", (long)[self.time integerValue]);
-    if ([self.time integerValue] == 100) {
+    if ([self.time integerValue] == 0) {
         [self.timer setString:[NSString stringWithFormat:@"Done!"]];
         [self.timer setFontSize:18];
         [self unschedule:@selector(tick:)]; //to stop the tick call
@@ -866,6 +872,15 @@
         [self clearAllPressedTiles];
         [self updateScoreLabel:currentWord.length];
         [self updatePlayedWordList:currentWord];
+        for(NSString *word in self.possibleWordList)
+        {
+            if ([currentWord isEqualToString:word])
+            {
+                int i = [self.possibleWordList indexOfObject:word];
+                [self.possibleWordList removeObjectAtIndex:i];
+                break;
+            }
+        }
     }
 }
 
