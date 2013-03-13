@@ -43,12 +43,12 @@
 
 	CCSprite *background;
 	
-	if( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ) {
-		background = [CCSprite spriteWithFile:@"background.png"];
-		//background.rotation = 90;
-	} else {
-		background = [CCSprite spriteWithFile:@"Default-Landscape~ipad.png"];
-	}
+    if (size.height == 568) {
+        background = [CCSprite spriteWithFile:@"introscreen-568h.png"];
+    }
+    else {
+        background = [CCSprite spriteWithFile:@"introscreen.png"];
+    }
 	background.position = ccp(size.width/2, size.height/2);
 
 	// add the label as a child to this Layer

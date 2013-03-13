@@ -36,6 +36,7 @@
 @property (nonatomic, strong) Dictionary *dict; //Dictionary object
 @property (nonatomic) NSUInteger score;
 @property (nonatomic, strong) CCLabelTTF *scoreLabel;
+@property (nonatomic, strong) CCLabelTTF *currentWordLabel;
 @end
 
 @implementation GameLayer
@@ -52,6 +53,7 @@
 @synthesize playedWordsList = _playedWordsList;
 @synthesize possibleWordList = _possibleWordList;
 @synthesize playedWordsLayer = _playedWordsLayer;
+@synthesize currentWordLabel = _currentWordLabel;
 
 - (NSMutableArray *) pressedTiles {
     if (!_pressedTiles) _pressedTiles = [[NSMutableArray alloc] init];
@@ -323,26 +325,51 @@
         
         self.timer = [CCLabelTTF labelWithString:@"Go!" fontName:@"open-dyslexic" fontSize:20];
         
-        self.timer.position = ccp(size.width / 2, size.height - 30);
+        self.timer.position = ccp(size.width / 2, size.height - 30); //size.height - 30
         self.timer.color = ccc3(0,0,0);
         [self addChild:self.timer];
         
         
         CCSprite *scoreBorder = [CCSprite spriteWithFile:@"plaintab.png"];
-        scoreBorder.position = ccp(size.width / 2, size.height - 150);
-        [self addChild: scoreBorder];
+        scoreBorder.position = ccp(size.width / 2, 390);
         
         
         
         
-        self.scoreLabel = [CCLabelTTF labelWithString:@"Score: " fontName:@"open-dyslexic" fontSize:25];
+        
+        self.scoreLabel = [CCLabelTTF labelWithString:@"Score:    0" fontName:@"open-dyslexic" fontSize:25];
         self.scoreLabel.color = ccBLACK;
-        self.scoreLabel.position = ccp(size.width / 2, size.height - 150);
-        [self addChild:self.scoreLabel];
+        self.scoreLabel.position = ccp(size.width / 2, 390);
+        
         
         CCSprite *currentWordBorder = [CCSprite spriteWithFile:@"plaintab_currentword.png"];
-        currentWordBorder.position = ccp(size.width / 2, size.height - 200);
+        currentWordBorder.position = ccp(size.width / 2, 340);
+        
+        
+        self.currentWordLabel = [CCLabelTTF labelWithString:@"" fontName:@"open-dyslexic" fontSize:25];
+        self.currentWordLabel.color = ccBLACK;
+        self.currentWordLabel.position = ccp(size.width / 2, 340);
+        
+        
+        if (size.height == 568)
+        {
+
+            scoreBorder.position = ccp(size.width / 2, 420);
+            self.scoreLabel.position = ccp(size.width / 2, 420);
+            currentWordBorder.position = ccp(size.width / 2, 360);
+            self.currentWordLabel.position = ccp(size.width / 2, 360);
+            
+            
+        }
+        
+        
+        //adding all together
+        
+        [self addChild: scoreBorder];
+        [self addChild: self.scoreLabel];
         [self addChild: currentWordBorder];
+        [self addChild: self.currentWordLabel];
+
         
         
         /////////////////////////////////////////////////////////////////////////////////
@@ -370,7 +397,7 @@
         
         
         self.isPaused = YES;
-        
+        [self disableRotate];
         
         CGSize size = [[CCDirector sharedDirector] winSize];
         CCSprite *background = [CCSprite spriteWithFile:@"pauselayer.png"];
@@ -381,7 +408,11 @@
         [self.pauseLayer addChild:background z:-1];
         
         CCSprite *pausedLogo = [CCSprite spriteWithFile:@"pauselogo.png"];
-        pausedLogo.position = ccp(size.width/2, size.height - 100);
+        pausedLogo.position = ccp(size.width/2, size.height - 60);
+        if (size.height == 568)
+        {
+            pausedLogo.position = ccp(size.width/2, size.height - 100);
+        }
         [self.pauseLayer addChild:pausedLogo z:0];
         
         [self addChild: self.pauseLayer z:8];
@@ -416,7 +447,7 @@
     // Make the pause menu slide up to the north od the board then disappear       //
     /////////////////////////////////////////////////////////////////////////////////
     
-    
+    [self enableRotate];
     [self removeChild:self.pauseMenu cleanup:YES];
     [self removeChild:self.pauseLayer cleanup:YES];
     //    [[CCDirector sharedDirector] resume];
@@ -426,6 +457,7 @@
 
 - (void) resumeGameFromPlayedWords
 {
+    [self enableRotate];
     [self removeChild:self.playedWordsMenu cleanup:YES];
     [self removeChild:self.playedWordsLayer cleanup:YES];
     self.isPaused = NO;
@@ -466,12 +498,15 @@
     self.playedWordsLayer.position = ccp(0, 0);
     [self.playedWordsLayer addChild:background z:-1];
     
-    CCSprite *pausedLogo = [CCSprite spriteWithFile:@"playedwordslogo.png"];
-    pausedLogo.position = ccp(size.width/2, size.height - 100);
-    [self.playedWordsLayer addChild:pausedLogo z:0];
+    CCSprite *playedWordsLogo = [CCSprite spriteWithFile:@"playedwordslogo.png"];
     
+    playedWordsLogo.position = ccp(size.width/2, size.height - 60);
+    if (size.height == 568)
+    {
+        playedWordsLogo.position = ccp(size.width/2, size.height - 100);
+    }
     
-
+    [self.playedWordsLayer addChild:playedWordsLogo z:0];
     
     
     NSString *wordList = [self.playedWordsList componentsJoinedByString:@", "];
@@ -523,6 +558,7 @@
         [self.timer setString:[NSString stringWithFormat:@"%ld:%ld", (long)[self.time integerValue]/60, sec]];
     
     NSLog(@"%ld", (long)[self.time integerValue]);
+
     if ([self.time integerValue] == 0) {
         [self.timer setString:[NSString stringWithFormat:@"Done!"]];
         [self.timer setFontSize:18];
@@ -862,6 +898,7 @@
         currentWord = [currentWord stringByAppendingString:tile.letter];
     }
     NSLog(@"%@", currentWord);
+    [self.currentWordLabel setString:currentWord];
     
     if ([self.dict validate:[currentWord uppercaseString]]
         && currentWord.length >= 3
@@ -869,6 +906,12 @@
     {
         //to-do: Implement the dictionary
         NSLog(@"Word valid");
+        
+        //id waves = [CCShaky3D actionWithDuration:1.0];
+        //id enableRotateCallback = [CCCallFunc actionWithTarget:self selector:@selector(clearCurrentWordLabel)];
+        //CCSequence *sequence = [CCSequence actions:waves, enableRotateCallback, nil];
+        //[self.currentWordLabel runAction:sequence];
+        [self clearCurrentWordLabel];
         [self clearAllPressedTiles];
         [self updateScoreLabel:currentWord.length];
         [self updatePlayedWordList:currentWord];
@@ -882,6 +925,21 @@
             }
         }
     }
+}
+
+- (void) clearCurrentWordLabel
+{
+    [self.currentWordLabel setString:@""];
+    CCParticleExplosion *explosion = [[CCParticleExplosion alloc] init];
+
+    explosion.autoRemoveOnFinish = YES;
+    explosion.startSize = 5.0f;
+    explosion.endSize = 2.0f;
+    explosion.duration = 0.01f;
+    explosion.speed = 200.0f;
+    explosion.position = self.currentWordLabel.position;
+    [self addChild:explosion];
+    
 }
 
 - (void) clearAllTiles
