@@ -19,6 +19,7 @@
 @property (nonatomic, strong) CCMenu *playedWordsMenu;
 @property (nonatomic, strong) CCLayer *possibleWordsLayer;
 @property (nonatomic, strong) CCMenu *possibleWordsMenu;
+@property (nonatomic, strong) CCLabelTTF *scoreLabel;
 
 @end
 
@@ -28,6 +29,7 @@
 @synthesize score = _score;
 @synthesize wordList = _wordList;
 @synthesize possibleList = _possibleList;
+@synthesize scoreLabel = _scoreLabel;
 
 - (id) wordList{
     if(!_wordList) _wordList = [[NSString alloc] init];
@@ -63,6 +65,10 @@
 	// 'layer' is an autorelease object.
 	ResultLayer *layer = [ResultLayer node];
 	layer.score = score;
+    [layer updateScore];
+    NSLog(@"Real deal: %d", layer.score);
+    
+    NSLog(@"%d", layer.score);
     if([wordList count] > 0)
     {
         layer.wordList = [wordList componentsJoinedByString:@", "];
@@ -138,10 +144,11 @@
         scorePalette.position = ccp(size.width / 2, size.height * 0.65);
         [self addChild:scorePalette];
         
-        CCLabelTTF *scoreLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%lu", (unsigned long)self.score] fontName:@"open-dyslexic" fontSize:48];
-        scoreLabel.color = ccc3(0,0,0);
-        scoreLabel.position = ccp(size.width / 2, size.height * 0.65 - 13.5);
-        [self addChild:scoreLabel];
+        self.scoreLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%lu", (unsigned long)self.score] fontName:@"open-dyslexic" fontSize:48];
+        self.scoreLabel.color = ccc3(0,0,0);
+        self.scoreLabel.position = ccp(size.width / 2, size.height * 0.65 - 13.5);
+        NSLog(@"GOAAAAAAALLLLLL %d", self.score);
+        [self addChild:self.scoreLabel];
         
         
         CCSprite *gameOverImage = [CCSprite spriteWithFile:@"gameover.png"];
@@ -161,6 +168,12 @@
 - (void) returnToMainMenu
 {
     [[CCDirector sharedDirector] replaceScene:[CCTransitionSlideInT transitionWithDuration:0.5 scene:[MainMenuLayer scene]]];
+}
+
+- (void) updateScore
+{
+    [self.scoreLabel setString:[NSString stringWithFormat:@"%d", self.score]];
+    NSLog(@"Updating Score to %d", self.score);
 }
 
 - (void) newGame
@@ -198,11 +211,13 @@
 //    wordListLabel.position = ccp(size.width/2, size.height - 80);
     
     CCMenuItem *backToMenu = [CCMenuItemImage itemWithNormalImage:@"plaintab.png" selectedImage:@"plaintab.png" target:self selector:@selector(backToMenuFromPlayed)];
-    backToMenu.position = ccp(160, 40);
     
     self.playedWordsMenu = [CCMenu menuWithItems: backToMenu, nil];
+    self.playedWordsMenu.position = ccp(size.width/2, 40);
     [self.playedWordsMenu alignItemsVertically];
     [self.playedWordsLayer addChild:self.playedWordsMenu z:4];
+    
+    [self addChild:self.playedWordsLayer z:3];
 }
 
 - (void) backToMenuFromPlayed
@@ -235,12 +250,12 @@
     //    wordListLabel.position = ccp(size.width/2, size.height - 80);
     
     CCMenuItem *backToMenu = [CCMenuItemImage itemWithNormalImage:@"plaintab.png" selectedImage:@"plaintab.png" target:self selector:@selector(backToMenuFromPossible)];
-    backToMenu.position = ccp(160, 40);
     
     self.possibleWordsMenu = [CCMenu menuWithItems: backToMenu, nil];
+    self.possibleWordsMenu.position = ccp(size.width/2, 40);
     [self.possibleWordsMenu alignItemsVertically];
-    [self.possibleWordsLayer addChild:self.possibleWordsLayer z:3];
-    
+    [self.possibleWordsLayer addChild:self.possibleWordsMenu z:3];
+    [self addChild:self.possibleWordsLayer z:3];
 }
 
 - (void) backToMenuFromPossible
@@ -251,6 +266,7 @@
 - (void) share
 {
     [self shareOnTwitterWithText:[NSString stringWithFormat: @"I just scored %lu points on @d_Boggle! What useful thing have you done all day?", (unsigned long)self.score] andURL:nil andImageName:nil];
+    NSLog(@"Twitter score: %d", self.score);
 }
 
 - (BOOL)isSocialFrameworkAvailable

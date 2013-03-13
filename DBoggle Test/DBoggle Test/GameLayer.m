@@ -258,7 +258,7 @@
 {
 	// always call "super" init
 	// Apple recommends to re-assign "self" with the "super's" return value
-	if( (self=[super init]) ) {
+	if( (self = [super init]) ) {
         
         isTouchEnabled_ = YES;
 		
@@ -517,7 +517,7 @@
         [self.timer setString:[NSString stringWithFormat:@"%ld:%ld", (long)[self.time integerValue]/60, sec]];
     
     NSLog(@"%ld", (long)[self.time integerValue]);
-    if ([self.time integerValue] == 118) {
+    if ([self.time integerValue] == 100) {
         [self.timer setString:[NSString stringWithFormat:@"Done!"]];
         [self.timer setFontSize:18];
         [self unschedule:@selector(tick:)]; //to stop the tick call
