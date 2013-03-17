@@ -295,6 +295,7 @@
 		15955EC916F615AB00E9467A /* hitslogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 15955EC516F615AB00E9467A /* hitslogo.png */; };
 		15955ECA16F615AB00E9467A /* missedlogo-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 15955EC616F615AB00E9467A /* missedlogo-hd.png */; };
 		15955ECB16F615AB00E9467A /* missedlogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 15955EC716F615AB00E9467A /* missedlogo.png */; };
+		15955ECE16F61B3300E9467A /* Boggle.m in Sources */ = {isa = PBXBuildFile; fileRef = 15955ECD16F61B3300E9467A /* Boggle.m */; };
 		15A4842116CF5913002B5EE5 /* Tile.m in Sources */ = {isa = PBXBuildFile; fileRef = 15A4842016CF5913002B5EE5 /* Tile.m */; };
 		15A5855E16EDC84E00228B75 /* open-dyslexic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 15A5855D16EDC84E00228B75 /* open-dyslexic.ttf */; };
 		15E38B7D16DA44FB00199557 /* iPhone_320x480.png in Resources */ = {isa = PBXBuildFile; fileRef = 15E38B7C16DA44FB00199557 /* iPhone_320x480.png */; };
@@ -748,6 +749,8 @@
 		15955EC516F615AB00E9467A /* hitslogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hitslogo.png; sourceTree = "<group>"; };
 		15955EC616F615AB00E9467A /* missedlogo-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "missedlogo-hd.png"; sourceTree = "<group>"; };
 		15955EC716F615AB00E9467A /* missedlogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = missedlogo.png; sourceTree = "<group>"; };
+		15955ECC16F61B3300E9467A /* Boggle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Boggle.h; path = ../Boggle.h; sourceTree = "<group>"; };
+		15955ECD16F61B3300E9467A /* Boggle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Boggle.m; path = ../Boggle.m; sourceTree = "<group>"; };
 		15A4841F16CF5913002B5EE5 /* Tile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tile.h; sourceTree = "<group>"; };
 		15A4842016CF5913002B5EE5 /* Tile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tile.m; sourceTree = "<group>"; };
 		15A5855D16EDC84E00228B75 /* open-dyslexic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "open-dyslexic.ttf"; sourceTree = "<group>"; };
@@ -805,6 +808,8 @@
 				156C1B2216CA27E4004591E6 /* AppDelegate.m */,
 				156C1B2416CA27E4004591E6 /* MainMenuLayer.h */,
 				156C1B2516CA27E4004591E6 /* MainMenuLayer.m */,
+				15955ECC16F61B3300E9467A /* Boggle.h */,
+				15955ECD16F61B3300E9467A /* Boggle.m */,
 				1502A80716D112C3005E77BC /* ScrollingMenuScene.h */,
 				1502A80816D112C3005E77BC /* ScrollingMenuScene.m */,
 				156C1B3316CA2FA2004591E6 /* GameLayer.h */,
@@ -1820,6 +1825,7 @@
 				15726A6716E8F6FD002E5764 /* ABGameKitHelper.m in Sources */,
 				15726A6816E8F6FD002E5764 /* NSData+AES256.m in Sources */,
 				15955EA516F605AC00E9467A /* CorrectWordBadge.m in Sources */,
+				15955ECE16F61B3300E9467A /* Boggle.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

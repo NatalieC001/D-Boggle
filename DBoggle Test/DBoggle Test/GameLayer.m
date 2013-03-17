@@ -13,7 +13,7 @@
 #import "MainMenuLayer.h"
 #import "ScrollingMenuScene.h"
 #import "Dictionary.h"
-#import "CorrectWordBadge.h"
+#import "Boggle.h"
 
 @interface GameLayer ()
 
@@ -39,7 +39,6 @@
 @property (nonatomic, strong) CCLabelTTF *scoreLabel;
 @property (nonatomic, strong) CCLabelTTF *currentWordLabel;
 @property (nonatomic, strong) NSString *currentWord;
-@property (nonatomic, strong) CorrectWordBadge *correctWordLogo;
 @end
 
 @implementation GameLayer
@@ -184,6 +183,7 @@
             NSString *copy = [NSString stringWithString:line];
             if(firstCopy) {
                 boardLetters = [NSString stringWithString:copy];
+                boardLetters = [Boggle generateBoard];
                 firstCopy = NO;
             }
             else {
@@ -376,10 +376,6 @@
 
         
         
-        // When the current word is a valid word, a badge is displayed
-        self.correctWordLogo = [CorrectWordBadge spriteWithFile:@"twitter.png"];
-        self.correctWordLogo.position = ccp(currentWordBorder.position.x + 130, currentWordBorder.position.y);
-        self.correctWordLogo.isPresent = NO;
         /////////////////////////////////////////////////////////////////////////////////
         // TODO                                                                        //
         // Cover the board with a cover and animate it going down when the game starts //
@@ -408,11 +404,7 @@
         [self disableRotate];
         
         CGSize size = [[CCDirector sharedDirector] winSize];
-        CCSprite *background;
-        if (size.height == 568)
-            background = [CCSprite spriteWithFile:@"pauselayer-568h.png"];
-        else
-            background = [CCSprite spriteWithFile:@"pauselayer.png"];
+        CCSprite *background = [CCSprite spriteWithFile:@"pauselayer.png"];
         background.position = ccp (size.width/2, size.height/2);
         //[[CCDirector sharedDirector] pause];
         self.pauseLayer = [CCLayerColor layerWithColor: ccc4(0, 0, 0, 0)];
@@ -429,6 +421,10 @@
         
         [self addChild: self.pauseLayer z:8];
         [CCMenuItemFont setFontName:@"open-dyslexic"];
+//        CCMenuItemFont *resume = [CCMenuItemFont itemWithString:@"Resume" target:self selector:@selector(resumeGame)];
+//		CCMenuItemFont *mainMenu = [CCMenuItemFont itemWithString:@"Main Menu" target:self selector:@selector(returnToMainMenu)];
+//		CCMenuItemFont *newGame = [CCMenuItemFont itemWithString:@"New Game" target:self selector:@selector(newGame)];
+//        CCMenuItemFont *playedWords = [CCMenuItemFont itemWithString:@"Played Words" target:self selector:@selector(playedWords)];
         
         CCMenuItemImage *resume = [CCMenuItemImage itemWithNormalImage:@"resume_inactive.png" selectedImage:@"resume_active.png" target:self selector:@selector(resumeGame)];
         CCMenuItemImage *mainMenu = [CCMenuItemImage itemWithNormalImage:@"mainmenu_inactive.png" selectedImage:@"mainmenu_active.png" target:self selector:@selector(returnToMainMenu)];
@@ -498,12 +494,8 @@
     [self removeChild:self.pauseMenu cleanup:YES];
     [self removeChild:self.pauseLayer cleanup:YES];
     
-    CCSprite *background;
-    if (size.height == 568)
-        background = [CCSprite spriteWithFile:@"hitslayer-568h.png"];
-    else
-        background = [CCSprite spriteWithFile:@"hitslayer.png"];
     
+    CCSprite *background = [CCSprite spriteWithFile:@"playedwordslayer.png"];
     background.position = ccp (size.width/2, size.height/2);
     //[[CCDirector sharedDirector] pause];
     self.playedWordsLayer = [CCLayerColor layerWithColor: ccc4(0, 0, 0, 0)];
@@ -622,6 +614,7 @@
 //        }
     }
     NSLog(@"Rotation = %f", [self.board rotation]);
+    //NSLog(@"Board String = %@", [Boggle generateBoard]);
 }
 
 -(void) updateScoreLabel:(NSUInteger) wordLength {
@@ -664,58 +657,183 @@
             break;
         case 1:
             return (lastIndex == 0 || lastIndex == 2 || lastIndex == 4 || lastIndex == 5 || lastIndex == 6);
+            //            [indicesOfValidTiles addIndex:0];
+            //            [indicesOfValidTiles addIndex:2];
+            //            [indicesOfValidTiles addIndex:4];
+            //            [indicesOfValidTiles addIndex:5];
+            //            [indicesOfValidTiles addIndex:6];
+            //            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            //            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
             break;
         case 2:
             return (lastIndex == 1 || lastIndex == 3 || lastIndex == 5 || lastIndex == 6 || lastIndex == 7);
+            
+            //            [indicesOfValidTiles addIndex:1];
+            //            [indicesOfValidTiles addIndex:3];
+            //            [indicesOfValidTiles addIndex:5];
+            //            [indicesOfValidTiles addIndex:6];
+            //            [indicesOfValidTiles addIndex:7];
+            //            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            //            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
             break;
         case 3:
             return (lastIndex == 2 || lastIndex == 6 || lastIndex == 7);
+            //            [indicesOfValidTiles addIndex:2];
+            //            [indicesOfValidTiles addIndex:6];
+            //            [indicesOfValidTiles addIndex:7];
+            //            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            //            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
             break;
         case 4:
             return (lastIndex == 0 || lastIndex == 1 || lastIndex == 5 || lastIndex == 8 || lastIndex == 9);
+            
+            //            [indicesOfValidTiles addIndex:0];
+            //            [indicesOfValidTiles addIndex:1];
+            //            [indicesOfValidTiles addIndex:5];
+            //            [indicesOfValidTiles addIndex:8];
+            //            [indicesOfValidTiles addIndex:9];
+            //            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            //            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
             break;
         case 5:
             return (lastIndex == 0 || lastIndex == 1 || lastIndex == 2 || lastIndex == 4 || lastIndex == 6 || lastIndex == 8 || lastIndex == 9 || lastIndex == 10);
+            //            [indicesOfValidTiles addIndex:0];
+            //            [indicesOfValidTiles addIndex:1];
+            //            [indicesOfValidTiles addIndex:2];
+            //            [indicesOfValidTiles addIndex:4];
+            //            [indicesOfValidTiles addIndex:6];
+            //            [indicesOfValidTiles addIndex:8];
+            //            [indicesOfValidTiles addIndex:9];
+            //            [indicesOfValidTiles addIndex:10];
+            //            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            //            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
             break;
         case 6:
             
             return (lastIndex == 1 || lastIndex == 2 || lastIndex == 3 || lastIndex == 5 || lastIndex == 7 || lastIndex == 9 || lastIndex == 10 || lastIndex == 11);
+            
+            //            [indicesOfValidTiles addIndex:1];
+            //            [indicesOfValidTiles addIndex:2];
+            //            [indicesOfValidTiles addIndex:3];
+            //            [indicesOfValidTiles addIndex:5];
+            //            [indicesOfValidTiles addIndex:7];
+            //            [indicesOfValidTiles addIndex:9];
+            //            [indicesOfValidTiles addIndex:10];
+            //            [indicesOfValidTiles addIndex:11];
+            //            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            //            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
             break;
         case 7:
             
             return (lastIndex == 2 || lastIndex == 3 || lastIndex == 6 || lastIndex == 10 || lastIndex == 11);
+            
+            //            [indicesOfValidTiles addIndex:2];
+            //            [indicesOfValidTiles addIndex:3];
+            //            [indicesOfValidTiles addIndex:6];
+            //            [indicesOfValidTiles addIndex:10];
+            //            [indicesOfValidTiles addIndex:11];
+            //            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            //            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
             break;
         case 8:
             
             return (lastIndex == 4 || lastIndex == 5 || lastIndex == 9 || lastIndex == 12 || lastIndex == 13);
+            
+            //            [indicesOfValidTiles addIndex:4];
+            //            [indicesOfValidTiles addIndex:5];
+            //            [indicesOfValidTiles addIndex:9];
+            //            [indicesOfValidTiles addIndex:12];
+            //            [indicesOfValidTiles addIndex:13];
+            //            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            //            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
             break;
         case 9:
             
             return (lastIndex == 4 || lastIndex == 5 || lastIndex == 6 || lastIndex == 8 || lastIndex == 10 || lastIndex == 12 || lastIndex == 13 || lastIndex == 14);
+            
+            //            [indicesOfValidTiles addIndex:4];
+            //            [indicesOfValidTiles addIndex:5];
+            //            [indicesOfValidTiles addIndex:6];
+            //            [indicesOfValidTiles addIndex:8];
+            //            [indicesOfValidTiles addIndex:10];
+            //            [indicesOfValidTiles addIndex:12];
+            //            [indicesOfValidTiles addIndex:13];
+            //            [indicesOfValidTiles addIndex:14];
+            //            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            //            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
             break;
         case 10:
             
             return (lastIndex == 5 || lastIndex == 6 || lastIndex == 7 || lastIndex == 9 || lastIndex == 11 || lastIndex == 13 || lastIndex == 14 || lastIndex == 15);
+            
+            
+            //            [indicesOfValidTiles addIndex:5];
+            //            [indicesOfValidTiles addIndex:6];
+            //            [indicesOfValidTiles addIndex:7];
+            //            [indicesOfValidTiles addIndex:9];
+            //            [indicesOfValidTiles addIndex:11];
+            //            [indicesOfValidTiles addIndex:13];
+            //            [indicesOfValidTiles addIndex:14];
+            //            [indicesOfValidTiles addIndex:15];
+            //            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            //            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
             break;
         case 11:
             
             return (lastIndex == 6 || lastIndex == 7 || lastIndex == 10 || lastIndex == 14 || lastIndex == 15);
+            
+            //            [indicesOfValidTiles addIndex:6];
+            //            [indicesOfValidTiles addIndex:7];
+            //            [indicesOfValidTiles addIndex:10];
+            //            [indicesOfValidTiles addIndex:14];
+            //            [indicesOfValidTiles addIndex:15];
+            //            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            //            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
             break;
         case 12:
             
             return (lastIndex == 8 || lastIndex == 9 || lastIndex == 13);
+            
+            //            [indicesOfValidTiles addIndex:8];
+            //            [indicesOfValidTiles addIndex:9];
+            //            [indicesOfValidTiles addIndex:13];
+            //            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            //            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
             break;
         case 13:
             
             return (lastIndex == 8 || lastIndex == 9 || lastIndex == 10 || lastIndex == 12 || lastIndex == 14);
+            
+            //            [indicesOfValidTiles addIndex:8];
+            //            [indicesOfValidTiles addIndex:9];
+            //            [indicesOfValidTiles addIndex:10];
+            //            [indicesOfValidTiles addIndex:12];
+            //            [indicesOfValidTiles addIndex:14];
+            //            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            //            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
             break;
         case 14:
             
             return (lastIndex == 9 || lastIndex == 10 || lastIndex == 11 || lastIndex == 13 || lastIndex == 15);
+            
+            
+            //            [indicesOfValidTiles addIndex:9];
+            //            [indicesOfValidTiles addIndex:10];
+            //            [indicesOfValidTiles addIndex:11];
+            //            [indicesOfValidTiles addIndex:13];
+            //            [indicesOfValidTiles addIndex:15];
+            //            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            //            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
             break;
         case 15:
             
             return (lastIndex == 10  || lastIndex == 11 || lastIndex == 14);
+            
+            //            [indicesOfValidTiles addIndex:10];
+            //            [indicesOfValidTiles addIndex:11];
+            //            [indicesOfValidTiles addIndex:14];
+            //            validLetters = [NSArray arrayWithArray:[self.letters objectsAtIndexes:indicesOfValidTiles]];
+            //            return (!([validLetters indexOfObject:[[self.pressedTiles lastObject] letter]] == NSNotFound));
             break;
             
         default:
@@ -741,10 +859,25 @@
             [self.pressedTiles addObject:tile];
             [tile deactivate];
             NSLog(@"%@", tile.letter);
+            
+            
+//            NSArray *a = [NSArray arrayWithObjects:@"1", @"2", nil];
+//            if ([a indexOfObject:@"3"] == NSNotFound)
+//                NSLog(@"works");
+            
         }
     }
     else
-    {        
+    {
+        //        while ([self.pressedTiles lastObject] != tile)
+        //        {
+        //            //convert to do-while
+        //            [[self.pressedTiles lastObject] activate];
+        //            [self.pressedTiles removeLastObject];
+        //        }
+        //        [tile activate];
+        //        [self.pressedTiles removeLastObject];
+        
         Tile *lastTile;
         do
         {
@@ -773,19 +906,13 @@
     NSLog(@"%@", currentWord);
     [self.currentWordLabel setString:currentWord];
     self.currentWord = [NSString stringWithString:currentWord];
-    [self updateWordCorrectnessLogo];
-}
-
-- (BOOL) isWordInDictionary
-{
-    return ([self.dict validate:[self.currentWord uppercaseString]]
-            && self.currentWord.length >= 3
-            && ![self.playedWordsList containsObject:self.currentWord]);
 }
 
 - (void) validateWord
 {
-    if ([self isWordInDictionary])
+    if ([self.dict validate:[self.currentWord uppercaseString]]
+        && self.currentWord.length >= 3
+        && ![self.playedWordsList containsObject:self.currentWord])//check validity here
     {
         NSLog(@"Word valid");
         
@@ -802,29 +929,7 @@
                 break;
             }
         }
-        [self updateWordCorrectnessLogo];
     }
-}
-
-- (void) updateWordCorrectnessLogo
-{
-    if ([self isWordInDictionary])
-    {
-        if (!self.correctWordLogo.isPresent)
-        {
-            [self addChild:self.correctWordLogo];
-            self.correctWordLogo.isPresent = YES;
-            NSLog(@"Added Badge");
-        }
-        
-    }
-    else
-    {
-        [self removeChild:self.correctWordLogo cleanup:YES];
-        self.correctWordLogo.isPresent = NO;
-        NSLog(@"Removed Badge");
-    }
-
 }
 
 - (void) clearCurrentWordLabel
