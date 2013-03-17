@@ -20,6 +20,7 @@
 @property (nonatomic, strong) CCLayer *possibleWordsLayer;
 @property (nonatomic, strong) CCMenu *possibleWordsMenu;
 @property (nonatomic, strong) CCLabelTTF *scoreLabel;
+@property (nonatomic) BOOL isMenuActive;
 
 @end
 
@@ -30,6 +31,7 @@
 @synthesize wordList = _wordList;
 @synthesize possibleList = _possibleList;
 @synthesize scoreLabel = _scoreLabel;
+@synthesize isMenuActive = _isMenuActive;
 
 - (id) wordList{
     if(!_wordList) _wordList = [[NSString alloc] init];
@@ -130,8 +132,8 @@
         CCMenuItemImage *newGame = [CCMenuItemImage itemWithNormalImage:@"newgame_inactive.png" selectedImage:@"newgame_active.png" target:self selector:@selector(newGame)];
         CCMenuItemImage *highScores = [CCMenuItemImage itemWithNormalImage:@"highscores_inactive.png" selectedImage:@"highscores_active.png" target:self selector:@selector(highScores)];
         CCMenuItemImage *mainMenu = [CCMenuItemImage itemWithNormalImage:@"mainmenu_inactive.png" selectedImage:@"mainmenu_active.png" target:self selector:@selector(returnToMainMenu)];
-        CCMenuItemImage *playedWords = [CCMenuItemImage itemWithNormalImage:@"playedwords_inactive.png" selectedImage:@"playedwords_active.png" target:self selector:@selector(showPlayedWords)];
-        CCMenuItemImage *possibleWords = [CCMenuItemImage itemWithNormalImage:@"plaintab.png" selectedImage:@"plaintab.png" target:self selector:@selector(showPossibleWords)];
+        CCMenuItemImage *playedWords = [CCMenuItemImage itemWithNormalImage:@"hits_inactive.png" selectedImage:@"hits_active.png" target:self selector:@selector(showPlayedWords)];
+        CCMenuItemImage *possibleWords = [CCMenuItemImage itemWithNormalImage:@"misses_inactive.png" selectedImage:@"misses_active.png" target:self selector:@selector(showPossibleWords)];
         
         CCMenu *menu = [CCMenu menuWithItems:newGame, highScores, mainMenu, playedWords, possibleWords, nil];
 
@@ -161,13 +163,33 @@
         shareMenu.position = ccp(290, 30);
         [self addChild:shareMenu];
         
+        
+        [self schedule: @selector(tick:) interval:1];
+        self.isMenuActive = YES;
+        
 	}
 	return self;
 }
 
+-(void) tick: (ccTime) dt
+{
+    CGSize size = [[CCDirector sharedDirector] winSize];
+    
+    CCParticleExplosion *explosion = [[CCParticleExplosion alloc] init];
+    explosion.autoRemoveOnFinish = YES;
+    explosion.startSize = 7.0f;
+    explosion.endSize = 2.0f;
+    explosion.duration = 0.05f;
+    explosion.speed = 200.0f;
+    explosion.position = ccp(arc4random() % (int)(size.width), arc4random() % (int)(size.height));
+    [self addChild:explosion];
+}
+
 - (void) returnToMainMenu
 {
-    [[CCDirector sharedDirector] replaceScene:[CCTransitionSlideInT transitionWithDuration:0.5 scene:[MainMenuLayer scene]]];
+    if (self.isMenuActive) {
+        [[CCDirector sharedDirector] replaceScene:[CCTransitionSlideInT transitionWithDuration:0.5 scene:[MainMenuLayer scene]]];
+    }
 }
 
 - (void) updateScore
@@ -178,26 +200,39 @@
 
 - (void) newGame
 {
-    [[CCDirector sharedDirector] replaceScene:[CCTransitionFlipX transitionWithDuration:0.5 scene:[GameLayer scene]]];
+    if (self.isMenuActive)
+    {
+        [[CCDirector sharedDirector] replaceScene:[CCTransitionFlipX transitionWithDuration:0.5 scene:[GameLayer scene]]];
+    }
 }
 
 - (void) highScores
 {
-    [[ABGameKitHelper sharedClass] showLeaderboard:@"leaderboardID"];
+    if (self.isMenuActive)
+    {
+        [[ABGameKitHelper sharedClass] showLeaderboard:@"leaderboardID"];
+    }
+
 }
 
 - (void) showPlayedWords
 {
     CGSize size = [[CCDirector sharedDirector] winSize];
+    self.isMenuActive = NO;
     
-    CCSprite *background = [CCSprite spriteWithFile:@"playedwordslayer.png"];
+    CCSprite *background;
+    if (size.height == 568)
+        background = [CCSprite spriteWithFile:@"hitslayer-568h.png"];
+    else
+        background = [CCSprite spriteWithFile:@"hitslayer.png"];
+    
     background.position = ccp (size.width/2, size.height/2);
     //[[CCDirector sharedDirector] pause];
     self.playedWordsLayer = [CCLayerColor layerWithColor: ccc4(0, 0, 0, 0)];
     self.playedWordsLayer.position = ccp(0, 0);
     [self.playedWordsLayer addChild:background z:3];
     
-    CCSprite *pausedLogo = [CCSprite spriteWithFile:@"playedwordslogo.png"];
+    CCSprite *pausedLogo = [CCSprite spriteWithFile:@"hitslogo.png"];
     pausedLogo.position = ccp(size.width/2, size.height - 100);
     [self.playedWordsLayer addChild:pausedLogo z:4];
     
@@ -223,20 +258,28 @@
 - (void) backToMenuFromPlayed
 {
     [self removeChild:self.playedWordsLayer cleanup:YES];
+    self.isMenuActive = YES;
 }
 
 - (void) showPossibleWords
 {
     CGSize size = [[CCDirector sharedDirector] winSize];
+    self.isMenuActive = NO;
     
-    CCSprite *background = [CCSprite spriteWithFile:@"playedwordslayer.png"];
+    CCSprite *background;
+    if (size.height == 568)
+        background = [CCSprite spriteWithFile:@"missedlayer-568h.png"];
+    else
+        background = [CCSprite spriteWithFile:@"missedlayer.png"];
+    
+    
     background.position = ccp (size.width/2, size.height/2);
     //[[CCDirector sharedDirector] pause];
     self.possibleWordsLayer = [CCLayerColor layerWithColor: ccc4(0, 0, 0, 0)];
     self.possibleWordsLayer.position = ccp(0, 0);
     [self.possibleWordsLayer addChild:background z:-1];
     
-    CCSprite *pausedLogo = [CCSprite spriteWithFile:@"playedwordslogo.png"];
+    CCSprite *pausedLogo = [CCSprite spriteWithFile:@"missedlogo.png"];
     pausedLogo.position = ccp(size.width/2, size.height - 100);
     [self.possibleWordsLayer addChild:pausedLogo z:0];
     
@@ -261,6 +304,7 @@
 - (void) backToMenuFromPossible
 {
     [self removeChild:self.possibleWordsLayer cleanup:YES];
+    self.isMenuActive = YES;
 }
 
 - (void) share
