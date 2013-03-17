@@ -37,6 +37,7 @@
 @property (nonatomic) NSUInteger score;
 @property (nonatomic, strong) CCLabelTTF *scoreLabel;
 @property (nonatomic, strong) CCLabelTTF *currentWordLabel;
+@property (nonatomic, strong) NSString *currentWord;
 @end
 
 @implementation GameLayer
@@ -54,6 +55,7 @@
 @synthesize possibleWordList = _possibleWordList;
 @synthesize playedWordsLayer = _playedWordsLayer;
 @synthesize currentWordLabel = _currentWordLabel;
+@synthesize currentWord = _currentWord;
 
 - (NSMutableArray *) pressedTiles {
     if (!_pressedTiles) _pressedTiles = [[NSMutableArray alloc] init];
@@ -557,7 +559,7 @@
     else
         [self.timer setString:[NSString stringWithFormat:@"%ld:%ld", (long)[self.time integerValue]/60, sec]];
     
-    NSLog(@"%ld", (long)[self.time integerValue]);
+//    NSLog(@"%ld", (long)[self.time integerValue]);
 
     if ([self.time integerValue] == 0) {
         [self.timer setString:[NSString stringWithFormat:@"Done!"]];
@@ -899,25 +901,24 @@
     }
     NSLog(@"%@", currentWord);
     [self.currentWordLabel setString:currentWord];
-    
-    if ([self.dict validate:[currentWord uppercaseString]]
-        && currentWord.length >= 3
-        && ![self.playedWordsList containsObject:currentWord])//check validity here
+    self.currentWord = [NSString stringWithString:currentWord];
+}
+
+- (void) validateWord
+{
+    if ([self.dict validate:[self.currentWord uppercaseString]]
+        && self.currentWord.length >= 3
+        && ![self.playedWordsList containsObject:self.currentWord])//check validity here
     {
-        //to-do: Implement the dictionary
         NSLog(@"Word valid");
         
-        //id waves = [CCShaky3D actionWithDuration:1.0];
-        //id enableRotateCallback = [CCCallFunc actionWithTarget:self selector:@selector(clearCurrentWordLabel)];
-        //CCSequence *sequence = [CCSequence actions:waves, enableRotateCallback, nil];
-        //[self.currentWordLabel runAction:sequence];
         [self clearCurrentWordLabel];
         [self clearAllPressedTiles];
-        [self updateScoreLabel:currentWord.length];
-        [self updatePlayedWordList:currentWord];
+        [self updateScoreLabel:self.currentWord.length];
+        [self updatePlayedWordList:self.currentWord];
         for(NSString *word in self.possibleWordList)
         {
-            if ([currentWord isEqualToString:word])
+            if ([self.currentWord isEqualToString:word])
             {
                 int i = [self.possibleWordList indexOfObject:word];
                 [self.possibleWordList removeObjectAtIndex:i];
@@ -972,25 +973,55 @@
         CGPoint location = [touch locationInView:[touch view]];
         location = [[CCDirector sharedDirector] convertToGL:location];
         //[self rotateClicked];
+        NSLog(@"Touches began");
         double distance = 0;
         for (int i = 0; i < 16; i++)
         {
             Tile *tile = [self.letters objectAtIndex:i];
             distance = powf(location.x - tile.actualLocation.x, 2) + powf(location.y - tile.actualLocation.y, 2);
             distance = powf(distance, 0.5);
-            if (i==0)
+//            if (distance <= 37.5)// && tile != [self.pressedTiles lastObject])
+//            {
+//                NSLog(@"Tile - %d at distance %f", i, distance);
+//                [self tileTouchedAt:i];
+//            }
+            if(CGRectContainsPoint([tile actualBounds], location))
             {
-                NSLog(@"Distance = %f", distance);
-                NSLog(@"Location = %f, %f", location.x, location.y);
-                NSLog(@"Location = %f, %f", tile.actualLocation.x, tile.actualLocation.y);
-            }
-            if (distance <= 37.5)
-            {
-                NSLog(@"Tile - %d at distance %f", i, distance);
                 [self tileTouchedAt:i];
             }
         }
+        
     }
+}
+
+-(void)ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+    
+    UITouch *touch = [touches anyObject];
+    CGPoint location = [touch locationInView: [touch view]];
+    location = [[CCDirector sharedDirector] convertToGL:location];
+    
+    double distance = 0;
+    for (int i = 0; i < 16; i++)
+    {
+        Tile *tile = [self.letters objectAtIndex:i];
+        distance = powf(location.x - tile.actualLocation.x, 2) + powf(location.y - tile.actualLocation.y, 2);
+        distance = powf(distance, 0.5);
+        if (distance <= 37.5 && tile != [self.pressedTiles lastObject])
+        {
+            NSLog(@"Tile - %d at distance %f", i, distance);
+            [self tileTouchedAt:i];
+        }
+//        if(CGRectContainsPoint([tile actualBounds], location) && tile != [self.pressedTiles lastObject])
+//        {
+//            [self tileTouchedAt:i];
+//        }
+    }
+    
+}
+
+-(void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
+    NSLog(@"Ended");
+    [self validateWord];
 }
 
 @end
