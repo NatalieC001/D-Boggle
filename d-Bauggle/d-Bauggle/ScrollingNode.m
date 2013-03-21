@@ -24,7 +24,7 @@
 - (void)onEnter
 {
     [super onEnter];
-    [[[CCDirector sharedDirector] openGLView] addSubview:scrollView_];
+    [[[CCDirector sharedDirector] view] addSubview:scrollView_];
 }
 
 - (void)onExit
@@ -39,7 +39,7 @@
 {
     self = [super init];
     if(self) {
-        CGRect frame = [[[CCDirector sharedDirector] openGLView] frame];
+        CGRect frame = [[[CCDirector sharedDirector] view] frame];
         scrollView_ = [[[ScrollingNodeOverlay alloc] initWithFrame:frame] retain];
         scrollView_.delegate = self;
     }

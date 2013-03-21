@@ -120,7 +120,7 @@
 	// Apple recommends to re-assign "self" with the "super's" return value
 	if( (self=[super init]) ) {
         
-        _touchEnabled = YES;
+        self.touchEnabled = YES;
 		
         viewController = [[UIViewController alloc] init];
         
@@ -131,17 +131,7 @@
 		// ask director for the window size
 		CGSize size = [[CCDirector sharedDirector] winSize];
         
-		// position the label on the center of the screen
-		//label.position =  ccp( size.width / 2 , size.height * 0.75 );
 		
-		// add the label as a child to this Layer
-		//[self addChild: label];
-		
-//		CCMenuItemFont *newGameItem = [CCMenuItemFont itemWithString:@"New Game" target:self selector:@selector(newGame)];
-//		CCMenuItemFont *instructions = [CCMenuItemFont itemWithString:@"Instructions" target:self selector:@selector(instructions)];
-//		CCMenuItemFont *share = [CCMenuItemFont itemWithString:@"Tweet about it!" target:self selector:@selector(share)];
-        
-        
         CCMenuItemImage *newGame = [CCMenuItemImage itemWithNormalImage:@"newgame_inactive.png" selectedImage:@"newgame_active.png" target:self selector:@selector(newGame)];
         CCMenuItemImage *highScores = [CCMenuItemImage itemWithNormalImage:@"highscores_inactive.png" selectedImage:@"highscores_active.png" target:self selector:@selector(highScores)];
         CCMenuItemImage *mainMenu = [CCMenuItemImage itemWithNormalImage:@"mainmenu_inactive.png" selectedImage:@"mainmenu_active.png" target:self selector:@selector(returnToMainMenu)];

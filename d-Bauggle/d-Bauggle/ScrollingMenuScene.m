@@ -56,7 +56,7 @@
 		// This is where you do any hard-coded initialisation, as opposed to initialisation
 		// that is dependent on the actual content of the scrolling menu.
 		//
-		self.isTouchEnabled = YES;
+		self.touchEnabled = YES;
 		touched = NO;
 		isDragging = NO;
 	}
@@ -102,7 +102,7 @@
 	[itemMenu alignItemsVerticallyWithPadding:MENU_ITEM_PADDING];
 	
     itemMenu.position = ccp(scrollWindowRect.origin.x + (scrollWindowRect.size.width / 2.0f), contentHeight_ / 2.0f);
-	[itemMenu setIsTouchEnabled:NO];
+	[itemMenu setTouchEnabled:NO];
 	
 	[scrollLayer addChild:itemMenu z:4 tag:kMenu];
 	

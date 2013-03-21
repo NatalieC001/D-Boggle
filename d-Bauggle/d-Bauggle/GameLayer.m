@@ -241,13 +241,13 @@
     NSLog(@"Height yo! %f", size.height);
     if (size.height == 480)
     {
-        CCSprite *background = [CCSprite spriteWithFile:@"mainmenu.png"];
+        CCSprite *background = [CCSprite spriteWithFile:@"gameonbg.png"];
         background.anchorPoint = ccp (0,0);
         [layer addChild:background z:-1];
     }
     else
     {
-        CCSprite *background = [CCSprite spriteWithFile:@"mainmenu-568.png"];
+        CCSprite *background = [CCSprite spriteWithFile:@"gameonbg-568h.png"];
         background.anchorPoint = ccp (0,0);
         [layer addChild:background z:-1];
     }
@@ -369,7 +369,7 @@
         [self addChild: self.currentWordLabel];
 
         
-        self.currentWordCorrectnessBadge = [CorrectWordBadge spriteWithFile:@"twitter.png"];
+        self.currentWordCorrectnessBadge = [CorrectWordBadge spriteWithFile:@"tick.png"];
         self.currentWordCorrectnessBadge.position = ccp (currentWordBorder.position.x + 130, currentWordBorder.position.y);
         self.currentWordCorrectnessBadge.isPresent = NO;
         
@@ -737,12 +737,13 @@
             [self.pressedTiles addObject:tile];
             [tile deactivate];
             NSLog(@"%@", tile.letter);
-            
-            
-//            NSArray *a = [NSArray arrayWithObjects:@"1", @"2", nil];
-//            if ([a indexOfObject:@"3"] == NSNotFound)
-//                NSLog(@"works");
-            
+        }
+        else
+        {
+            [self clearAllTiles];
+            [self updateCurrentWord];
+            [self tileTouchedAt:position];
+            return;
         }
     }
     else
