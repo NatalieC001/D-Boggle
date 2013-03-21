@@ -33,7 +33,7 @@
     NSLog(@"Height yo! %f", size.height);
     if (size.height == 480)
     {
-        CCSprite *background = [CCSprite spriteWithFile:@"mainmenu.png"];
+        CCSprite *background = [CCSprite spriteWithFile:@"mainmenu-h.png"];
         background.anchorPoint = ccp (0,0);
         [layer addChild:background z:-1];
     }

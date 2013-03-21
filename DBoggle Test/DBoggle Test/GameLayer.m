@@ -241,13 +241,13 @@
     NSLog(@"Height yo! %f", size.height);
     if (size.height == 480)
     {
-        CCSprite *background = [CCSprite spriteWithFile:@"mainmenu.png"];
+        CCSprite *background = [CCSprite spriteWithFile:@"gameonbg.png"];
         background.anchorPoint = ccp (0,0);
         [layer addChild:background z:-1];
     }
     else
     {
-        CCSprite *background = [CCSprite spriteWithFile:@"mainmenu-568h.png"];
+        CCSprite *background = [CCSprite spriteWithFile:@"gameonbg-568h.png"];
         background.anchorPoint = ccp (0,0);
         [layer addChild:background z:-1];
     }
