@@ -5,7 +5,7 @@
 #import <string.h>
 #import <stdio.h>
 #import <stdlib.h>
-#import <sys/malloc.h>
+
 
 extern char* ca_strndup(const char *t, size_t n);
 extern char* sub_string(const char* str, size_t begin, size_t len);
