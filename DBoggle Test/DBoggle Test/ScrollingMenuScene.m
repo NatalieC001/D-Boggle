@@ -20,7 +20,7 @@
 	return self;
 }
 
-+ (ScrollingMenuScene*) nodeWithForeground:(NSString*)foreground andBackground:(NSString*)background andRect:(CGRect)scrollWindowRect andItems:(NSArray*)items {
++ (ScrollingMenuScene*) nodeWithForeground:(NSString*)foreground andBackground:(NSString*)background andRect:(CGRect)scrollWindowRect andItems:(NSMutableArray *)items {
 	id result = [super node];
 	
 	if (result != nil) {

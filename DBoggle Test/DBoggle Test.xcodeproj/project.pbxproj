@@ -313,6 +313,8 @@
 		524CFD3F16E90E9600BC7431 /* board_8.txt in Resources */ = {isa = PBXBuildFile; fileRef = 524CFD3516E90E9600BC7431 /* board_8.txt */; };
 		524CFD4016E90E9600BC7431 /* board_9.txt in Resources */ = {isa = PBXBuildFile; fileRef = 524CFD3616E90E9600BC7431 /* board_9.txt */; };
 		524CFD4116E90E9600BC7431 /* board_10.txt in Resources */ = {isa = PBXBuildFile; fileRef = 524CFD3716E90E9600BC7431 /* board_10.txt */; };
+		D68E08D316F62BBD0066A548 /* ScrollingNode.m in Sources */ = {isa = PBXBuildFile; fileRef = D68E08D016F6273C0066A548 /* ScrollingNode.m */; };
+		D68E08D416F62BC30066A548 /* ScrollingNodeOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = D68E08D216F6274B0066A548 /* ScrollingNodeOverlay.m */; };
 		D6E8206F16E89D7B00083D44 /* Dictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = D6E8206E16E89D7B00083D44 /* Dictionary.m */; };
 		D6E8207116E8A60100083D44 /* sowpods.txt in Resources */ = {isa = PBXBuildFile; fileRef = D6E8207016E8A60100083D44 /* sowpods.txt */; };
 /* End PBXBuildFile section */
@@ -769,12 +771,12 @@
 		524CFD3516E90E9600BC7431 /* board_8.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = board_8.txt; sourceTree = SOURCE_ROOT; };
 		524CFD3616E90E9600BC7431 /* board_9.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = board_9.txt; sourceTree = SOURCE_ROOT; };
 		524CFD3716E90E9600BC7431 /* board_10.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = board_10.txt; sourceTree = SOURCE_ROOT; };
-		D68E08B516EF7BD60066A548 /* ScrollingNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScrollingNode.h; sourceTree = "<group>"; };
-		D68E08B616EF7BD60066A548 /* ScrollingNode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScrollingNode.m; sourceTree = "<group>"; };
-		D68E08B716EF7BD60066A548 /* ScrollingNodeOverlay.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScrollingNodeOverlay.h; sourceTree = "<group>"; };
-		D68E08B816EF7BD60066A548 /* ScrollingNodeOverlay.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScrollingNodeOverlay.m; sourceTree = "<group>"; };
 		D68E08B916EF7C140066A548 /* RootViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		D68E08BA16EF7C140066A548 /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		D68E08CF16F6273A0066A548 /* ScrollingNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScrollingNode.h; sourceTree = "<group>"; };
+		D68E08D016F6273C0066A548 /* ScrollingNode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScrollingNode.m; sourceTree = "<group>"; };
+		D68E08D116F627410066A548 /* ScrollingNodeOverlay.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScrollingNodeOverlay.h; sourceTree = "<group>"; };
+		D68E08D216F6274B0066A548 /* ScrollingNodeOverlay.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScrollingNodeOverlay.m; sourceTree = "<group>"; };
 		D6E8206D16E89D7B00083D44 /* Dictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dictionary.h; sourceTree = "<group>"; };
 		D6E8206E16E89D7B00083D44 /* Dictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dictionary.m; sourceTree = "<group>"; };
 		D6E8207016E8A60100083D44 /* sowpods.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sowpods.txt; sourceTree = "<group>"; };
@@ -830,12 +832,12 @@
 				15726A6416E8F6FD002E5764 /* ABGameKitHelper.m */,
 				15726A6516E8F6FD002E5764 /* NSData+AES256.h */,
 				15726A6616E8F6FD002E5764 /* NSData+AES256.m */,
+				D68E08CF16F6273A0066A548 /* ScrollingNode.h */,
+				D68E08D016F6273C0066A548 /* ScrollingNode.m */,
+				D68E08D116F627410066A548 /* ScrollingNodeOverlay.h */,
+				D68E08D216F6274B0066A548 /* ScrollingNodeOverlay.m */,
 				D68E08B916EF7C140066A548 /* RootViewController.h */,
 				D68E08BA16EF7C140066A548 /* RootViewController.m */,
-				D68E08B516EF7BD60066A548 /* ScrollingNode.h */,
-				D68E08B616EF7BD60066A548 /* ScrollingNode.m */,
-				D68E08B716EF7BD60066A548 /* ScrollingNodeOverlay.h */,
-				D68E08B816EF7BD60066A548 /* ScrollingNodeOverlay.m */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -1712,6 +1714,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D68E08D416F62BC30066A548 /* ScrollingNodeOverlay.m in Sources */,
+				D68E08D316F62BBD0066A548 /* ScrollingNode.m in Sources */,
 				1502A80916D1137E005E77BC /* ScrollingMenuScene.m in Sources */,
 				156C19C816CA27E2004591E6 /* CCAction.m in Sources */,
 				156C19CB16CA27E2004591E6 /* CCActionCamera.m in Sources */,

@@ -12,6 +12,7 @@
 #import "GameLayer.h"
 #import "ABGameKitHelper.h"
 #import <Social/Social.h>
+#import "ScrollingNode.h"
 
 @interface ResultLayer ()
 
@@ -21,6 +22,7 @@
 @property (nonatomic, strong) CCMenu *possibleWordsMenu;
 @property (nonatomic, strong) CCLabelTTF *scoreLabel;
 @property (nonatomic) BOOL isMenuActive;
+@property (nonatomic, strong) NSMutableArray *possibleWordsArray;
 
 @end
 
@@ -41,6 +43,11 @@
 - (id) possibleList{
     if(!_possibleList) _possibleList = [[NSString alloc] init];
     return _possibleList;
+}
+
+- (id) possibleWordsArray {
+    if(!_possibleWordsArray) _possibleWordsArray = [[NSMutableArray alloc] init];
+    return _possibleWordsArray;
 }
 
 // Helper class method that creates a Scene with the HelloWorldLayer as the only child.
@@ -76,7 +83,13 @@
         layer.wordList = [wordList componentsJoinedByString:@", "];
     }
     
+    
+    layer.possibleWordsArray = [NSMutableArray arrayWithArray:possibleList];
     layer.possibleList = [possibleList componentsJoinedByString:@", "];
+    
+    if([layer.possibleWordsArray count] > 0){
+        NSLog(@"Should reach.");
+    }
     
     CGSize size = [[CCDirector sharedDirector] winSize];
     NSLog(@"Height yo! %f", size.height);
@@ -264,6 +277,7 @@
 - (void) showPossibleWords
 {
     CGSize size = [[CCDirector sharedDirector] winSize];
+
     self.isMenuActive = NO;
     
     CCSprite *background;
@@ -272,7 +286,7 @@
     else
         background = [CCSprite spriteWithFile:@"missedlayer.png"];
     
-    
+    NSLog(@"Entered SPW");
     background.position = ccp (size.width/2, size.height/2);
     //[[CCDirector sharedDirector] pause];
     self.possibleWordsLayer = [CCLayerColor layerWithColor: ccc4(0, 0, 0, 0)];
@@ -283,22 +297,54 @@
     pausedLogo.position = ccp(size.width/2, size.height - 100);
     [self.possibleWordsLayer addChild:pausedLogo z:0];
     
-    CCLabelTTF *wordLabel = [CCLabelTTF labelWithString:self.possibleList dimensions:CGSizeMake(size.width*0.85, size.height*0.6) hAlignment:kCCTextAlignmentCenter lineBreakMode:kCCLineBreakModeWordWrap fontName:@"open-dyslexic" fontSize:20];
-    wordLabel.position = ccp(size.width/2, size.height - 300);
-    wordLabel.color = ccBLACK;
+    ScrollingNode *scroll = [ScrollingNode node];
     
-    [self.possibleWordsLayer addChild:wordLabel z:11];
+    UIScrollView *scrollView = scroll.scrollView;
+    scrollView.showsVerticalScrollIndicator = NO;
+//    [self addChild:scroll];
     
-    //    CCMenuItemLabel *wordListLabel = [CCMenuItemLabel itemWithLabel:wordLabel];
-    //    wordListLabel.position = ccp(size.width/2, size.height - 80);
+    int countOrig = [self.possibleWordsArray count];
     
+    NSMutableArray *possibleCopy = [NSMutableArray arrayWithArray:self.possibleWordsArray];
+    
+    while([possibleCopy lastObject]) {
+        int countNow = [self.possibleWordsArray count];
+        CCLabelTTF *label = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%@", [possibleCopy lastObject]]
+                                               fontName:@"open-dyslexic"
+                                               fontSize:25];
+        label.anchorPoint = ccp(0.5, 1.0);
+        label.position = ccp(size.width/2-150, ((countOrig - countNow) * 30) - (size.height - 300));
+        [scroll addChild:label];
+//        NSLog(@"LOOKIE %@", [self.possibleWordsArray lastObject]);
+        [possibleCopy removeLastObject];
+    }
+    
+    CCNode *lastNode = [scroll.children lastObject];
+    CGSize contentSize = CGSizeMake(lastNode.contentSize.width, size.height - lastNode.position.y + lastNode.contentSize.height);
+    scroll.scrollView.contentSize = contentSize;
+    
+    self.contentSize = CGSizeMake(size.width, size.height);
+    scroll.position = ccp(size.width/2 - 100, size.height-300);
+    [self.possibleWordsLayer addChild:scroll];
+//    [self addChild:self.possibleWordsLayer z:3];
+
+    
+//    CCLabelTTF *wordLabel = [CCLabelTTF labelWithString:self.possibleList dimensions:CGSizeMake(size.width*0.85, size.height*0.6) hAlignment:kCCTextAlignmentCenter lineBreakMode:kCCLineBreakModeWordWrap fontName:@"open-dyslexic" fontSize:20];
+//    wordLabel.position = ccp(size.width/2, size.height - 300);
+//    wordLabel.color = ccBLACK;
+//    
+//    [self.possibleWordsLayer addChild:wordLabel z:11];
+//    
+//    //    CCMenuItemLabel *wordListLabel = [CCMenuItemLabel itemWithLabel:wordLabel];
+//    //    wordListLabel.position = ccp(size.width/2, size.height - 80);
+//    
     CCMenuItem *backToMenu = [CCMenuItemImage itemWithNormalImage:@"plaintab.png" selectedImage:@"plaintab.png" target:self selector:@selector(backToMenuFromPossible)];
     
     self.possibleWordsMenu = [CCMenu menuWithItems: backToMenu, nil];
     self.possibleWordsMenu.position = ccp(size.width/2, 40);
     [self.possibleWordsMenu alignItemsVertically];
-    [self.possibleWordsLayer addChild:self.possibleWordsMenu z:3];
-    [self addChild:self.possibleWordsLayer z:3];
+    [self.possibleWordsLayer addChild:self.possibleWordsMenu];
+    [self addChild:self.possibleWordsLayer];
 }
 
 - (void) backToMenuFromPossible
