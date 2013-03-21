@@ -156,14 +156,14 @@
             continue;
         }
         data = [NSData dataWithContentsOfFile:filepath];
-        NSLog(@"data%@", data);
+//        NSLog(@"data%@", data);
         if (!data)
         {
             flag = NO;
             continue;
         }
         f = [NSString stringWithUTF8String:[data bytes]];
-        NSLog(@"ffff%@", f);
+//        NSLog(@"ffff%@", f);
         if (!f)
         {
             flag = NO;
@@ -189,7 +189,9 @@
                 firstCopy = NO;
             }
             else {
+//                [self.possibleWordList addObject:@"kablooey"];
                 [self.possibleWordList addObject:copy];
+//                NSLog(@"%@", copy);
 //                NSLog(@"%@", [self.possibleWordList lastObject]);
             }
         }
@@ -331,10 +333,6 @@
         CCSprite *scoreBorder = [CCSprite spriteWithFile:@"plaintab.png"];
         scoreBorder.position = ccp(size.width / 2, 390);
         
-        
-        
-        
-        
         self.scoreLabel = [CCLabelTTF labelWithString:@"Score:    0" fontName:@"open-dyslexic" fontSize:25];
         self.scoreLabel.color = ccBLACK;
         self.scoreLabel.position = ccp(size.width / 2, 390);
@@ -343,43 +341,32 @@
         CCSprite *currentWordBorder = [CCSprite spriteWithFile:@"plaintab_currentword.png"];
         currentWordBorder.position = ccp(size.width / 2, 340);
         
-        
         self.currentWordLabel = [CCLabelTTF labelWithString:@"" fontName:@"open-dyslexic" fontSize:25];
         self.currentWordLabel.color = ccBLACK;
         self.currentWordLabel.position = ccp(size.width / 2, 340);
-        
-        
+    
         if (size.height == 568)
         {
-
             scoreBorder.position = ccp(size.width / 2, 420);
             self.scoreLabel.position = ccp(size.width / 2, 420);
             currentWordBorder.position = ccp(size.width / 2, 360);
             self.currentWordLabel.position = ccp(size.width / 2, 360);
-            
-            
         }
         
-        
         //adding all together
-        
         [self addChild: scoreBorder];
         [self addChild: self.scoreLabel];
         [self addChild: currentWordBorder];
         [self addChild: self.currentWordLabel];
 
-        
         self.currentWordCorrectnessBadge = [CorrectWordBadge spriteWithFile:@"twitter.png"];
         self.currentWordCorrectnessBadge.position = ccp (currentWordBorder.position.x + 130, currentWordBorder.position.y);
         self.currentWordCorrectnessBadge.isPresent = NO;
-        
         
         /////////////////////////////////////////////////////////////////////////////////
         // TODO                                                                        //
         // Cover the board with a cover and animate it going down when the game starts //
         /////////////////////////////////////////////////////////////////////////////////
-        
-        
 	}
 	return self;
 }
@@ -389,14 +376,10 @@
     NSLog(@"Works!");
     if (!self.isPaused)
     {
-        
-        
         /////////////////////////////////////////////////////////////////////////////////
         // TODO                                                                        //
         // Place the layer to the north of the board and make it slide down for effect //
         /////////////////////////////////////////////////////////////////////////////////
-        
-        
         
         self.isPaused = YES;
         [self disableRotate];
@@ -448,7 +431,6 @@
 
 - (void) resumeGame
 {
-    
     /////////////////////////////////////////////////////////////////////////////////
     // TODO                                                                        //
     // Make the pause menu slide up to the north od the board then disappear       //
