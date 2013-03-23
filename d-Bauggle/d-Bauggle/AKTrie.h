@@ -12,6 +12,15 @@
 
 @interface AKTrie : NSObject
 
-
+- (AKState *) start;
+- (AKStack *) stateStack;
+- (AKStack *) path;
+- (NSUInteger) charToInt:(char) ch;
+- (void) insertWord :(NSString *)word atIndex :(NSUInteger)index withState:(AKState *)state;
+- (void) insert:(NSString *)word;
+- (BOOL) transitionForward: (char)ch;
+- (BOOL) transitionBackward;
+- (BOOL) isWord;
+- (NSString *) pathAsString;
 
 @end
