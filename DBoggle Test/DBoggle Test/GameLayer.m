@@ -16,6 +16,7 @@
 #import "Boggle.h"
 #import "CorrectWordBadge.h"
 
+
 @interface GameLayer ()
 
 @property (nonatomic) BOOL *userCanRotate; //user is allowed to rotate the board or not
@@ -263,6 +264,13 @@
 	return scene;
 }
 
+-(void) button1 {
+   [[SimpleAudioEngine sharedEngine] playEffect:@"sound1.mp3"];
+}
+
+-(void) button2 {
+    
+}
 // on "init" you need to initialize your instance
 -(id) init
 {
@@ -362,6 +370,31 @@
         self.currentWordCorrectnessBadge = [CorrectWordBadge spriteWithFile:@"twitter.png"];
         self.currentWordCorrectnessBadge.position = ccp (currentWordBorder.position.x + 130, currentWordBorder.position.y);
         self.currentWordCorrectnessBadge.isPresent = NO;
+        
+        
+        //Adding background Music
+        
+        [[SimpleAudioEngine sharedEngine] preloadBackgroundMusic:@"background.mp3"];
+        [[SimpleAudioEngine sharedEngine] preloadEffect:@"tiletap.mp3"];
+        [[SimpleAudioEngine sharedEngine] preloadEffect:@"wordformed.mp3"];
+        [[SimpleAudioEngine sharedEngine] preloadEffect:@"wordformed2.mp3"];
+        [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"background.mp3" loop:@YES];
+        
+        /////////////////////////////////////////////////////////////////////////////////
+        // TRYING - SURABHI                                       //
+        //Adding Sound effects//
+        /////////////////////////////////////////////////////////////////////////////////
+        
+
+//        CCMenuItemImage *item1=[CCMenuItemImage itemFromNormalImage:@"sound1.png" selectedImage:@"sound1.png" target:self selector:@selector(button1)];
+//        item1.position=ccp(40,380);
+//        
+//        CCMenuItemImage *item2=[CCMenuItemImage itemFromNormalImage:@"sound2.png" selectedImage:@"sound2.png" target:self selector:@selector(button2)];
+//        item2.position=ccp(40,350);
+//        
+//        CCMenu *menu2=[CCMenu menuWithItems:item1,item2,nil];
+////        menu2.position=ccp(50,400);
+//        [self addChild:menu2];
         
         /////////////////////////////////////////////////////////////////////////////////
         // TODO                                                                        //
@@ -716,6 +749,7 @@
         if ([self canChooseTileAt:position])
         {
             NSLog(@"came here inside");
+            [[SimpleAudioEngine sharedEngine] playEffect:@"tiletap.mp3"];
             [self.pressedTiles addObject:tile];
             [tile deactivate];
             NSLog(@"%@", tile.letter);
@@ -776,6 +810,7 @@
         NSLog(@"Word valid");
         
         [self clearCurrentWordLabel];
+        [[SimpleAudioEngine sharedEngine] playEffect:@"wordformed2.mp3"];
         [self clearAllPressedTiles];
         [self updateScoreLabel:self.currentWord.length];
         [self updatePlayedWordList:self.currentWord];

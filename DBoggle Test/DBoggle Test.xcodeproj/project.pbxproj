@@ -321,6 +321,13 @@
 		E617D29216FB6AC500785AC9 /* gameonbg.png in Resources */ = {isa = PBXBuildFile; fileRef = E617D28F16FB6AC300785AC9 /* gameonbg.png */; };
 		E617D29316FB6AC500785AC9 /* gameonbg-568h.png in Resources */ = {isa = PBXBuildFile; fileRef = E617D29016FB6AC400785AC9 /* gameonbg-568h.png */; };
 		E617D29416FB6AC500785AC9 /* gameonbg-hd 2.png in Resources */ = {isa = PBXBuildFile; fileRef = E617D29116FB6AC500785AC9 /* gameonbg-hd 2.png */; };
+		E617D29716FDA2DD00785AC9 /* sound1.png in Resources */ = {isa = PBXBuildFile; fileRef = E617D29516FDA2DD00785AC9 /* sound1.png */; };
+		E617D29816FDA2DD00785AC9 /* sound2.png in Resources */ = {isa = PBXBuildFile; fileRef = E617D29616FDA2DD00785AC9 /* sound2.png */; };
+		E617D29B16FDA49F00785AC9 /* sound1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E617D29916FDA49F00785AC9 /* sound1.mp3 */; };
+		E6DD34E416FDB92900A9BCA7 /* tiletap.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E6DD34E316FDB92900A9BCA7 /* tiletap.mp3 */; };
+		E6DD34E816FDBC5A00A9BCA7 /* wordformed2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E6DD34E716FDBC5A00A9BCA7 /* wordformed2.mp3 */; };
+		E6DD34EC16FDBF4000A9BCA7 /* mainmenubackground.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E6DD34EB16FDBF4000A9BCA7 /* mainmenubackground.mp3 */; };
+		E6DD34EE16FDC1ED00A9BCA7 /* background.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E6DD34ED16FDC1ED00A9BCA7 /* background.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -789,6 +796,13 @@
 		E617D28F16FB6AC300785AC9 /* gameonbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gameonbg.png; sourceTree = "<group>"; };
 		E617D29016FB6AC400785AC9 /* gameonbg-568h.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gameonbg-568h.png"; sourceTree = "<group>"; };
 		E617D29116FB6AC500785AC9 /* gameonbg-hd 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gameonbg-hd 2.png"; sourceTree = "<group>"; };
+		E617D29516FDA2DD00785AC9 /* sound1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sound1.png; sourceTree = "<group>"; };
+		E617D29616FDA2DD00785AC9 /* sound2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sound2.png; sourceTree = "<group>"; };
+		E617D29916FDA49F00785AC9 /* sound1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sound1.mp3; sourceTree = "<group>"; };
+		E6DD34E316FDB92900A9BCA7 /* tiletap.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = tiletap.mp3; sourceTree = "<group>"; };
+		E6DD34E716FDBC5A00A9BCA7 /* wordformed2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = wordformed2.mp3; sourceTree = "<group>"; };
+		E6DD34EB16FDBF4000A9BCA7 /* mainmenubackground.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = mainmenubackground.mp3; sourceTree = "<group>"; };
+		E6DD34ED16FDC1ED00A9BCA7 /* background.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = background.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1059,6 +1073,13 @@
 				156C19BD16CA27E2004591E6 /* Icon.png */,
 				156C19BF16CA27E2004591E6 /* Icon@2x.png */,
 				156C19C116CA27E2004591E6 /* Info.plist */,
+				E617D29516FDA2DD00785AC9 /* sound1.png */,
+				E617D29616FDA2DD00785AC9 /* sound2.png */,
+				E617D29916FDA49F00785AC9 /* sound1.mp3 */,
+				E6DD34ED16FDC1ED00A9BCA7 /* background.mp3 */,
+				E6DD34EB16FDBF4000A9BCA7 /* mainmenubackground.mp3 */,
+				E6DD34E316FDB92900A9BCA7 /* tiletap.mp3 */,
+				E6DD34E716FDBC5A00A9BCA7 /* wordformed2.mp3 */,
 				156C19C216CA27E2004591E6 /* iTunesArtwork */,
 			);
 			name = Resources;
@@ -1721,6 +1742,13 @@
 				E617D29216FB6AC500785AC9 /* gameonbg.png in Resources */,
 				E617D29316FB6AC500785AC9 /* gameonbg-568h.png in Resources */,
 				E617D29416FB6AC500785AC9 /* gameonbg-hd 2.png in Resources */,
+				E617D29716FDA2DD00785AC9 /* sound1.png in Resources */,
+				E617D29816FDA2DD00785AC9 /* sound2.png in Resources */,
+				E617D29B16FDA49F00785AC9 /* sound1.mp3 in Resources */,
+				E6DD34E416FDB92900A9BCA7 /* tiletap.mp3 in Resources */,
+				E6DD34E816FDBC5A00A9BCA7 /* wordformed2.mp3 in Resources */,
+				E6DD34EC16FDBF4000A9BCA7 /* mainmenubackground.mp3 in Resources */,
+				E6DD34EE16FDC1ED00A9BCA7 /* background.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
