@@ -180,7 +180,7 @@
         CCScrollLayer *scroller = [[CCScrollLayer alloc] initWithLayers:[NSMutableArray arrayWithObjects:[self layerCreator], [self layerCreator], [self layerCreator], nil] widthOffset:0];
 
         
-        [self addChild:scroller z: 3];
+//        [self addChild:scroller z: 3];
 
 	}
 	return self;

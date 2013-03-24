@@ -64,10 +64,10 @@
     else return @"Z";
 }
 //
-- (void) solve
-{
-    Solver solver = [[Solver alloc] init];
-    NSString * board;
-    NSSet *words = [solver findWordsInMatrix:board];
-}
+//- (void) solve
+//{
+//    Solver solver = [[Solver alloc] init];
+//    NSString * board;
+//    NSSet *words = [solver findWordsInMatrix:board];
+//}
 @end
