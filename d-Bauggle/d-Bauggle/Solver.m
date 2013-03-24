@@ -60,6 +60,7 @@
         if([scanner scanUpToCharactersFromSet:cs intoString:&line]) {
             NSString *copy = [NSString stringWithString:line];
             [dict addObject:copy];
+            NSLog(@"%@", copy);
             
         }
     }

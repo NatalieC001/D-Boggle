@@ -341,6 +341,7 @@
 		15F23CFA16FF143900D498BE /* vertical.png in Resources */ = {isa = PBXBuildFile; fileRef = 15F23CF216FF143900D498BE /* vertical.png */; };
 		15F23CFD16FF14B000D498BE /* diagonal-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 15F23CFB16FF14B000D498BE /* diagonal-hd.png */; };
 		15F23CFE16FF14B000D498BE /* diagonal.png in Resources */ = {isa = PBXBuildFile; fileRef = 15F23CFC16FF14B000D498BE /* diagonal.png */; };
+		D68E08E916FF2B1C0066A548 /* Solver.m in Sources */ = {isa = PBXBuildFile; fileRef = D68E08E816FF2B1C0066A548 /* Solver.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -845,6 +846,8 @@
 		15F23CF216FF143900D498BE /* vertical.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vertical.png; sourceTree = "<group>"; };
 		15F23CFB16FF14B000D498BE /* diagonal-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "diagonal-hd.png"; sourceTree = "<group>"; };
 		15F23CFC16FF14B000D498BE /* diagonal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = diagonal.png; sourceTree = "<group>"; };
+		D68E08E716FF2B1C0066A548 /* Solver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Solver.h; sourceTree = "<group>"; };
+		D68E08E816FF2B1C0066A548 /* Solver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Solver.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1562,6 +1565,8 @@
 				1588B4E616FB5A680048F193 /* tests.m */,
 				1588B4E716FB5A680048F193 /* Trie.h */,
 				1588B4E816FB5A690048F193 /* Trie.m */,
+				D68E08E716FF2B1C0066A548 /* Solver.h */,
+				D68E08E816FF2B1C0066A548 /* Solver.m */,
 				1588B4E916FB5A690048F193 /* utils.h */,
 				1588B4EA16FB5A690048F193 /* utils.m */,
 				1588B36216FB381E0048F193 /* Boggle.h */,
@@ -1976,6 +1981,7 @@
 				1588B4EB16FB5A690048F193 /* tests.m in Sources */,
 				1588B4EC16FB5A690048F193 /* Trie.m in Sources */,
 				1588B4ED16FB5A690048F193 /* utils.m in Sources */,
+				D68E08E916FF2B1C0066A548 /* Solver.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
