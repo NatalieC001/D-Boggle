@@ -50,7 +50,7 @@
     else if( theRandomNumber <= 54.055) return @"M";
     else if( theRandomNumber <= 60.804) return @"N";
     else if( theRandomNumber <= 68.311) return @"O";
-    else if( theRandomNumber <=  70.24) return @"P";
+    else if( theRandomNumber <= 70.24 ) return @"P";
     else if( theRandomNumber <= 70.335) return @"Q";
     else if( theRandomNumber <= 76.322) return @"R";
     else if( theRandomNumber <= 82.649) return @"S";
@@ -61,7 +61,12 @@
     else if( theRandomNumber <= 97.951) return @"X";
     else if( theRandomNumber <= 99.925) return @"Y";
     else return @"Z";
-
 }
-
+//
+//- (void) solve
+//{
+//    Solver solver = [[Solver alloc] init];
+//    NSString * board;
+//    NSSet *words = [solver findWordsInMatrix:board];
+//}
 @end

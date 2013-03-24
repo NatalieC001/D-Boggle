@@ -75,7 +75,7 @@
 	// Apple recommends to re-assign "self" with the "super's" return value
 	if( (self=[super init]) ) {
         
-        _touchEnabled = YES;
+        self.touchEnabled = YES;
 		
 		// create and initialize a Label
 		//CCLabelTTF *label = [CCLabelTTF labelWithString:@"D-Boggle!" fontName:@"Marker Felt" fontSize:64];
@@ -104,6 +104,7 @@
         
         [self addChild:menu];
 
+        
 	}
 	return self;
 }

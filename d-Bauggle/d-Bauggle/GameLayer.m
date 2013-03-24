@@ -41,6 +41,8 @@
 @property (nonatomic, strong) CCLabelTTF *currentWordLabel;
 @property (nonatomic, strong) NSString *currentWord;
 @property (nonatomic, strong) CorrectWordBadge *currentWordCorrectnessBadge;
+@property (nonatomic, strong) NSMutableArray *lines;
+//@property (nonatomic, strong) CCMotionStreak *streak;
 @end
 
 @implementation GameLayer
@@ -75,7 +77,11 @@
     return _possibleWordList;
 }
 
-//
+- (NSMutableArray *) lines {
+    if (!_lines) _lines = [[NSMutableArray alloc] init];
+    return _lines;
+}
+
 - (Dictionary *) dict {
     if (!_dict) _dict = [[Dictionary alloc] init];
     return _dict;
@@ -268,8 +274,8 @@
 	// Apple recommends to re-assign "self" with the "super's" return value
 	if( (self = [super init]) ) {
         
-        _touchEnabled = YES;
-		
+        self.touchEnabled = YES;
+
         
         
         [self.dict initializeDictionary];
@@ -313,7 +319,8 @@
         [self.boardManager addChild:self.board z:0];    //Add board to boardManager
         for (int i = 0; i < 16; i++)        //Add each letter one by one to the board.
         {
-            [self.boardManager addChild:[self.letters objectAtIndex:i]];
+            Tile * tile = [self.letters objectAtIndex:i];
+            [self.boardManager addChild:tile z:30 tag:[tile tileNumber]];
         }
         
         self.time = [[NSNumber alloc] initWithInt:120];      //to-do: Change to 300
@@ -379,6 +386,10 @@
         // Cover the board with a cover and animate it going down when the game starts //
         /////////////////////////////////////////////////////////////////////////////////
         
+//        self.streak = [CCMotionStreak streakWithFade:100 minSeg:1 width:5 color:ccBLACK textureFilename:@"streak.png"];
+//        self.streak.position = ccp(0,0);
+//        [self addChild:self.streak];
+//        [self schedule:@selector(doStep:)];
         
 	}
 	return self;
@@ -674,43 +685,33 @@
             return (lastIndex == 0 || lastIndex == 1 || lastIndex == 2 || lastIndex == 4 || lastIndex == 6 || lastIndex == 8 || lastIndex == 9 || lastIndex == 10);
             break;
         case 6:
-            
             return (lastIndex == 1 || lastIndex == 2 || lastIndex == 3 || lastIndex == 5 || lastIndex == 7 || lastIndex == 9 || lastIndex == 10 || lastIndex == 11);
             break;
         case 7:
-            
             return (lastIndex == 2 || lastIndex == 3 || lastIndex == 6 || lastIndex == 10 || lastIndex == 11);
             break;
         case 8:
-            
             return (lastIndex == 4 || lastIndex == 5 || lastIndex == 9 || lastIndex == 12 || lastIndex == 13);
             break;
         case 9:
-            
             return (lastIndex == 4 || lastIndex == 5 || lastIndex == 6 || lastIndex == 8 || lastIndex == 10 || lastIndex == 12 || lastIndex == 13 || lastIndex == 14);
             break;
         case 10:
-            
             return (lastIndex == 5 || lastIndex == 6 || lastIndex == 7 || lastIndex == 9 || lastIndex == 11 || lastIndex == 13 || lastIndex == 14 || lastIndex == 15);
             break;
         case 11:
-            
             return (lastIndex == 6 || lastIndex == 7 || lastIndex == 10 || lastIndex == 14 || lastIndex == 15);
             break;
         case 12:
-            
             return (lastIndex == 8 || lastIndex == 9 || lastIndex == 13);
             break;
         case 13:
-            
             return (lastIndex == 8 || lastIndex == 9 || lastIndex == 10 || lastIndex == 12 || lastIndex == 14);
             break;
         case 14:
-            
             return (lastIndex == 9 || lastIndex == 10 || lastIndex == 11 || lastIndex == 13 || lastIndex == 15);
             break;
         case 15:
-            
             return (lastIndex == 10  || lastIndex == 11 || lastIndex == 14);
             break;
             
@@ -721,6 +722,14 @@
     
     return NO;
 }
+//
+//- (void)doStep:(ccTime)delta
+//{
+//    //update the position
+//    NSLog(@"doing step");
+//    Tile * lastTile = [self.pressedTiles lastObject];
+//    [self.streak setPosition: lastTile.actualLocation];
+//}
 
 - (void)tileTouchedAt:(NSUInteger)position
 {
@@ -786,6 +795,7 @@
     [self.currentWordLabel setString:currentWord];
     self.currentWord = [NSString stringWithString:currentWord];
     [self updateCorrectWordBadge];
+    [self updateLines];
 }
 
 - (void) validateWord
@@ -808,6 +818,7 @@
             }
         }
         [self updateCorrectWordBadge];
+        [self updateLines];
     }
 }
 
@@ -835,6 +846,57 @@
         NSLog(@"Removing the badge");
         self.currentWordCorrectnessBadge.isPresent = NO;
         [self removeChild:self.currentWordCorrectnessBadge cleanup:YES];
+    }
+}
+
+- (void) updateLines
+{
+    NSLog(@"Number of lines = %lu", (unsigned long)[self.lines count]);
+    if ([self.lines count] != 0)
+    {
+        for (CCSprite *line in self.lines)
+        {
+            [self.boardManager removeChild:line cleanup:YES];
+            NSLog(@"Removed line");
+        }
+    }
+    [self.lines removeAllObjects];
+    Tile *previousTile = nil;
+    for (Tile *tile in self.pressedTiles)
+    {
+        if (previousTile)
+        {
+//            Add line here
+            CCSprite *line;
+            int difference = previousTile.tileNumber - tile.tileNumber;
+            difference = difference < 0 ? (difference * -1):difference;
+            switch (difference) {
+                case 1:
+                    line = [CCSprite spriteWithFile:@"horizontal.png"];
+                    break;
+                case 3:
+                    line = [CCSprite spriteWithFile:@"diagonal1.png"];
+                    break;
+                case 4:
+                    line = [CCSprite spriteWithFile:@"vertical.png"];
+                    break;
+                case 5:
+                    line = [CCSprite spriteWithFile:@"diagonal.png"];
+                    break;
+                default:
+                    break;
+            }
+            line.position = ccp((previousTile.position.x + tile.position.x)/2, (previousTile.position.y + tile.position.y)/2);
+            NSLog(@"Previous tile is %lu at %f, %f", (unsigned long)previousTile.tileNumber, previousTile.position.x, previousTile.position.y);
+            NSLog(@"Current tile is %lu at %f, %f", (unsigned long)tile.tileNumber, tile.position.x, tile.position.y);
+            NSLog(@"Line is at %f, %f", line.position.x, line.position.y);
+            [self.lines addObject:line];
+            NSLog(@"Just added the line. The count of lines = %lu", (unsigned long)[self.lines count]);
+            [self.boardManager addChild:line z:5];
+            
+            NSLog(@"Added line");
+        }
+        previousTile = tile;
     }
 }
 
@@ -900,8 +962,8 @@
                 [self tileTouchedAt:i];
             }
         }
-        
     }
+    
 }
 
 -(void)ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
