@@ -40,6 +40,7 @@
     
 	// ask director for the window size
 	CGSize size = [[CCDirector sharedDirector] winSize];
+//    [[CCDirector sharedDirector] setDisplayFPS:NO];
     
 	CCSprite *background;
 	

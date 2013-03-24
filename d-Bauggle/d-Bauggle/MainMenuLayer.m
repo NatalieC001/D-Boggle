@@ -103,6 +103,9 @@
         [menu alignItemsVerticallyWithPadding:5];
         
         [self addChild:menu];
+        
+        [[SimpleAudioEngine sharedEngine] preloadBackgroundMusic:@"mainmenubackground.mp3"];
+        [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"mainmenubackground.mp3" loop:@YES];
 
         
 	}

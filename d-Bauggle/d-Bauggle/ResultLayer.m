@@ -13,6 +13,7 @@
 #import "ABGameKitHelper.h"
 #import <Social/Social.h>
 #import "ScrollingNode.h"
+#import "CCScrollLayer.h"
 
 @interface ResultLayer ()
 
@@ -62,6 +63,10 @@
 	// add layer as a child to scene
 	[scene addChild: layer];
 	
+    
+    
+    
+    
 	// return the scene
 	return scene;
 }
@@ -75,6 +80,7 @@
 	ResultLayer *layer = [ResultLayer node];
 	layer.score = score;
     [layer updateScore];
+    [[ABGameKitHelper sharedClass] reportScore:score forLeaderboard:@"leaderboard1"];
     NSLog(@"Real deal: %d", layer.score);
     
     NSLog(@"%d", layer.score);
@@ -161,7 +167,7 @@
         [self addChild:gameOverImage];
         
 
-        CCMenuItemImage *twitter = [CCMenuItemImage itemWithNormalImage:@"twitter.png" selectedImage:@"twitter.png" target:self selector:@selector(share)];
+        CCMenuItemImage *twitter = [CCMenuItemImage itemWithNormalImage:@"tweet.png" selectedImage:@"tweet_onClick.png" target:self selector:@selector(share)];
         CCMenu *shareMenu = [CCMenu menuWithItems:twitter, nil];
         shareMenu.position = ccp(290, 30);
         [self addChild:shareMenu];
@@ -170,8 +176,40 @@
         [self schedule: @selector(tick:) interval:1];
         self.isMenuActive = YES;
         
+        
+        CCScrollLayer *scroller = [[CCScrollLayer alloc] initWithLayers:[NSMutableArray arrayWithObjects:[self layerCreator], [self layerCreator], [self layerCreator], nil] widthOffset:0];
+
+        
+        [self addChild:scroller z: 3];
+
 	}
 	return self;
+}
+
+- (CCLayer *)layerCreator
+{
+    CCLayer * layer = [CCLayerColor layerWithColor: ccc4(0, 0, 0, 0)];
+    CGSize size = [[CCDirector sharedDirector] winSize];
+    
+    CCSprite *background = [CCSprite spriteWithFile:@"hitslayer.png"];
+    
+    background.position = ccp (size.width/2, size.height/2);
+    //[[CCDirector sharedDirector] pause];
+    layer.position = ccp(0, 0);
+    [layer addChild:background z:3];
+    
+    CCSprite *pausedLogo = [CCSprite spriteWithFile:@"hitslogo.png"];
+    pausedLogo.position = ccp(size.width/2, size.height - 100);
+    [layer addChild:pausedLogo z:4];
+    
+    CCMenuItem *backToMenu = [CCMenuItemImage itemWithNormalImage:@"plaintab.png" selectedImage:@"plaintab.png" target:self selector:@selector(backToMenuFromPlayed)];
+    
+    CCMenu *playedWordsMenu = [CCMenu menuWithItems: backToMenu, nil];
+    playedWordsMenu.position = ccp(size.width/2, 40);
+    [playedWordsMenu alignItemsVertically];
+    [layer addChild:playedWordsMenu z:4];
+    
+    return layer;
 }
 
 -(void) tick: (ccTime) dt
@@ -213,7 +251,7 @@
 {
     if (self.isMenuActive)
     {
-        [[ABGameKitHelper sharedClass] showLeaderboard:@"leaderboardID"];
+        [[ABGameKitHelper sharedClass] showLeaderboard:@"leaderboard1"];
     }
 
 }
@@ -345,7 +383,7 @@
 
 - (void) share
 {
-    [self shareOnTwitterWithText:[NSString stringWithFormat: @"I just scored %lu points on @d_Boggle! What useful thing have you done all day?", (unsigned long)self.score] andURL:nil andImageName:nil];
+    [self shareOnTwitterWithText:[NSString stringWithFormat: @"I just scored %lu points on @dBauggle! What noteworthy thing have you done all day? #humblebrag", (unsigned long)self.score] andURL:nil andImageName:nil];
     NSLog(@"Twitter score: %d", self.score);
 }
 

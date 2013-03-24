@@ -381,15 +381,20 @@
         self.currentWordCorrectnessBadge.isPresent = NO;
         
         
+        //Adding background Music
+        
+        [[SimpleAudioEngine sharedEngine] preloadBackgroundMusic:@"background.mp3"];
+        [[SimpleAudioEngine sharedEngine] preloadEffect:@"tiletap.mp3"];
+        [[SimpleAudioEngine sharedEngine] preloadEffect:@"wordformed.mp3"];
+        [[SimpleAudioEngine sharedEngine] preloadEffect:@"wordformed2.mp3"];
+        [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"background.mp3" loop:@YES];
+        
+        
         /////////////////////////////////////////////////////////////////////////////////
         // TODO                                                                        //
         // Cover the board with a cover and animate it going down when the game starts //
         /////////////////////////////////////////////////////////////////////////////////
         
-//        self.streak = [CCMotionStreak streakWithFade:100 minSeg:1 width:5 color:ccBLACK textureFilename:@"streak.png"];
-//        self.streak.position = ccp(0,0);
-//        [self addChild:self.streak];
-//        [self schedule:@selector(doStep:)];
         
 	}
 	return self;
@@ -415,9 +420,9 @@
         CGSize size = [[CCDirector sharedDirector] winSize];
         CCSprite *background;
         if (size.height == 568)
-            background = [CCSprite spriteWithFile:@"pauselayer-568h.png"];
+            background = [CCSprite spriteWithFile:@"pause_layer-568h.png"];
         else
-            background = [CCSprite spriteWithFile:@"pauselayer.png"];
+            background = [CCSprite spriteWithFile:@"pause_layer.png"];
 
         background.position = ccp (size.width/2, size.height/2);
         //[[CCDirector sharedDirector] pause];
@@ -435,10 +440,6 @@
         
         [self addChild: self.pauseLayer z:8];
         [CCMenuItemFont setFontName:@"open-dyslexic"];
-//        CCMenuItemFont *resume = [CCMenuItemFont itemWithString:@"Resume" target:self selector:@selector(resumeGame)];
-//		CCMenuItemFont *mainMenu = [CCMenuItemFont itemWithString:@"Main Menu" target:self selector:@selector(returnToMainMenu)];
-//		CCMenuItemFont *newGame = [CCMenuItemFont itemWithString:@"New Game" target:self selector:@selector(newGame)];
-//        CCMenuItemFont *playedWords = [CCMenuItemFont itemWithString:@"Played Words" target:self selector:@selector(playedWords)];
         
         CCMenuItemImage *resume = [CCMenuItemImage itemWithNormalImage:@"resume_inactive.png" selectedImage:@"resume_active.png" target:self selector:@selector(resumeGame)];
         CCMenuItemImage *mainMenu = [CCMenuItemImage itemWithNormalImage:@"mainmenu_inactive.png" selectedImage:@"mainmenu_active.png" target:self selector:@selector(returnToMainMenu)];
@@ -509,7 +510,13 @@
     [self removeChild:self.pauseLayer cleanup:YES];
     
     
-    CCSprite *background = [CCSprite spriteWithFile:@"playedwordslayer.png"];
+    CCSprite *background;
+    if (size.height == 568)
+        background = [CCSprite spriteWithFile:@"credits_hits_missed-hd.png"];
+    else
+        background = [CCSprite spriteWithFile:@"credits_hits_missed.png"];
+    
+    
     background.position = ccp (size.width/2, size.height/2);
     //[[CCDirector sharedDirector] pause];
     self.playedWordsLayer = [CCLayerColor layerWithColor: ccc4(0, 0, 0, 0)];
@@ -743,6 +750,7 @@
         if ([self canChooseTileAt:position])
         {
             NSLog(@"came here inside");
+            [[SimpleAudioEngine sharedEngine] playEffect:@"tiletap.mp3"];
             [self.pressedTiles addObject:tile];
             [tile deactivate];
             NSLog(@"%@", tile.letter);
@@ -808,6 +816,7 @@
         [self clearAllPressedTiles];
         [self updateScoreLabel:self.currentWord.length];
         [self updatePlayedWordList:self.currentWord];
+        [[SimpleAudioEngine sharedEngine] playEffect:@"wordformed2.mp3"];
         for(NSString *word in self.possibleWordList)
         {
             if ([self.currentWord isEqualToString:word])
