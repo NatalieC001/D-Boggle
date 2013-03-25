@@ -273,6 +273,7 @@
 }
 // on "init" you need to initialize your instance
 -(id) init
+
 {
 	// always call "super" init
 	// Apple recommends to re-assign "self" with the "super's" return value
@@ -287,14 +288,14 @@
         self.angle = 0;
         self.isPaused = NO;
         
-        CCMenuItemImage *rotate = [CCMenuItemImage itemWithNormalImage:@"rotation.png" selectedImage:@"rotation_inactive.png" target:self selector:@selector(rotateClicked)];    //Rotate button
-        CCMenuItemImage *pause = [CCMenuItemImage itemWithNormalImage:@"pause.png" selectedImage:@"pause_inactive.png" target:self selector:@selector(pauseGame)];        //Pause button
+        CCMenuItemImage *rotate = [CCMenuItemImage itemWithNormalImage:@"rotate.png" selectedImage:@"rotate_onClick.png" target:self selector:@selector(rotateClicked)];    //Rotate button
+        CCMenuItemImage *pause = [CCMenuItemImage itemWithNormalImage:@"pause.png" selectedImage:@"pause_onClick.png" target:self selector:@selector(pauseGame)];        //Pause button
         
         CGSize size = [[CCDirector sharedDirector] winSize];
         
         CCMenu *menu = [CCMenu menuWithItems:rotate, pause, nil];   //The top banner
         self.score = 0;
-        [menu alignItemsHorizontallyWithPadding:0];
+        [menu alignItemsHorizontallyWithPadding:-10];
         menu.position = ccp(263, size.height - 30);
         [self addChild:menu];
         
