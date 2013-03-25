@@ -12,8 +12,9 @@
 #import "InstructionsLayer.h"
 // Needed to obtain the Navigation Controller
 #import "AppDelegate.h"
-
+#import "CreditsLayer.h"
 #import "GameLayer.h"
+#import "ABGameKitHelper.h"
 
 #pragma mark - MainMenuLayer
 
@@ -62,9 +63,15 @@
     [[CCDirector sharedDirector] replaceScene:[CCTransitionSlideInB transitionWithDuration:0.5 scene:[InstructionsLayer scene]]];
 }
 
-- (void) otherOption
+- (void) credits
 {
-    NSLog(@"Other Option");
+    NSLog(@"Credits");
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionSlideInT transitionWithDuration:0.5 scene:[ CreditsLayer scene]]];
+}
+
+- (void) highScores
+{
+    [[ABGameKitHelper sharedClass] showLeaderboard:@"leaderboard1"];
 }
 
 
@@ -96,10 +103,10 @@
         
         CCMenuItemImage *newGameItem = [CCMenuItemImage itemWithNormalImage:@"newgame_inactive.png" selectedImage:@"newgame_active.png" target:self selector:@selector(newGame)];
         CCMenuItemImage *instructions = [CCMenuItemImage itemWithNormalImage:@"instructions_inactive.png" selectedImage:@"instructions_active.png" target:self selector:@selector(instructions)];
-        CCMenuItemImage *highscores = [CCMenuItemImage itemWithNormalImage:@"highscores_inactive.png" selectedImage:@"highscores_active.png" target:self selector:@selector(otherOption)];
+        CCMenuItemImage *highscores = [CCMenuItemImage itemWithNormalImage:@"highscores_inactive.png" selectedImage:@"highscores_active.png" target:self selector:@selector(highScores)];
+        CCMenuItemImage *credits = [CCMenuItemImage itemWithNormalImage:@"credits_inactive.png" selectedImage:@"credits_active.png" target:self selector:@selector(credits)];
         
-        
-        CCMenu *menu = [CCMenu menuWithItems:newGameItem, instructions, highscores, nil];
+        CCMenu *menu = [CCMenu menuWithItems:newGameItem, instructions, highscores, credits, nil];
         [menu alignItemsVerticallyWithPadding:5];
         
         [self addChild:menu];

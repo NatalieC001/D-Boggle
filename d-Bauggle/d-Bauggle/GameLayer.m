@@ -444,7 +444,7 @@
         CCMenuItemImage *resume = [CCMenuItemImage itemWithNormalImage:@"resume_inactive.png" selectedImage:@"resume_active.png" target:self selector:@selector(resumeGame)];
         CCMenuItemImage *mainMenu = [CCMenuItemImage itemWithNormalImage:@"mainmenu_inactive.png" selectedImage:@"mainmenu_active.png" target:self selector:@selector(returnToMainMenu)];
         CCMenuItemImage *newGame = [CCMenuItemImage itemWithNormalImage:@"newgame_inactive.png" selectedImage:@"newgame_active.png" target:self selector:@selector(newGame)];
-        CCMenuItemImage *playedWords = [CCMenuItemImage itemWithNormalImage:@"playedwords_inactive.png" selectedImage:@"playedwords_active.png" target:self selector:@selector(playedWords)];
+        CCMenuItemImage *playedWords = [CCMenuItemImage itemWithNormalImage:@"hits_inactive.png" selectedImage:@"hits_active.png" target:self selector:@selector(playedWords)];
         CCMenuItemImage *endCurrentGame = [CCMenuItemImage itemWithNormalImage:@"endgame.png" selectedImage:@"endgame_active.png" target:self selector:@selector(endCurrentGame)];
         
         self.pauseMenu = [CCMenu menuWithItems:resume, mainMenu, newGame, playedWords, endCurrentGame, nil];

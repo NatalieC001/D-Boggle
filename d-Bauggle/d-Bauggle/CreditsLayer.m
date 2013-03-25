@@ -1,20 +1,23 @@
 //
-//  InstructionsLayer.m
-//  DBoggle Test
+//  CreditsLayer.m
+//  d-Bauggle
 //
-//  Created by Arnav Kumar on 17/2/13.
-//
+//  Created by Arnav Kumar on 25/3/13.
+//  Copyright (c) 2013 Arnav Kumar. All rights reserved.
 //
 
-#import "InstructionsLayer.h"
-#import "cocos2d.h"
+#import "CreditsLayer.h"
+#import "CCScrollLayer.h"
 #import "MainMenuLayer.h"
 #import "GameLayer.h"
-#import "CCScrollLayer.h"
 
-@implementation InstructionsLayer
+@interface CreditsLayer ()
+@property (nonatomic, strong) CCScrollLayer *scroller;
+@end
 
-// Helper class method that creates a Scene with the HelloWorldLayer as the only child.
+@implementation CreditsLayer
+
+@synthesize scroller = _scroller;
 +(CCScene *) scene
 {
 	// 'scene' is an autorelease object.
@@ -22,12 +25,12 @@
 	CGSize size = [[CCDirector sharedDirector] winSize];
 	// 'layer' is an autorelease object.
 	
-	InstructionsLayer *layer = [InstructionsLayer node];
+	CreditsLayer *layer = [CreditsLayer node];
     CCSprite *background;
     if (size.height == 568)
-        background = [CCSprite spriteWithFile:@"howtoplaybase-568h.png"];
+        background = [CCSprite spriteWithFile:@"creditsbase-568h.png"];
     else
-        background = [CCSprite spriteWithFile:@"howtoplaybase.png"];
+        background = [CCSprite spriteWithFile:@"creditsbase.png"];
     
     background.position = ccp (size.width/2, size.height/2);
     layer.position = ccp(0, 0);
@@ -47,14 +50,12 @@
 	// always call "super" init
 	// Apple recommends to re-assign "self" with the "super's" return value
 	if( (self=[super init]) ) {
-        
-        self.touchEnabled = YES;
         CGSize size = [[CCDirector sharedDirector] winSize];
+        self.touchEnabled = YES;
         
-    
-        CCScrollLayer *scroller = [[CCScrollLayer alloc] initWithLayers:[NSArray arrayWithObjects:[self teamLayer], [self otherCreditsLayer], nil] widthOffset:0];
-        
-        [self addChild: scroller];
+        self.scroller = [[CCScrollLayer alloc] initWithLayers:[NSArray arrayWithObjects:[self teamLayer], [self otherCreditsLayer], nil] widthOffset:0];
+
+        [self addChild: self.scroller];
         
         CCMenuItem *backToMenu = [CCMenuItemImage itemWithNormalImage:@"backbutton.png" selectedImage:@"backbutton.png" target:self selector:@selector(mainMenu)];
         
@@ -76,9 +77,9 @@
     
     CCSprite *creditBubble;
     if (size.height == 568)
-        creditBubble = [CCSprite spriteWithFile:@"howtoplay1-568h.png"];
+        creditBubble = [CCSprite spriteWithFile:@"credits1-568h.png"];
     else
-        creditBubble = [CCSprite spriteWithFile:@"howtoplay1.png"];
+        creditBubble = [CCSprite spriteWithFile:@"credits1.png"];
     
     creditBubble.position = ccp (size.width/2, size.height/2);
     layer.position = ccp(0, 0);
@@ -94,9 +95,9 @@
     
     CCSprite *creditBubble;
     if (size.height == 568)
-        creditBubble = [CCSprite spriteWithFile:@"howtoplay1-568h.png"];
+        creditBubble = [CCSprite spriteWithFile:@"credits1-568h.png"];
     else
-        creditBubble = [CCSprite spriteWithFile:@"howtoplay1.png"];
+        creditBubble = [CCSprite spriteWithFile:@"credits1.png"];
     
     creditBubble.position = ccp (size.width/2, size.height/2);
     layer.position = ccp(0, 0);
@@ -104,9 +105,9 @@
     return layer;
 }
 
-
 - (void) mainMenu {
-    [[CCDirector sharedDirector] replaceScene:[CCTransitionSlideInT transitionWithDuration:0.5 scene:[MainMenuLayer scene]]];
+    [self removeChild:self.scroller cleanup:YES];
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionSlideInB transitionWithDuration:0.5 scene:[GameLayer scene]]];
 }
 
 @end
