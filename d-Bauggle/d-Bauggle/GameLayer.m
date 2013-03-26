@@ -214,7 +214,7 @@
 //    }
     self.possibleWordList = [Engine solveBoard:boardLetters];
     NSLog(@"Possible Count: %d", [self.possibleWordList count]);
-    if([self.possibleWordList count] < 200){
+    if([self.possibleWordList count] < 100){
         [self lettersForBoard];
     }
     
@@ -308,7 +308,7 @@
         
         CCMenu *menu = [CCMenu menuWithItems:rotate, pause, nil];   //The top banner
         self.score = 0;
-        [menu alignItemsHorizontallyWithPadding:0];
+        [menu alignItemsHorizontallyWithPadding:-10];
         menu.position = ccp(263, size.height - 30);
         [self addChild:menu];
         
@@ -399,6 +399,7 @@
         
         [[SimpleAudioEngine sharedEngine] preloadBackgroundMusic:@"background.mp3"];
         [[SimpleAudioEngine sharedEngine] preloadEffect:@"tiletap.mp3"];
+        [[SimpleAudioEngine sharedEngine] preloadEffect:@"rotate.mp3"];
         [[SimpleAudioEngine sharedEngine] preloadEffect:@"wordformed.mp3"];
         [[SimpleAudioEngine sharedEngine] preloadEffect:@"wordformed2.mp3"];
         [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"background.mp3" loop:@YES];
@@ -408,9 +409,7 @@
         self.quitPrompt = [CCLayerColor layerWithColor: ccc4(0, 0, 0, 0)];
         self.quitPrompt.position = ccp(0, 0);
         
-        self.sound = NO;
-        if ([[SimpleAudioEngine sharedEngine] backgroundMusicVolume] == 1);
-            self.sound = YES;
+        self.sound = (BOOL)[[SimpleAudioEngine sharedEngine] backgroundMusicVolume];
         
         
         
@@ -770,6 +769,10 @@
     [self disableRotate];
     self.angle += 90;
     if (self.angle >= 360) self.angle -= 360;
+    if (self.sound)
+    {
+        [[SimpleAudioEngine sharedEngine] playEffect:@"rotate.mp3"];
+    }
 //    NSLog(@"Rotation = %f", [self.board rotation]);
     id enableRotateCallback = [CCCallFunc actionWithTarget:self selector:@selector(enableRotate)];
     id rotateAction = [CCRotateBy actionWithDuration:0.5 angle:-90];    //rotates the board by 90 deg anti-clockwise
@@ -905,7 +908,10 @@
         if ([self canChooseTileAt:position])
         {
 //            NSLog(@"came here inside");
-            [[SimpleAudioEngine sharedEngine] playEffect:@"tiletap.mp3"];
+            if (self.sound)
+            {
+                [[SimpleAudioEngine sharedEngine] playEffect:@"tiletap.mp3"];
+            }
             [self.pressedTiles addObject:tile];
             [tile deactivate];
 //            NSLog(@"%@", tile.letter);
@@ -971,7 +977,10 @@
         [self clearAllPressedTiles];
         [self updateScoreLabel:self.currentWord.length];
         [self updatePlayedWordList:self.currentWord];
-        [[SimpleAudioEngine sharedEngine] playEffect:@"wordformed2.mp3"];
+        if (self.sound)
+        {
+            [[SimpleAudioEngine sharedEngine] playEffect:@"wordformed2.mp3"];
+        }
         for(NSString *word in self.possibleWordList)
         {
             if ([self.currentWord isEqualToString:word])

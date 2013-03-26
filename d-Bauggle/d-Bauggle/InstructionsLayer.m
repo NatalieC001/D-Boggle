@@ -59,7 +59,7 @@
         CCMenuItem *backToMenu = [CCMenuItemImage itemWithNormalImage:@"backbutton.png" selectedImage:@"backbutton.png" target:self selector:@selector(mainMenu)];
         
         CCMenu *backButtonMenu = [CCMenu menuWithItems: backToMenu, nil];
-        backButtonMenu.position = ccp(32, size.height - 30);
+        backButtonMenu.position = ccp(32, size.height - 70);
         [backButtonMenu alignItemsVertically];
         [self addChild:backButtonMenu z:4];
         

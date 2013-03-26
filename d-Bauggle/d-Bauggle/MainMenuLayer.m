@@ -133,14 +133,7 @@
         [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"mainmenubackground.mp3" loop:@YES];
 
         
-        self.sound = NO;
-        NSLog(@"The Volume = %f", [[SimpleAudioEngine sharedEngine] backgroundMusicVolume]);
-        if ([[SimpleAudioEngine sharedEngine] backgroundMusicVolume] == 1.00);
-        {
-            self.sound = YES;
-            NSLog(@"True!");
-            
-        }
+        self.sound = (BOOL)[[SimpleAudioEngine sharedEngine] backgroundMusicVolume];
         
         self.soundMenu = [self soundMenuGenerator];
         self.soundMenu.position = ccp (30, size.height - 30);
