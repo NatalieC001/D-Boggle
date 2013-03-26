@@ -17,13 +17,11 @@
 {
 	UIWindow *window_;
 	MyNavigationController *navController_;
-    NSNumber *volume_;
 	CCDirectorIOS	*director_;							// weak ref
 }
 
 @property (nonatomic, retain) UIWindow *window;
 @property (readonly) MyNavigationController *navController;
 @property (readonly) CCDirectorIOS *director;
-@property (nonatomic, retain) NSNumber *volume;
 
 @end
