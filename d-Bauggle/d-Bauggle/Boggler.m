@@ -61,7 +61,7 @@
 //    
 //    return newSet;
 
-- (void) tryToSolve:(NSString *) board
+- (NSMutableSet *) tryToSolve:(NSString *) board
 {
     //initialise the board.
     [self initializeBoardWithLetters:board];
@@ -69,6 +69,7 @@
     //get word.
     NSString *word = @"nerites";
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"sowpods" ofType:@"txt"];
+    NSLog(@"REACHED");
     
     NSData *data = [NSData dataWithContentsOfFile:filePath];
     NSString *f = [NSString stringWithUTF8String:[data bytes]];
@@ -90,8 +91,8 @@
         }
     }
     NSMutableSet *newSet = [[NSMutableSet alloc] initWithSet:dict];
-    
-    
+    NSLog(@"Sent Count: %d", [newSet count]);
+    return newSet;
     
     /*
      dclp

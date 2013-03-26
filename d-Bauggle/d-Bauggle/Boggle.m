@@ -8,6 +8,7 @@
 
 #import "Boggle.h"
 #import "Solver.h"
+#import "Boggler.h"
 
 @implementation Boggle
 
@@ -24,9 +25,10 @@
     return [board lowercaseString];
 }
 
-+ (NSArray *) solveBoard:(NSString *)board
++ (NSMutableSet *) solveBoard:(NSString *)board
 {
-    return  nil;
+    Boggler *obj = [[Boggler alloc] init];
+    return [obj tryToSolve:board];
 }
 
 + (NSString *) getCharacter

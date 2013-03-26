@@ -208,11 +208,12 @@
             }
         }
     }
-    NSArray *possibleSet = [Boggle solveBoard:boardLetters];
+    NSMutableSet *possibleSet = [Boggle solveBoard:boardLetters];
     NSLog(@"Possible Count: %d", [possibleSet count]);
     for (NSString *word in possibleSet){
         [self.possibleWordList addObject:word];
     }
+    
 
 //    boardLetters = [self.possibleWordList objectAtIndex:0];     //First line of text file has the grid letters
 //    [self.possibleWordList removeLastObject];
@@ -392,11 +393,11 @@
         
         //Adding background Music
         
-        [[SimpleAudioEngine sharedEngine] preloadBackgroundMusic:@"background.mp3"];
-        [[SimpleAudioEngine sharedEngine] preloadEffect:@"tiletap.mp3"];
-        [[SimpleAudioEngine sharedEngine] preloadEffect:@"wordformed.mp3"];
-        [[SimpleAudioEngine sharedEngine] preloadEffect:@"wordformed2.mp3"];
-        [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"background.mp3" loop:@YES];
+//        [[SimpleAudioEngine sharedEngine] preloadBackgroundMusic:@"background.mp3"];
+//        [[SimpleAudioEngine sharedEngine] preloadEffect:@"tiletap.mp3"];
+//        [[SimpleAudioEngine sharedEngine] preloadEffect:@"wordformed.mp3"];
+//        [[SimpleAudioEngine sharedEngine] preloadEffect:@"wordformed2.mp3"];
+//        [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"background.mp3" loop:@YES];
         
         
         //initializing quit prompt once so that it can be reused.
@@ -851,7 +852,7 @@
         if ([self canChooseTileAt:position])
         {
 //            NSLog(@"came here inside");
-            [[SimpleAudioEngine sharedEngine] playEffect:@"tiletap.mp3"];
+//            [[SimpleAudioEngine sharedEngine] playEffect:@"tiletap.mp3"];
             [self.pressedTiles addObject:tile];
             [tile deactivate];
 //            NSLog(@"%@", tile.letter);
@@ -917,7 +918,7 @@
         [self clearAllPressedTiles];
         [self updateScoreLabel:self.currentWord.length];
         [self updatePlayedWordList:self.currentWord];
-        [[SimpleAudioEngine sharedEngine] playEffect:@"wordformed2.mp3"];
+//        [[SimpleAudioEngine sharedEngine] playEffect:@"wordformed2.mp3"];
         for(NSString *word in self.possibleWordList)
         {
             if ([self.currentWord isEqualToString:word])
