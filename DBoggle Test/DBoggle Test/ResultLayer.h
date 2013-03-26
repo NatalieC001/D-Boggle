@@ -8,6 +8,7 @@
 
 #import "CCLayer.h"
 #import "cocos2d.h"
+#import "SimpleAudioEngine.h"
 
 @interface ResultLayer : CCLayer
 {

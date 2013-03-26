@@ -167,7 +167,7 @@
         [self addChild:gameOverImage];
         
 
-        CCMenuItemImage *twitter = [CCMenuItemImage itemWithNormalImage:@"twitter.png" selectedImage:@"twitter.png" target:self selector:@selector(share)];
+        CCMenuItemImage *twitter = [CCMenuItemImage itemWithNormalImage:@"twitter.png" selectedImage:@"twitter_onClick.png" target:self selector:@selector(share)];
         CCMenu *shareMenu = [CCMenu menuWithItems:twitter, nil];
         shareMenu.position = ccp(290, 30);
         [self addChild:shareMenu];
@@ -175,6 +175,11 @@
         
         [self schedule: @selector(tick:) interval:1];
         self.isMenuActive = YES;
+        
+        [[SimpleAudioEngine sharedEngine] preloadBackgroundMusic:@"mainmenubackground.mp3"];
+
+        [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"mainmenubackground.mp3" loop:YES];
+
         
 	}
 	return self;

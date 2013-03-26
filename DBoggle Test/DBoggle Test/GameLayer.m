@@ -22,6 +22,7 @@
 @property (nonatomic) BOOL *userCanRotate; //user is allowed to rotate the board or not
 @property (nonatomic) NSUInteger angle; // total angle by which the board is rotated till that point
 @property (nonatomic) BOOL *isPaused;   // checks whether game is paused
+@property (nonatomic) BOOL *isSoundOn;
 @property (nonatomic, strong) NSArray *letters; //array of the letters on screen
 @property (nonatomic, strong) CCNode *boardManager; //Frame of reference at centre of board. Holds 'board' and 'letters'
 @property (nonatomic, strong) CCSprite *board;  //A sprite on board manager. Holds all the letters.
@@ -31,6 +32,7 @@
 @property (nonatomic, strong) NSNumber *time; //to do - change this to a non-strong NSInteger
 @property (nonatomic, strong) CCLayer *pauseLayer;  //the translucent layer that appears on going to the pause menu
 @property (nonatomic, strong) CCMenu *pauseMenu;
+@property (nonatomic, strong) CCMenu *soundMenu;
 @property (nonatomic, strong) CCLayer *playedWordsLayer;
 @property (nonatomic, strong) CCMenu *playedWordsMenu;
 @property (nonatomic, strong) NSMutableArray *pressedTiles; //Array to hold all the currently selected letters
@@ -42,6 +44,10 @@
 @property (nonatomic, strong) CCLabelTTF *currentWordLabel;
 @property (nonatomic, strong) NSString *currentWord;
 @property (nonatomic, strong) CorrectWordBadge *currentWordCorrectnessBadge;
+@property (nonatomic, strong) CCMenuItemImage *playing;
+@property (nonatomic, strong) CCMenuItemImage *muted;
+@property (nonatomic, strong) CCMenu *playingMenu;
+@property (nonatomic, strong) CCMenu *muteMenu;
 @end
 
 @implementation GameLayer
@@ -60,6 +66,11 @@
 @synthesize playedWordsLayer = _playedWordsLayer;
 @synthesize currentWordLabel = _currentWordLabel;
 @synthesize currentWord = _currentWord;
+@synthesize isSoundOn= _isSoundOn;
+@synthesize playing= _playing;
+@synthesize muted=_muted;
+@synthesize playingMenu=_playingMenu;
+@synthesize muteMenu=_muteMenu;
 
 - (NSMutableArray *) pressedTiles {
     if (!_pressedTiles) _pressedTiles = [[NSMutableArray alloc] init];
@@ -264,13 +275,7 @@
 	return scene;
 }
 
--(void) button1 {
-   [[SimpleAudioEngine sharedEngine] playEffect:@"sound1.mp3"];
-}
 
--(void) button2 {
-    
-}
 // on "init" you need to initialize your instance
 -(id) init
 
@@ -280,9 +285,8 @@
 	if( (self = [super init]) ) {
         
         isTouchEnabled_ = YES;
+        
 		
-        
-        
         [self.dict initializeDictionary];
         
         self.angle = 0;
@@ -373,29 +377,25 @@
         self.currentWordCorrectnessBadge.isPresent = NO;
         
         
+        //For Mute and unMute button on pause layer
+        self.playing = [CCMenuItemImage itemWithNormalImage:@"playing.png" selectedImage:@"muted.png"target:self selector:@selector(mute)];
+        self.muted = [CCMenuItemImage itemWithNormalImage:@"muted.png" selectedImage:@"playing.png"target:self selector:@selector(mute)];
+        self.playingMenu=[CCMenu menuWithItems:self.playing, nil];
+        self.muteMenu=[CCMenu menuWithItems:self.muted, nil];
+    
         //Adding background Music
+        self.isSoundOn= YES;
         
         [[SimpleAudioEngine sharedEngine] preloadBackgroundMusic:@"background.mp3"];
         [[SimpleAudioEngine sharedEngine] preloadEffect:@"tiletap.mp3"];
         [[SimpleAudioEngine sharedEngine] preloadEffect:@"wordformed.mp3"];
         [[SimpleAudioEngine sharedEngine] preloadEffect:@"wordformed2.mp3"];
-        [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"background.mp3" loop:@YES];
-        
-        /////////////////////////////////////////////////////////////////////////////////
-        // TRYING - SURABHI                                       //
-        //Adding Sound effects//
-        /////////////////////////////////////////////////////////////////////////////////
-        
+        [[SimpleAudioEngine sharedEngine] preloadEffect:@"rotate.mp3"];
+        if (self.isSoundOn)
+        {
+            [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"background.mp3" loop:YES];
+        }
 
-//        CCMenuItemImage *item1=[CCMenuItemImage itemFromNormalImage:@"sound1.png" selectedImage:@"sound1.png" target:self selector:@selector(button1)];
-//        item1.position=ccp(40,380);
-//        
-//        CCMenuItemImage *item2=[CCMenuItemImage itemFromNormalImage:@"sound2.png" selectedImage:@"sound2.png" target:self selector:@selector(button2)];
-//        item2.position=ccp(40,350);
-//        
-//        CCMenu *menu2=[CCMenu menuWithItems:item1,item2,nil];
-////        menu2.position=ccp(50,400);
-//        [self addChild:menu2];
         
         /////////////////////////////////////////////////////////////////////////////////
         // TODO                                                                        //
@@ -414,6 +414,7 @@
         // TODO                                                                        //
         // Place the layer to the north of the board and make it slide down for effect //
         /////////////////////////////////////////////////////////////////////////////////
+        
         
         self.isPaused = YES;
         [self disableRotate];
@@ -455,6 +456,22 @@
         self.pauseMenu = [CCMenu menuWithItems:resume, mainMenu, newGame, playedWords, endCurrentGame, nil];
         [self.pauseMenu alignItemsVertically];
         [self addChild:self.pauseMenu z:10];
+        
+        
+        
+        
+//        
+//        if (self.isSoundOn)
+//        {
+//            [self.pauseLayer removeChild:self.playingMenu cleanup:YES];
+//        }
+//        else
+//        {
+//        [self.pauseLayer removeChild:self.muteMenu cleanup:YES];
+//        }
+        
+        [self updateSoundMenu];
+                
     }
     else
     {
@@ -463,6 +480,73 @@
     
 }
 
+
+-(void) updateSoundMenu
+
+{   CGSize size = [[CCDirector sharedDirector] winSize];
+    
+    //Adding corresponding menu depending on whether Sound is playing or not
+    //By default, the sound is already playing
+    if (self.isSoundOn)
+    {
+        self.playingMenu.position=ccp(25,size.height-30);
+        [self.pauseLayer addChild:self.playingMenu z:10];
+        
+    }
+    else
+        
+    {
+        self.muteMenu.position=ccp(25, size.height-30);
+        [self.pauseLayer addChild:self.muteMenu z:10];
+        
+    }
+    
+
+}
+-(void) mute
+{
+
+    if (self.isSoundOn)
+    {
+        self.isSoundOn=NO;
+     
+        [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
+        [self.pauseLayer removeChild:self.playingMenu cleanup:NO];
+        [self updateSoundMenu];
+    }
+    else
+    {
+             self.isSoundOn=YES;
+            NSLog(@"after changing isSoundOn and before playing background music");
+              //resume background music
+              [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"background.mp3"];
+               NSLog(@"after playing sound and before removing mute menu");
+                [self.pauseLayer removeChild:self.muteMenu cleanup:NO];
+               [self updateSoundMenu];
+        NSLog(@"finished removing the mure menu");
+    }
+
+
+    
+}
+
+//-(void) unmute
+//{
+//    if (self.isSoundOn==NO)
+//    {
+//        self.isSoundOn=YES;
+//        NSLog(@"after changing isSoundOn and before playing background music");
+//        //resume background music
+//        [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"background.mp3"];
+//        NSLog(@"after playing sound and before removing mute menu");
+//        [self.pauseLayer removeChild:self.muteMenu cleanup:YES];
+//        [self updateSoundMenu];
+//        NSLog(@"finished removing the mure menu");
+// 
+//    }
+//        
+//    
+//}
 - (void) resumeGame
 {
     /////////////////////////////////////////////////////////////////////////////////
@@ -473,6 +557,10 @@
     [self enableRotate];
     [self removeChild:self.pauseMenu cleanup:YES];
     [self removeChild:self.pauseLayer cleanup:YES];
+    if (self.isSoundOn)
+        [self.pauseLayer removeChild:self.playingMenu cleanup:YES];
+    else
+        [self.pauseLayer removeChild:self.muteMenu cleanup:YES];
     //    [[CCDirector sharedDirector] resume];
     self.isPaused = NO;
     
@@ -615,6 +703,10 @@
     [self disableRotate];
     self.angle += 90;
     if (self.angle >= 360) self.angle -= 360;
+    if (_isSoundOn)
+    {
+        [[SimpleAudioEngine sharedEngine] playEffect:@"rotate.mp3"];
+    }
     NSLog(@"Rotation = %f", [self.board rotation]);
     id enableRotateCallback = [CCCallFunc actionWithTarget:self selector:@selector(enableRotate)];
     id rotateAction = [CCRotateBy actionWithDuration:0.5 angle:-90];    //rotates the board by 90 deg anti-clockwise
@@ -751,7 +843,10 @@
         if ([self canChooseTileAt:position])
         {
             NSLog(@"came here inside");
-            [[SimpleAudioEngine sharedEngine] playEffect:@"tiletap.mp3"];
+            if (_isSoundOn)
+            {
+                [[SimpleAudioEngine sharedEngine] playEffect:@"tiletap.mp3"];
+            }
             [self.pressedTiles addObject:tile];
             [tile deactivate];
             NSLog(@"%@", tile.letter);
@@ -812,7 +907,10 @@
         NSLog(@"Word valid");
         
         [self clearCurrentWordLabel];
-        [[SimpleAudioEngine sharedEngine] playEffect:@"wordformed2.mp3"];
+        if (_isSoundOn)
+        {
+            [[SimpleAudioEngine sharedEngine] playEffect:@"wordformed2.mp3"];
+        }
         [self clearAllPressedTiles];
         [self updateScoreLabel:self.currentWord.length];
         [self updatePlayedWordList:self.currentWord];
