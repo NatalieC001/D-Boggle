@@ -53,7 +53,7 @@
 - (void) newGame
 {
     NSLog(@"New Game");
-    [[CCDirector sharedDirector] replaceScene:[CCTransitionSlideInR transitionWithDuration:0.5 scene:[GameLayer scene]]];
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionPageTurn transitionWithDuration:0.5 scene:[GameLayer scene]]];
 }
 
 - (void) instructions

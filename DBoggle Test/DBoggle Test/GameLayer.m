@@ -469,7 +469,7 @@
     // TODO                                                                        //
     // Make the pause menu slide up to the north od the board then disappear       //
     /////////////////////////////////////////////////////////////////////////////////
-    
+   
     [self enableRotate];
     [self removeChild:self.pauseMenu cleanup:YES];
     [self removeChild:self.pauseLayer cleanup:YES];
@@ -488,12 +488,12 @@
 
 - (void) returnToMainMenu
 {
-    [[CCDirector sharedDirector] replaceScene:[CCTransitionPageTurn transitionWithDuration:0.5 scene:[MainMenuLayer scene]]];
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionMoveInL transitionWithDuration:0.5 scene:[MainMenuLayer scene]]];
 }
 
 - (void) newGame
 {
-    [[CCDirector sharedDirector] replaceScene:[CCTransitionFlipX transitionWithDuration:0.5 scene:[GameLayer scene]]];
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionPageTurn transitionWithDuration:0.5 scene:[GameLayer scene]]];
 }
 
 - (void) playedWords
@@ -562,8 +562,9 @@
 - (void) endCurrentGame
 {
     
-    [[CCDirector sharedDirector] replaceScene:[CCTransitionFadeTR transitionWithDuration:0.5 scene:[ResultLayer sceneWith:self.score andWordList:self.playedWordsList andPossibleList:self.possibleWordList]]];
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionSlideInR transitionWithDuration:0.5 scene:[ResultLayer sceneWith:self.score andWordList:self.playedWordsList andPossibleList:self.possibleWordList]]];
 }
+
 
 - (NSNumber *)decrement:(NSNumber *)number
 {

@@ -197,7 +197,7 @@
 - (void) returnToMainMenu
 {
     if (self.isMenuActive) {
-        [[CCDirector sharedDirector] replaceScene:[CCTransitionSlideInT transitionWithDuration:0.5 scene:[MainMenuLayer scene]]];
+        [[CCDirector sharedDirector] replaceScene:[CCTransitionSlideInL transitionWithDuration:0.5 scene:[MainMenuLayer scene]]];
     }
 }
 
@@ -211,7 +211,7 @@
 {
     if (self.isMenuActive)
     {
-        [[CCDirector sharedDirector] replaceScene:[CCTransitionFlipX transitionWithDuration:0.5 scene:[GameLayer scene]]];
+        [[CCDirector sharedDirector] replaceScene:[CCTransitionPageTurn transitionWithDuration:0.5 scene:[GameLayer scene]]];
     }
 }
 
