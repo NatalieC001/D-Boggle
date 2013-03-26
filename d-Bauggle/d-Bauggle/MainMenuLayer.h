@@ -16,7 +16,11 @@
 // HelloWorldLayer
 @interface MainMenuLayer : CCLayer
 {
+    UIViewController *viewController;
 }
+
+@property (nonatomic, retain) UIViewController *viewController;
+
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
 +(CCScene *) scene;

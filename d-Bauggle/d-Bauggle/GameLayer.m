@@ -15,6 +15,7 @@
 #import "Dictionary.h"
 #import "Boggle.h"
 #import "CorrectWordBadge.h"
+#import "CCScrollLayer.h"
 
 @interface GameLayer ()
 
@@ -34,6 +35,7 @@
 @property (nonatomic, strong) CCMenu *playedWordsMenu;
 @property (nonatomic, strong) NSMutableArray *pressedTiles; //Array to hold all the currently selected letters
 @property (nonatomic, strong) NSMutableArray *playedWordsList;  //Array to hold all words played
+@property (nonatomic, strong) NSMutableArray *subarraysOfPlayedWordsArrays;
 @property (nonatomic, strong) NSMutableArray *possibleWordList;
 @property (nonatomic, strong) Dictionary *dict; //Dictionary object
 @property (nonatomic) NSUInteger score;
@@ -86,6 +88,11 @@
 - (Dictionary *) dict {
     if (!_dict) _dict = [[Dictionary alloc] init];
     return _dict;
+}
+
+- (NSMutableArray *) subarraysOfPlayedWordsArrays {
+    if (!_subarraysOfPlayedWordsArrays) _subarraysOfPlayedWordsArrays = [[NSMutableArray alloc] init];
+    return _subarraysOfPlayedWordsArrays;
 }
 
 - (NSArray *)lettersForBoard {
@@ -310,7 +317,6 @@
         [self addChild:logo];
         
         
-        
         self.userCanRotate = YES;                   //to be changed based on time remaining
         self.boardManager = [CCNode node];
         self.boardManager.position = ccp(160, 160);    //CGPointMake makes a new point at those coordinates
@@ -343,9 +349,6 @@
         
         CCSprite *scoreBorder = [CCSprite spriteWithFile:@"plaintab.png"];
         scoreBorder.position = ccp(size.width / 2, 390);
-        
-        
-        
         
         
         self.scoreLabel = [CCLabelTTF labelWithString:@"Score:    0" fontName:@"open-dyslexic" fontSize:25];
@@ -399,22 +402,7 @@
         //initializing quit prompt once so that it can be reused.
         self.quitPrompt = [CCLayerColor layerWithColor: ccc4(0, 0, 0, 0)];
         self.quitPrompt.position = ccp(0, 0);
-        CCSprite *quitBackground;
-        if (size.height == 568)
-            quitBackground = [CCSprite spriteWithFile:@"pause_layer-568h.png"];
-        else
-            quitBackground = [CCSprite spriteWithFile:@"pause_layer.png"];
-        quitBackground.position = ccp (size.width/2, size.height/2);
         
-        [self.quitPrompt addChild:quitBackground z:-1];
-        
-        CCSprite *quitLogo = [CCSprite spriteWithFile:@"areyousureLogo.png"];
-        quitLogo.position = ccp(size.width/2, size.height - 60);
-        if (size.height == 568)
-        {
-            quitLogo.position = ccp(size.width/2, size.height - 100);
-        }
-        [self.quitPrompt addChild:quitLogo z:0];
         
         
         /////////////////////////////////////////////////////////////////////////////////
@@ -471,7 +459,7 @@
         CCMenuItemImage *resume = [CCMenuItemImage itemWithNormalImage:@"resume_inactive.png" selectedImage:@"resume_active.png" target:self selector:@selector(resumeGame)];
         CCMenuItemImage *mainMenu = [CCMenuItemImage itemWithNormalImage:@"mainmenu_inactive.png" selectedImage:@"mainmenu_active.png" target:self selector:@selector(returnToMainMenu)];
         CCMenuItemImage *newGame = [CCMenuItemImage itemWithNormalImage:@"newgame_inactive.png" selectedImage:@"newgame_active.png" target:self selector:@selector(newGame)];
-        CCMenuItemImage *playedWords = [CCMenuItemImage itemWithNormalImage:@"hits_inactive.png" selectedImage:@"hits_active.png" target:self selector:@selector(playedWords)];
+        CCMenuItemImage *playedWords = [CCMenuItemImage itemWithNormalImage:@"hits_inactive.png" selectedImage:@"hits_active.png" target:self selector:@selector(showPlayedWords)];
         CCMenuItemImage *endCurrentGame = [CCMenuItemImage itemWithNormalImage:@"endgame.png" selectedImage:@"endgame_active.png" target:self selector:@selector(endCurrentGame)];
         
         self.pauseMenu = [CCMenu menuWithItems:resume, mainMenu, newGame, playedWords, endCurrentGame, nil];
@@ -507,10 +495,33 @@
     [self removeChild:self.playedWordsMenu cleanup:YES];
     [self removeChild:self.playedWordsLayer cleanup:YES];
     self.isPaused = NO;
+    [self pauseGame];
 }
 
 - (void) returnToMainMenu
 {
+    
+    [self.quitPrompt removeAllChildrenWithCleanup:YES];
+    
+    CGSize size = [[CCDirector sharedDirector] winSize];
+    CCSprite *quitBackground;
+    if (size.height == 568)
+        quitBackground = [CCSprite spriteWithFile:@"pause_layer-568h.png"];
+    else
+        quitBackground = [CCSprite spriteWithFile:@"pause_layer.png"];
+    quitBackground.position = ccp (size.width/2, size.height/2);
+    
+    [self.quitPrompt addChild:quitBackground z:-1];
+    
+    CCSprite *quitLogo = [CCSprite spriteWithFile:@"areyousureLogo.png"];
+    quitLogo.position = ccp(size.width/2, size.height - 60);
+    if (size.height == 568)
+    {
+        quitLogo.position = ccp(size.width/2, size.height - 100);
+    }
+    [self.quitPrompt addChild:quitLogo z:0];
+    
+    
     [self removeChild:self.pauseMenu cleanup:YES];
     [self removeChild:self.pauseLayer cleanup:YES];
     CCMenuItemImage *yes = [CCMenuItemImage itemWithNormalImage:@"yes_inactive.png" selectedImage:@"yes_active.png" target:self selector:@selector(confirmQuit)];
@@ -529,6 +540,8 @@
     [self enableRotate];
     [self removeChild:self.quitPrompt cleanup:YES];
     self.isPaused = NO;
+    [self removeChild:self.quitPrompt];
+    [self pauseGame];
 }
 
 - (void) confirmQuit
@@ -613,14 +626,40 @@
 
 - (void) endCurrentGame
 {
-    //THe menu gets added again. Fix that.
-//     Peace out.
+    NSLog(@"Ending game");
+
+    [self.quitPrompt removeAllChildrenWithCleanup:YES];
+    
+    CGSize size = [[CCDirector sharedDirector] winSize];
+    CCSprite *quitBackground;
+    if (size.height == 568)
+        quitBackground = [CCSprite spriteWithFile:@"pause_layer-568h.png"];
+    else
+        quitBackground = [CCSprite spriteWithFile:@"pause_layer.png"];
+    quitBackground.position = ccp (size.width/2, size.height/2);
+    
+    [self.quitPrompt addChild:quitBackground z:-1];
+    
+    CCSprite *quitLogo = [CCSprite spriteWithFile:@"areyousureLogo.png"];
+    quitLogo.position = ccp(size.width/2, size.height - 60);
+    if (size.height == 568)
+    {
+        quitLogo.position = ccp(size.width/2, size.height - 100);
+    }
+    [self.quitPrompt addChild:quitLogo z:0];
+
+    
+    
+    [self removeChild:self.pauseMenu cleanup:YES];
+    [self removeChild:self.pauseLayer cleanup:YES];
+
     CCMenuItemImage *yes = [CCMenuItemImage itemWithNormalImage:@"yes_inactive.png" selectedImage:@"yes_active.png" target:self selector:@selector(confirmEndGame)];
     CCMenuItemImage *no = [CCMenuItemImage itemWithNormalImage:@"no_inactive.png" selectedImage:@"no_active.png" target:self selector:@selector(resumeFromQuitPrompt)];
     
     CCMenu *quitMenu = [CCMenu menuWithItems:yes, no, nil];
     [quitMenu alignItemsVertically];
     [self.quitPrompt addChild:quitMenu];
+    [self addChild:self.quitPrompt];
 }
 
 - (void) confirmEndGame
@@ -1035,6 +1074,101 @@
         }
     }
     
+}
+
+- (void) updatePlayedWordsSubarrays
+{
+    [self.subarraysOfPlayedWordsArrays removeAllObjects];
+    int itemsRemaining = [self.playedWordsList count];
+    NSLog(@"Number of played words in total %d", itemsRemaining);
+    int j = 0;
+    
+    while(j < [self.playedWordsList count]) {
+        NSLog(@"j = %d", j);
+        
+        NSRange range = NSMakeRange(j, MIN(10, itemsRemaining));
+        NSArray *subarray = [self.playedWordsList subarrayWithRange:range];
+        [self.subarraysOfPlayedWordsArrays addObject:subarray];
+        itemsRemaining -= range.length;
+        j += range.length;
+    }
+    NSLog(@"Number of played words subarrays = %lu", (unsigned long)[self.subarraysOfPlayedWordsArrays count]);
+}
+
+- (void) showPlayedWords
+{
+    [self removeChild:self.pauseMenu cleanup:YES];
+    [self removeChild:self.pauseLayer cleanup:YES];
+    [self updatePlayedWordsSubarrays];
+    NSLog(@"Number of played words %lu", (unsigned long)[self.playedWordsList count]);
+    NSMutableArray *layers = [[NSMutableArray alloc] init];
+    if ([self.subarraysOfPlayedWordsArrays count] == 0)
+    {
+        [layers addObject:[self hitsLayerCreator:-1]];
+    }
+    else
+    {
+        for (int i = 0; i < [self.subarraysOfPlayedWordsArrays count]; i++)
+        {
+            [layers addObject:[self hitsLayerCreator:i]];
+            NSLog(@"Added a new layer");
+        }
+    }
+    NSLog(@"Numbers %lu", (unsigned long)[layers count]);
+    
+    self.playedWordsLayer = [CCLayerColor layerWithColor: ccc4(0, 0, 0, 0)];
+    self.playedWordsLayer.position = ccp(0, 0);
+    CCScrollLayer *scroller = [[CCScrollLayer alloc] initWithLayers:layers widthOffset:0];
+    CGSize size = [[CCDirector sharedDirector] winSize];
+    CCSprite *background;
+    if (size.height == 568)
+        background = [CCSprite spriteWithFile:@"hitslayer-568h.png"];
+    else
+        background = [CCSprite spriteWithFile:@"hitslayer.png"];
+    
+    background.position = ccp (size.width/2, size.height/2);
+    scroller.position = ccp(0, 0);
+    [self.playedWordsLayer addChild:background];
+    
+    CCSprite *missedLogo = [CCSprite spriteWithFile:@"hitslogo.png"];
+    missedLogo.position = ccp(size.width/2, size.height - 100);
+    [self.playedWordsLayer addChild:missedLogo z:4];
+    [self.playedWordsLayer addChild:scroller];
+    
+    
+    CCMenuItem *backToMenu = [CCMenuItemImage itemWithNormalImage:@"backbutton.png" selectedImage:@"backbutton.png" target:self selector:@selector(resumeGameFromPlayedWords)];
+    
+    CCMenu *playedWordsMenu = [CCMenu menuWithItems: backToMenu, nil];
+    playedWordsMenu.position = ccp(32, size.height - 30);
+    [playedWordsMenu alignItemsVertically];
+    [self.playedWordsLayer addChild:playedWordsMenu z:4];
+    
+    [self addChild:self.playedWordsLayer z:8];
+    
+}
+
+- (CCLayer *)hitsLayerCreator: (NSUInteger) arrayIndex
+{
+    CCLayer * layer = [CCLayerColor layerWithColor: ccc4(0, 0, 0, 0)];
+    CGSize size = [[CCDirector sharedDirector] winSize];
+    
+    
+    CCLabelTTF *wordLabel;
+    if (arrayIndex == -1)
+    {
+        wordLabel = [CCLabelTTF labelWithString:@"No words made! :(" fontName:@"open-dyslexic" fontSize:25];
+        NSLog(@"No words made");
+    }
+    else
+    {
+        NSString *words = [[self.subarraysOfPlayedWordsArrays objectAtIndex:arrayIndex] componentsJoinedByString:@"\n"];
+        wordLabel = [CCLabelTTF labelWithString:words fontName:@"open-dyslexic" fontSize:25];
+    }
+    wordLabel.color = ccBLACK;
+    wordLabel.position = ccp (size.width/2, size.height/2 - 50);
+    [layer addChild:wordLabel z:5];
+    
+    return layer;
 }
 
 -(void)ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
