@@ -115,7 +115,7 @@
     NSLog(@"Height yo! %f", size.height);
     if (size.height == 480)
     {
-        CCSprite *background = [CCSprite spriteWithFile:@"mainmenu.png"];
+        CCSprite *background = [CCSprite spriteWithFile:@"base.png"];
         background.anchorPoint = ccp (0,0);
         [layer addChild:background z:-1];
     }
@@ -158,23 +158,27 @@
         CCMenuItemImage *playedWords = [CCMenuItemImage itemWithNormalImage:@"hits_inactive.png" selectedImage:@"hits_active.png" target:self selector:@selector(showPlayedWords)];
         CCMenuItemImage *possibleWords = [CCMenuItemImage itemWithNormalImage:@"misses_inactive.png" selectedImage:@"misses_active.png" target:self selector:@selector(showPossibleWords)];
         
-        CCMenu *menu = [CCMenu menuWithItems:newGame, highScores, mainMenu, playedWords, possibleWords, nil];
+        CCMenu *menu = [CCMenu menuWithItems:playedWords, possibleWords, newGame, highScores, mainMenu,  nil];
         [menu alignItemsVerticallyWithPadding:5];
         if (size.height == 480);
-            [menu alignItemsVerticallyWithPadding:3.5];
-        menu.position = ccp(size.width / 2, size.height * 0.28);
+            [menu alignItemsVerticallyWithPadding:3];
+        menu.position = ccp(size.width / 2, size.height * 0.35);
+        if (size.height == 568) {
+            menu.position = ccp(size.width / 2, size.height * 0.38);
+            
+        }
         [self addChild:menu];
         
         
         CCSprite *scorePalette = [CCSprite spriteWithFile:@"scorecloud.png"];
         scorePalette.position = ccp(size.width / 2, size.height * 0.70);
         if (size.height == 480)
-            scorePalette.position = ccp(size.width /2, size.height * 0.65);
+            scorePalette.position = ccp(size.width /2, size.height * 0.65 + 15);
         [self addChild:scorePalette];
         
         self.scoreLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%lu", (unsigned long)self.score] fontName:@"open-dyslexic" fontSize:48];
         self.scoreLabel.color = ccc3(0,0,0);
-        self.scoreLabel.position = ccp(size.width / 2, size.height * 0.65);
+        self.scoreLabel.position = ccp(size.width / 2, size.height * 0.65 + 9);
         if (size.height == 568)
             self.scoreLabel.position = ccp(size.width / 2, size.height * 0.65 + 20);
         NSLog(@"GOAAAAAAALLLLLL %d", self.score);
@@ -186,9 +190,11 @@
         [self addChild:gameOverImage];
         
 
+        CCMenuItemImage *gamecenter = [CCMenuItemImage itemWithNormalImage:@"gamecenter.png" selectedImage:@"gamecenter_onClick.png" target:self selector:@selector(highScores)];
         CCMenuItemImage *twitter = [CCMenuItemImage itemWithNormalImage:@"tweet.png" selectedImage:@"tweet_onClick.png" target:self selector:@selector(share)];
-        CCMenu *shareMenu = [CCMenu menuWithItems:twitter, nil];
-        shareMenu.position = ccp(290, 30);
+        CCMenu *shareMenu = [CCMenu menuWithItems:gamecenter, twitter, nil];
+        shareMenu.position = ccp(260, 30);
+        [shareMenu alignItemsHorizontally];
         [self addChild:shareMenu];
         
         [self schedule: @selector(tick:) interval:1.5];
@@ -204,11 +210,13 @@
     int itemsRemaining = [self.wordList count];
     NSLog(@"Number of played words in total %d", itemsRemaining);
     int j = 0;
-    
+    CGSize size = [[CCDirector sharedDirector] winSize];
+    int inc = 10;
+    if (size.height == 480) inc = 9;
     while(j < [self.wordList count]) {
         NSLog(@"j = %d", j);
         
-        NSRange range = NSMakeRange(j, MIN(10, itemsRemaining));
+        NSRange range = NSMakeRange(j, MIN(inc, itemsRemaining));
         NSArray *subarray = [self.wordList subarrayWithRange:range];
         [self.subarraysOfPlayedWordsArrays addObject:subarray];
         itemsRemaining -= range.length;
@@ -222,9 +230,11 @@
     int itemsRemaining = [self.possibleWordsArray count];
     NSLog(@"Number of words in total %d", itemsRemaining);
     int j = 0;
-    
+    CGSize size = [[CCDirector sharedDirector] winSize];
+    int inc = 10;
+    if (size.height == 480) inc = 9;
     while(j < [self.possibleWordsArray count]) {
-        NSRange range = NSMakeRange(j, MIN(10, itemsRemaining));
+        NSRange range = NSMakeRange(j, MIN(inc, itemsRemaining));
         NSArray *subarray = [self.possibleWordsArray subarrayWithRange:range];
         [self.subarraysOfPossibleWordsArrays addObject:subarray];
         itemsRemaining -= range.length;
@@ -249,7 +259,7 @@
 - (void) returnToMainMenu
 {
     if (self.isMenuActive) {
-        [[CCDirector sharedDirector] replaceScene:[CCTransitionSlideInT transitionWithDuration:0.5 scene:[MainMenuLayer scene]]];
+        [[CCDirector sharedDirector] replaceScene:[CCTransitionSlideInL transitionWithDuration:0.5 scene:[MainMenuLayer scene]]];
     }
 }
 
@@ -263,7 +273,7 @@
 {
     if (self.isMenuActive)
     {
-        [[CCDirector sharedDirector] replaceScene:[CCTransitionFlipX transitionWithDuration:0.5 scene:[GameLayer scene]]];
+        [[CCDirector sharedDirector] replaceScene:[CCTransitionPageTurn transitionWithDuration:0.5 scene:[GameLayer scene]]];
     }
 }
 
@@ -341,9 +351,9 @@
         CGSize size = [[CCDirector sharedDirector] winSize];
         CCSprite *background;
         if (size.height == 568)
-            background = [CCSprite spriteWithFile:@"hitslayer-568h.png"];
+            background = [CCSprite spriteWithFile:@"credits_hits_missed-568h.png"];
         else
-            background = [CCSprite spriteWithFile:@"hitslayer.png"];
+            background = [CCSprite spriteWithFile:@"credits_hits_missed.png"];
         
         background.position = ccp (size.width/2, size.height/2);
         scroller.position = ccp(0, 0);
@@ -355,7 +365,7 @@
         [self.possibleWordsLayer addChild:scroller];
         
         
-        CCMenuItem *backToMenu = [CCMenuItemImage itemWithNormalImage:@"backbutton.png" selectedImage:@"backbutton.png" target:self selector:@selector(backToMenuFromPossible)];
+        CCMenuItem *backToMenu = [CCMenuItemImage itemWithNormalImage:@"backbutton.png" selectedImage:@"backbutton_onClick.png" target:self selector:@selector(backToMenuFromPossible)];
         
         CCMenu *playedWordsMenu = [CCMenu menuWithItems: backToMenu, nil];
         playedWordsMenu.position = ccp(32, size.height - 30);
@@ -378,6 +388,9 @@
     CCLabelTTF *wordLabel = [CCLabelTTF labelWithString:words fontName:@"open-dyslexic" fontSize:25];
     wordLabel.color = ccBLACK;
     wordLabel.position = ccp (size.width/2, size.height/2 - 55);
+    if (size.height == 480) {
+        wordLabel.position = ccp (size.width/2, size.height/2 - 40);
+    }
     [layer addChild:wordLabel z:5];
     
     return layer;
@@ -410,9 +423,9 @@
         CGSize size = [[CCDirector sharedDirector] winSize];
         CCSprite *background;
         if (size.height == 568)
-            background = [CCSprite spriteWithFile:@"hitslayer-568h.png"];
+            background = [CCSprite spriteWithFile:@"credits_hits_missed-568h.png"];
         else
-            background = [CCSprite spriteWithFile:@"hitslayer.png"];
+            background = [CCSprite spriteWithFile:@"credits_hits_missed.png"];
         
         background.position = ccp (size.width/2, size.height/2);
         scroller.position = ccp(0, 0);
@@ -424,7 +437,7 @@
         [self.playedWordsLayer addChild:scroller];
         
         
-        CCMenuItem *backToMenu = [CCMenuItemImage itemWithNormalImage:@"backbutton.png" selectedImage:@"backbutton.png" target:self selector:@selector(backToMenuFromPlayed)];
+        CCMenuItem *backToMenu = [CCMenuItemImage itemWithNormalImage:@"backbutton.png" selectedImage:@"backbutton_onClick.png" target:self selector:@selector(backToMenuFromPlayed)];
         
         CCMenu *playedWordsMenu = [CCMenu menuWithItems: backToMenu, nil];
         playedWordsMenu.position = ccp(32, size.height - 30);
@@ -456,6 +469,9 @@
     }
     wordLabel.color = ccBLACK;
     wordLabel.position = ccp (size.width/2, size.height/2 - 55);
+    if (size.height == 480) {
+        wordLabel.position = ccp (size.width/2, size.height/2 - 40);
+    }
     [layer addChild:wordLabel z:5];
     
     return layer;
@@ -553,7 +569,7 @@
 
 - (void) share
 {
-    [self shareOnTwitterWithText:[NSString stringWithFormat: @"I just scored %lu points on @dBauggle! What noteworthy thing have you done all day? #humblebrag", (unsigned long)self.score] andURL:nil andImageName:nil];
+    [self shareOnTwitterWithText:[NSString stringWithFormat: @"I just scored %lu points on @dBauggle! Catch me if you can! #humblebrag", (unsigned long)self.score] andURL:nil andImageName:nil];
     NSLog(@"Twitter score: %d", self.score);
 }
 

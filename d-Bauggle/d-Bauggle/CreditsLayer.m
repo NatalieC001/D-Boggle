@@ -57,7 +57,7 @@
         
         [self addChild: self.scroller];
         
-        CCMenuItem *backToMenu = [CCMenuItemImage itemWithNormalImage:@"backbutton.png" selectedImage:@"backbutton.png" target:self selector:@selector(mainMenu)];
+        CCMenuItem *backToMenu = [CCMenuItemImage itemWithNormalImage:@"backbutton.png" selectedImage:@"backbutton_onClick.png" target:self selector:@selector(mainMenu)];
         
         CCMenu *backButtonMenu = [CCMenu menuWithItems: backToMenu, nil];
         backButtonMenu.position = ccp(27, size.height - 27);

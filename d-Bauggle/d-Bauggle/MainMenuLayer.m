@@ -67,7 +67,7 @@
 - (void) newGame
 {
     NSLog(@"New Game");
-    [[CCDirector sharedDirector] replaceScene:[CCTransitionSlideInR transitionWithDuration:0.5 scene:[GameLayer scene]]];
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionPageTurn transitionWithDuration:0.5 scene:[GameLayer scene]]];
 }
 
 - (void) instructions
@@ -118,19 +118,21 @@
         
         CCMenu *menu = [CCMenu menuWithItems:newGameItem, instructions, highscores, credits, nil];
         [menu alignItemsVerticallyWithPadding:5];
-        if (size.height == 568) {
-            menu.position = ccp (size.width / 2, size.height / 2 );
+        
+        if (size.height == 568)
+        {
+            menu.position = ccp(size.width / 2, size.height/2 - 35);
         }
-        else {
-            menu.position = ccp (size.width / 2, (size.height / 2) - 30);
+        else
+        {
+            menu.position = ccp(size.width / 2, size.height/2 - 35);
         }
         
         [self addChild:menu z:10];
         
-        
-        CCMenuItemImage *gameCenter = [CCMenuItemImage itemWithNormalImage:@"gamecenter.png" selectedImage:@"gamecenter_onClick.png" target:self selector:@selector(highScores)];
+        CCMenuItemImage *gamecenter = [CCMenuItemImage itemWithNormalImage:@"gamecenter.png" selectedImage:@"gamecenter_onClick.png" target:self selector:@selector(highScores)];
         CCMenuItemImage *twitter = [CCMenuItemImage itemWithNormalImage:@"tweet.png" selectedImage:@"tweet_onClick.png" target:self selector:@selector(share)];
-        CCMenu *shareMenu = [CCMenu menuWithItems:gameCenter, twitter, nil];
+        CCMenu *shareMenu = [CCMenu menuWithItems:gamecenter, twitter, nil];
         shareMenu.position = ccp(260, 30);
         [shareMenu alignItemsHorizontally];
         [self addChild:shareMenu];
@@ -166,7 +168,7 @@
     self.sound = NO;
     
     
-    //    [[SimpleAudioEngine sharedEngine] setBackgroundMusicVolume:0];
+    [[SimpleAudioEngine sharedEngine] setBackgroundMusicVolume:0];
     
     
     //    [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
@@ -179,7 +181,7 @@
 
 - (void) unmuteSound {
     self.sound = YES;
-    //    [[SimpleAudioEngine sharedEngine] setBackgroundMusicVolume:1];
+    [[SimpleAudioEngine sharedEngine] setBackgroundMusicVolume:1];
     //    [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"background.mp3" loop:@YES];
     CGSize size = [[CCDirector sharedDirector] winSize];
     [self removeChild:self.soundMenu];

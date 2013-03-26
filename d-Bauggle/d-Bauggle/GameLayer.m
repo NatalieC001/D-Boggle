@@ -303,7 +303,7 @@
         self.isPaused = NO;
         
         CCMenuItemImage *rotate = [CCMenuItemImage itemWithNormalImage:@"rotate.png" selectedImage:@"rotate_onClick.png" target:self selector:@selector(rotateClicked)];    //Rotate button
-        CCMenuItemImage *pause = [CCMenuItemImage itemWithNormalImage:@"pause.png" selectedImage:@"pause_inactive.png" target:self selector:@selector(pauseGame)];
+        CCMenuItemImage *pause = [CCMenuItemImage itemWithNormalImage:@"pause.png" selectedImage:@"pause_onClick.png" target:self selector:@selector(pauseGame)];
         
         CGSize size = [[CCDirector sharedDirector] winSize];
         
@@ -400,7 +400,7 @@
         
         [[SimpleAudioEngine sharedEngine] preloadBackgroundMusic:@"background.mp3"];
         [[SimpleAudioEngine sharedEngine] preloadEffect:@"tiletap.mp3"];
-        [[SimpleAudioEngine sharedEngine] preloadEffect:@"rotate.mp3"];
+//        [[SimpleAudioEngine sharedEngine] preloadEffect:@"rotate.mp3"];
         [[SimpleAudioEngine sharedEngine] preloadEffect:@"wordformed.mp3"];
         [[SimpleAudioEngine sharedEngine] preloadEffect:@"wordformed2.mp3"];
         [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"background.mp3" loop:@YES];
@@ -455,7 +455,7 @@
         [self.pauseLayer addChild:background z:-1];
         
         CCSprite *pausedLogo = [CCSprite spriteWithFile:@"pauselogo.png"];
-        pausedLogo.position = ccp(size.width/2, size.height - 60);
+        pausedLogo.position = ccp(size.width/2, size.height - 100);
         if (size.height == 568)
         {
             pausedLogo.position = ccp(size.width/2, size.height - 100);
@@ -471,8 +471,9 @@
         CCMenuItemImage *playedWords = [CCMenuItemImage itemWithNormalImage:@"hits_inactive.png" selectedImage:@"hits_active.png" target:self selector:@selector(showPlayedWords)];
         CCMenuItemImage *endCurrentGame = [CCMenuItemImage itemWithNormalImage:@"endgame.png" selectedImage:@"endgame_active.png" target:self selector:@selector(endCurrentGame)];
         
-        self.pauseMenu = [CCMenu menuWithItems:resume, mainMenu, newGame, playedWords, endCurrentGame, nil];
+        self.pauseMenu = [CCMenu menuWithItems:resume, newGame, mainMenu, playedWords, endCurrentGame, nil];
         [self.pauseMenu alignItemsVertically];
+        
         if (size.height == 480)
             self.pauseMenu.position = ccp (size.width / 2, size.height / 2 - 45);
         
@@ -545,12 +546,12 @@
     CCMenuItemImage *no = [CCMenuItemImage itemWithNormalImage:@"no_inactive.png" selectedImage:@"no_active.png" target:self selector:@selector(resumeFromQuitPrompt)];
     
     CCMenu *quitMenu = [CCMenu menuWithItems:yes, no, nil];
+    [quitMenu alignItemsVertically];
     quitMenu.position = ccp (size.width / 2, size.height / 2 - 65);
     if (size.height == 568)
     {
         quitMenu.position = ccp(size.width/2, size.height / 2 - 20);
     }
-    [quitMenu alignItemsVertically];
     [self.quitPrompt addChild:quitMenu];
     [self addChild:self.quitPrompt];
     self.isPaused = YES;
@@ -569,12 +570,54 @@
 - (void) confirmQuit
 {
     NSLog(@"Trying to quit");
-    [[CCDirector sharedDirector] replaceScene:[CCTransitionPageTurn transitionWithDuration:0.5 scene:[MainMenuLayer scene]]];
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionMoveInL transitionWithDuration:0.5 scene:[MainMenuLayer scene]]];
 }
 
 - (void) newGame
 {
-    [[CCDirector sharedDirector] replaceScene:[CCTransitionFlipX transitionWithDuration:0.5 scene:[GameLayer scene]]];
+    [self.quitPrompt removeAllChildrenWithCleanup:YES];
+    
+    CGSize size = [[CCDirector sharedDirector] winSize];
+    CCSprite *quitBackground;
+    if (size.height == 568)
+        quitBackground = [CCSprite spriteWithFile:@"pause_layer-568h.png"];
+    else
+        quitBackground = [CCSprite spriteWithFile:@"pause_layer.png"];
+    quitBackground.position = ccp (size.width/2, size.height/2);
+    
+    [self.quitPrompt addChild:quitBackground z:-1];
+    
+    CCSprite *quitLogo = [CCSprite spriteWithFile:@"areyousureLogo.png"];
+    quitLogo.position = ccp(size.width/2, size.height - 210);
+    if (size.height == 568)
+    {
+        quitLogo.position = ccp(size.width/2, size.height - 210);
+    }
+    [self.quitPrompt addChild:quitLogo z:0];
+    
+    
+    [self removeChild:self.pauseMenu cleanup:YES];
+    [self removeChild:self.pauseLayer cleanup:YES];
+    CCMenuItemImage *yes = [CCMenuItemImage itemWithNormalImage:@"yes_inactive.png" selectedImage:@"yes_active.png" target:self selector:@selector(confirmNewGame)];
+    CCMenuItemImage *no = [CCMenuItemImage itemWithNormalImage:@"no_inactive.png" selectedImage:@"no_active.png" target:self selector:@selector(resumeFromQuitPrompt)];
+    
+    CCMenu *quitMenu = [CCMenu menuWithItems:yes, no, nil];
+    [quitMenu alignItemsVertically];
+    quitMenu.position = ccp (size.width / 2, size.height / 2 - 65);
+    if (size.height == 568)
+    {
+        quitMenu.position = ccp(size.width/2, size.height / 2 - 20);
+    }
+    [self.quitPrompt addChild:quitMenu];
+    [self addChild:self.quitPrompt];
+    self.isPaused = YES;
+    
+    
+}
+
+- (void) confirmNewGame
+{
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionPageTurn transitionWithDuration:0.5 scene:[GameLayer scene]]];
 }
 
 //- (void) playedWords
@@ -679,11 +722,14 @@
     CCMenuItemImage *no = [CCMenuItemImage itemWithNormalImage:@"no_inactive.png" selectedImage:@"no_active.png" target:self selector:@selector(resumeFromQuitPrompt)];
     
     CCMenu *quitMenu = [CCMenu menuWithItems:yes, no, nil];
+    
     quitMenu.position = ccp (size.width / 2, size.height / 2 - 65);
     if (size.height == 568)
     {
         quitMenu.position = ccp(size.width/2, size.height / 2 - 20);
     }
+    
+    
     [quitMenu alignItemsVertically];
     [self.quitPrompt addChild:quitMenu];
     [self addChild:self.quitPrompt];
@@ -691,7 +737,7 @@
 
 - (void) confirmEndGame
 {
-    [[CCDirector sharedDirector] replaceScene:[CCTransitionFadeTR transitionWithDuration:0.5 scene:[ResultLayer sceneWith:self.score andWordList:self.playedWordsList andPossibleList:self.possibleWordList]]];
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionSlideInR transitionWithDuration:0.5 scene:[ResultLayer sceneWith:self.score andWordList:self.playedWordsList andPossibleList:self.possibleWordList]]];
 }
 
 - (NSNumber *)decrement:(NSNumber *)number
@@ -736,7 +782,7 @@
     self.sound = NO;
     
     
-    //    [[SimpleAudioEngine sharedEngine] setBackgroundMusicVolume:0];
+    [[SimpleAudioEngine sharedEngine] setBackgroundMusicVolume:0];
     
     
     //    [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
@@ -749,7 +795,7 @@
 
 - (void) unmuteSound {
     self.sound = YES;
-    //    [[SimpleAudioEngine sharedEngine] setBackgroundMusicVolume:1];
+    [[SimpleAudioEngine sharedEngine] setBackgroundMusicVolume:1];
     //    [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"background.mp3" loop:@YES];
     CGSize size = [[CCDirector sharedDirector] winSize];
     [self.pauseLayer removeChild:self.soundMenu];
@@ -782,10 +828,10 @@
     [self disableRotate];
     self.angle += 90;
     if (self.angle >= 360) self.angle -= 360;
-    if (self.sound)
-    {
-        [[SimpleAudioEngine sharedEngine] playEffect:@"rotate.mp3"];
-    }
+//    if (self.sound)
+//    {
+////        [[SimpleAudioEngine sharedEngine] playEffect:@"rotate.mp3"];
+//    }
     //    NSLog(@"Rotation = %f", [self.board rotation]);
     id enableRotateCallback = [CCCallFunc actionWithTarget:self selector:@selector(enableRotate)];
     id rotateAction = [CCRotateBy actionWithDuration:0.5 angle:-90];    //rotates the board by 90 deg anti-clockwise
@@ -1159,11 +1205,13 @@
     int itemsRemaining = [self.playedWordsList count];
     NSLog(@"Number of played words in total %d", itemsRemaining);
     int j = 0;
-    
+    CGSize size = [[CCDirector sharedDirector] winSize];
+    int inc = 10;
+    if (size.height == 480) inc = 9;
     while(j < [self.playedWordsList count]) {
         NSLog(@"j = %d", j);
         
-        NSRange range = NSMakeRange(j, MIN(10, itemsRemaining));
+        NSRange range = NSMakeRange(j, MIN(inc, itemsRemaining));
         NSArray *subarray = [self.playedWordsList subarrayWithRange:range];
         [self.subarraysOfPlayedWordsArrays addObject:subarray];
         itemsRemaining -= range.length;
@@ -1199,9 +1247,9 @@
     CGSize size = [[CCDirector sharedDirector] winSize];
     CCSprite *background;
     if (size.height == 568)
-        background = [CCSprite spriteWithFile:@"hitslayer-568h.png"];
+        background = [CCSprite spriteWithFile:@"credits_hits_missed-568h.png"];
     else
-        background = [CCSprite spriteWithFile:@"hitslayer.png"];
+        background = [CCSprite spriteWithFile:@"credits_hits_missed.png"];
     
     background.position = ccp (size.width/2, size.height/2);
     scroller.position = ccp(0, 0);
@@ -1213,7 +1261,7 @@
     [self.playedWordsLayer addChild:scroller];
     
     
-    CCMenuItem *backToMenu = [CCMenuItemImage itemWithNormalImage:@"backbutton.png" selectedImage:@"backbutton.png" target:self selector:@selector(resumeGameFromPlayedWords)];
+    CCMenuItem *backToMenu = [CCMenuItemImage itemWithNormalImage:@"backbutton.png" selectedImage:@"backbutton_onClick.png" target:self selector:@selector(resumeGameFromPlayedWords)];
     
     CCMenu *playedWordsMenu = [CCMenu menuWithItems: backToMenu, nil];
     playedWordsMenu.position = ccp(32, size.height - 30);
@@ -1243,6 +1291,9 @@
     }
     wordLabel.color = ccBLACK;
     wordLabel.position = ccp (size.width/2, size.height/2 - 55);
+    if (size.height == 480) {
+        wordLabel.position = ccp (size.width/2, size.height/2 - 40);
+    }
     [layer addChild:wordLabel z:5];
     
     return layer;

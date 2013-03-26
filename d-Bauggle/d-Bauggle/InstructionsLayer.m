@@ -56,7 +56,7 @@
         
         [self addChild: scroller];
         
-        CCMenuItem *backToMenu = [CCMenuItemImage itemWithNormalImage:@"backbutton.png" selectedImage:@"backbutton.png" target:self selector:@selector(mainMenu)];
+        CCMenuItem *backToMenu = [CCMenuItemImage itemWithNormalImage:@"backbutton.png" selectedImage:@"backbutton_onClick.png" target:self selector:@selector(mainMenu)];
         
         CCMenu *backButtonMenu = [CCMenu menuWithItems: backToMenu, nil];
         backButtonMenu.position = ccp(27, size.height - 27);
@@ -109,14 +109,23 @@
     CCLayer * layer = [CCLayerColor layerWithColor: ccc4(0, 0, 0, 0)];
     CGSize size = [[CCDirector sharedDirector] winSize];
     
+    CCSprite *background;
     CCSprite *instructionBubble;
     if (size.height == 568)
+    {
+        background = [CCSprite spriteWithFile:@"whitebox-568h.png"];
         instructionBubble = [CCSprite spriteWithFile:@"howtoplay3-568h.png"];
+        instructionBubble.position = ccp (size.width/2, size.height/2 - 70);
+    }
     else
+    {
+        background = [CCSprite spriteWithFile:@"whitebox.png"];
         instructionBubble = [CCSprite spriteWithFile:@"howtoplay3.png"];
-    
-    instructionBubble.position = ccp (size.width/2, size.height/2);
+        instructionBubble.position = ccp (size.width/2, size.height/2 - 57);
+    }
+    background.position = ccp (size.width/2, size.height/2);
     layer.position = ccp(0, 0);
+    [layer addChild:background];
     [layer addChild:instructionBubble];
     return layer;
 }
@@ -126,14 +135,23 @@
     CCLayer * layer = [CCLayerColor layerWithColor: ccc4(0, 0, 0, 0)];
     CGSize size = [[CCDirector sharedDirector] winSize];
     
+    CCSprite *background;
     CCSprite *instructionBubble;
     if (size.height == 568)
+    {
+        background = [CCSprite spriteWithFile:@"whitebox-568h.png"];
         instructionBubble = [CCSprite spriteWithFile:@"howtoplay4-568h.png"];
+        instructionBubble.position = ccp (size.width/2, size.height/2 - 70);
+    }
     else
+    {
+        background = [CCSprite spriteWithFile:@"whitebox.png"];
         instructionBubble = [CCSprite spriteWithFile:@"howtoplay4.png"];
-    
-    instructionBubble.position = ccp (size.width/2, size.height/2);
+        instructionBubble.position = ccp (size.width/2, size.height/2 - 57);
+    }
+    background.position = ccp (size.width/2, size.height/2);
     layer.position = ccp(0, 0);
+    [layer addChild:background];
     [layer addChild:instructionBubble];
     return layer;
 }
@@ -143,14 +161,24 @@
     CCLayer * layer = [CCLayerColor layerWithColor: ccc4(0, 0, 0, 0)];
     CGSize size = [[CCDirector sharedDirector] winSize];
     
+    CCSprite *background;
     CCSprite *instructionBubble;
     if (size.height == 568)
+    {
+        background = [CCSprite spriteWithFile:@"whitebox-568h.png"];
         instructionBubble = [CCSprite spriteWithFile:@"howtoplay5-568h.png"];
+        instructionBubble.position = ccp (size.width/2, size.height/2 - 70);
+    }
     else
+    {
+        background = [CCSprite spriteWithFile:@"whitebox.png"];
         instructionBubble = [CCSprite spriteWithFile:@"howtoplay5.png"];
+        instructionBubble.position = ccp (size.width/2, size.height/2 - 57);
+    }
+    background.position = ccp (size.width/2, size.height/2);
     
-    instructionBubble.position = ccp (size.width/2, size.height/2);
     layer.position = ccp(0, 0);
+    [layer addChild:background];
     [layer addChild:instructionBubble];
     return layer;
 }
