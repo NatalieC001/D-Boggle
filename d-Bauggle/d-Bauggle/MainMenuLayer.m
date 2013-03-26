@@ -104,9 +104,9 @@
         
         
         CCMenuItemImage *newGameItem = [CCMenuItemImage itemWithNormalImage:@"white_newgame_inactive.png" selectedImage:@"newgame_active.png" target:self selector:@selector(newGame)];
-        CCMenuItemImage *instructions = [CCMenuItemImage itemWithNormalImage:@"instructions_inactive.png" selectedImage:@"instructions_active.png" target:self selector:@selector(instructions)];
-        CCMenuItemImage *highscores = [CCMenuItemImage itemWithNormalImage:@"highscores_inactive.png" selectedImage:@"highscores_active.png" target:self selector:@selector(highScores)];
-        CCMenuItemImage *credits = [CCMenuItemImage itemWithNormalImage:@"credits_inactive.png" selectedImage:@"credits_active.png" target:self selector:@selector(credits)];
+        CCMenuItemImage *instructions = [CCMenuItemImage itemWithNormalImage:@"white_instructions_inactive.png" selectedImage:@"instructions_active.png" target:self selector:@selector(instructions)];
+        CCMenuItemImage *highscores = [CCMenuItemImage itemWithNormalImage:@"white_highscores_inactive.png" selectedImage:@"highscores_active.png" target:self selector:@selector(highScores)];
+        CCMenuItemImage *credits = [CCMenuItemImage itemWithNormalImage:@"white_credits_inactive.png" selectedImage:@"credits_active.png" target:self selector:@selector(credits)];
         
         CCMenu *menu = [CCMenu menuWithItems:newGameItem, instructions, highscores, credits, nil];
         [menu alignItemsVerticallyWithPadding:5];

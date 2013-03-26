@@ -45,6 +45,8 @@
 @property (nonatomic, strong) CorrectWordBadge *currentWordCorrectnessBadge;
 @property (nonatomic, strong) NSMutableArray *lines;
 @property (nonatomic, strong) CCLayer *quitPrompt;
+@property (nonatomic) BOOL *sound;
+@property (nonatomic, strong) CCMenu *soundMenu;
 //@property (nonatomic, strong) CCMotionStreak *streak;
 @end
 
@@ -386,23 +388,25 @@
         [self addChild: self.currentWordLabel];
 
         
-        self.currentWordCorrectnessBadge = [CorrectWordBadge spriteWithFile:@"tick.png"];
+        self.currentWordCorrectnessBadge = [CorrectWordBadge spriteWithFile:@"correctword.png"];
         self.currentWordCorrectnessBadge.position = ccp (currentWordBorder.position.x + 130, currentWordBorder.position.y);
         self.currentWordCorrectnessBadge.isPresent = NO;
         
         
         //Adding background Music
         
-//        [[SimpleAudioEngine sharedEngine] preloadBackgroundMusic:@"background.mp3"];
-//        [[SimpleAudioEngine sharedEngine] preloadEffect:@"tiletap.mp3"];
-//        [[SimpleAudioEngine sharedEngine] preloadEffect:@"wordformed.mp3"];
-//        [[SimpleAudioEngine sharedEngine] preloadEffect:@"wordformed2.mp3"];
-//        [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"background.mp3" loop:@YES];
+        [[SimpleAudioEngine sharedEngine] preloadBackgroundMusic:@"background.mp3"];
+        [[SimpleAudioEngine sharedEngine] preloadEffect:@"tiletap.mp3"];
+        [[SimpleAudioEngine sharedEngine] preloadEffect:@"wordformed.mp3"];
+        [[SimpleAudioEngine sharedEngine] preloadEffect:@"wordformed2.mp3"];
+        [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"background.mp3" loop:@YES];
         
         
         //initializing quit prompt once so that it can be reused.
         self.quitPrompt = [CCLayerColor layerWithColor: ccc4(0, 0, 0, 0)];
         self.quitPrompt.position = ccp(0, 0);
+        
+        self.sound = YES;
         
         
         
@@ -465,6 +469,11 @@
         
         self.pauseMenu = [CCMenu menuWithItems:resume, mainMenu, newGame, playedWords, endCurrentGame, nil];
         [self.pauseMenu alignItemsVertically];
+        
+        self.soundMenu = [self soundMenuGenerator];
+        self.soundMenu.position = ccp (30, size.height - 30);
+        [self.pauseLayer addChild:self.soundMenu];
+        
         [self addChild:self.pauseMenu z:10];
     }
     else
@@ -485,6 +494,7 @@
     [self enableRotate];
     [self removeChild:self.pauseMenu cleanup:YES];
     [self removeChild:self.pauseLayer cleanup:YES];
+    [self.pauseLayer removeChild:self.soundMenu];
     //    [[CCDirector sharedDirector] resume];
     self.isPaused = NO;
     
@@ -556,74 +566,74 @@
     [[CCDirector sharedDirector] replaceScene:[CCTransitionFlipX transitionWithDuration:0.5 scene:[GameLayer scene]]];
 }
 
-- (void) playedWords
-{
-    //try the other thing also. Here http://tonyngo.net/2011/11/scrolling-ccnode-in-cocos2d/
-    
-    //this is from http://www.pkclsoft.com/wp/?cat=12
-//    ScrollingMenuScene *ns =
-//    [ScrollingMenuScene nodeWithForeground:@"Pause.png"
-//                             andBackground:@"Default.png"
-//                                   andRect:CGRectMake(50.0, 40.0, 200.0, 260.0)
-//                                  andItems:[NSArray arrayWithArray:self.playedWordsList]];
-//    [[CCDirector sharedDirector] replaceScene:ns];
-    CGSize size = [[CCDirector sharedDirector] winSize];
-    
-    //[[CCDirector sharedDirector] pause];
-    [self removeChild:self.pauseMenu cleanup:YES];
-    [self removeChild:self.pauseLayer cleanup:YES];
-    
-    
-    CCSprite *background;
-    if (size.height == 568)
-        background = [CCSprite spriteWithFile:@"credits_hits_missed-hd.png"];
-    else
-        background = [CCSprite spriteWithFile:@"credits_hits_missed.png"];
-    
-    
-    background.position = ccp (size.width/2, size.height/2);
-    //[[CCDirector sharedDirector] pause];
-    self.playedWordsLayer = [CCLayerColor layerWithColor: ccc4(0, 0, 0, 0)];
-    self.playedWordsLayer.position = ccp(0, 0);
-    [self.playedWordsLayer addChild:background z:-1];
-    
-    CCSprite *playedWordsLogo = [CCSprite spriteWithFile:@"playedwordslogo.png"];
-    
-    playedWordsLogo.position = ccp(size.width/2, size.height - 60);
-    if (size.height == 568)
-    {
-        playedWordsLogo.position = ccp(size.width/2, size.height - 100);
-    }
-    
-    [self.playedWordsLayer addChild:playedWordsLogo z:0];
-    
-    
-    NSString *wordList = [self.playedWordsList componentsJoinedByString:@", "];
-//    NSLog(@"%@", wordList);
-    
-    CCLabelTTF *wordLabel = [CCLabelTTF labelWithString:wordList dimensions:CGSizeMake(size.width*0.85, size.height*0.6) hAlignment:kCCTextAlignmentCenter lineBreakMode:kCCLineBreakModeWordWrap fontName:@"open-dyslexic" fontSize:20];
-    wordLabel.position = ccp(size.width/2, size.height - 300);
-    wordLabel.color = ccBLACK;
-    
-    [self.playedWordsLayer addChild:wordLabel z:11];
-    
-    
-    
-    //CCMenuItemLabel *wordListLabel = [CCMenuItemLabel itemWithLabel:wordLabel];
-    //wordListLabel.color = ccBLACK;
-    //wordListLabel.position = ccp(size.width/2, size.height - 80);
-    
-    
-    CCMenuItem *resume = [CCMenuItemImage itemWithNormalImage:@"resume_inactive.png" selectedImage:@"resume_active.png" target:self selector:@selector(resumeGameFromPlayedWords)];
-        
-    self.playedWordsMenu = [CCMenu menuWithItems:resume, nil];
-    self.playedWordsMenu.position = ccp(size.width/2, 40);
-
-    //[self.playedWordsMenu alignItemsVertically];
-    [self.playedWordsLayer addChild:self.playedWordsMenu z:10];
-    
-    [self addChild: self.playedWordsLayer z:8];
-}
+//- (void) playedWords
+//{
+//    //try the other thing also. Here http://tonyngo.net/2011/11/scrolling-ccnode-in-cocos2d/
+//    
+//    //this is from http://www.pkclsoft.com/wp/?cat=12
+////    ScrollingMenuScene *ns =
+////    [ScrollingMenuScene nodeWithForeground:@"Pause.png"
+////                             andBackground:@"Default.png"
+////                                   andRect:CGRectMake(50.0, 40.0, 200.0, 260.0)
+////                                  andItems:[NSArray arrayWithArray:self.playedWordsList]];
+////    [[CCDirector sharedDirector] replaceScene:ns];
+//    CGSize size = [[CCDirector sharedDirector] winSize];
+//    
+//    //[[CCDirector sharedDirector] pause];
+//    [self removeChild:self.pauseMenu cleanup:YES];
+//    [self removeChild:self.pauseLayer cleanup:YES];
+//    
+//    
+//    CCSprite *background;
+//    if (size.height == 568)
+//        background = [CCSprite spriteWithFile:@"credits_hits_missed-hd.png"];
+//    else
+//        background = [CCSprite spriteWithFile:@"credits_hits_missed.png"];
+//    
+//    
+//    background.position = ccp (size.width/2, size.height/2);
+//    //[[CCDirector sharedDirector] pause];
+//    self.playedWordsLayer = [CCLayerColor layerWithColor: ccc4(0, 0, 0, 0)];
+//    self.playedWordsLayer.position = ccp(0, 0);
+//    [self.playedWordsLayer addChild:background z:-1];
+//    
+//    CCSprite *playedWordsLogo = [CCSprite spriteWithFile:@"playedwordslogo.png"];
+//    
+//    playedWordsLogo.position = ccp(size.width/2, size.height - 60);
+//    if (size.height == 568)
+//    {
+//        playedWordsLogo.position = ccp(size.width/2, size.height - 100);
+//    }
+//    
+//    [self.playedWordsLayer addChild:playedWordsLogo z:0];
+//    
+//    
+//    NSString *wordList = [self.playedWordsList componentsJoinedByString:@", "];
+////    NSLog(@"%@", wordList);
+//    
+//    CCLabelTTF *wordLabel = [CCLabelTTF labelWithString:wordList dimensions:CGSizeMake(size.width*0.85, size.height*0.6) hAlignment:kCCTextAlignmentCenter lineBreakMode:kCCLineBreakModeWordWrap fontName:@"open-dyslexic" fontSize:20];
+//    wordLabel.position = ccp(size.width/2, size.height - 300);
+//    wordLabel.color = ccBLACK;
+//    
+//    [self.playedWordsLayer addChild:wordLabel z:11];
+//    
+//    
+//    
+//    //CCMenuItemLabel *wordListLabel = [CCMenuItemLabel itemWithLabel:wordLabel];
+//    //wordListLabel.color = ccBLACK;
+//    //wordListLabel.position = ccp(size.width/2, size.height - 80);
+//    
+//    
+//    CCMenuItem *resume = [CCMenuItemImage itemWithNormalImage:@"resume_inactive.png" selectedImage:@"resume_active.png" target:self selector:@selector(resumeGameFromPlayedWords)];
+//        
+//    self.playedWordsMenu = [CCMenu menuWithItems:resume, nil];
+//    self.playedWordsMenu.position = ccp(size.width/2, 40);
+//
+//    //[self.playedWordsMenu alignItemsVertically];
+//    [self.playedWordsLayer addChild:self.playedWordsMenu z:10];
+//    
+//    [self addChild: self.playedWordsLayer z:8];
+//}
 
 - (void) endCurrentGame
 {
@@ -693,6 +703,39 @@
         [[CCDirector sharedDirector] replaceScene:[CCTransitionFadeTR transitionWithDuration:0.5 scene:[ResultLayer sceneWith:self.score andWordList:self.playedWordsList andPossibleList:self.possibleWordList]]];
     }
 }
+//25, height-30
+- (CCMenu *) soundMenuGenerator {
+    
+    CCMenuItemImage *menuItem;
+    if (self.sound)
+        menuItem = [CCMenuItemImage itemWithNormalImage:@"playing.png" selectedImage:@"hover_on_playing.png" target:self selector:@selector(muteSound)];
+    else
+        menuItem = [CCMenuItemImage itemWithNormalImage:@"muted.png" selectedImage:@"hover_on_muted.png" target:self selector:@selector(unmuteSound)];
+    
+    CCMenu *soundMenu = [CCMenu menuWithItems: menuItem, nil];
+    return soundMenu;
+}
+
+- (void) muteSound {
+    self.sound = NO;
+    [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
+    CGSize size = [[CCDirector sharedDirector] winSize];
+    [self.pauseLayer removeChild:self.soundMenu];
+    self.soundMenu = [self soundMenuGenerator];
+    self.soundMenu.position = ccp (30, size.height - 30);
+    [self.pauseLayer addChild:self.soundMenu];
+}
+
+- (void) unmuteSound {
+    self.sound = YES;
+    [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"background.mp3" loop:@YES];
+    CGSize size = [[CCDirector sharedDirector] winSize];
+    [self.pauseLayer removeChild:self.soundMenu];
+    self.soundMenu = [self soundMenuGenerator];
+    self.soundMenu.position = ccp (30, size.height - 30);
+    [self.pauseLayer addChild:self.soundMenu];
+}
+
 
 -(void)disableRotate
 {
@@ -852,7 +895,7 @@
         if ([self canChooseTileAt:position])
         {
 //            NSLog(@"came here inside");
-//            [[SimpleAudioEngine sharedEngine] playEffect:@"tiletap.mp3"];
+            [[SimpleAudioEngine sharedEngine] playEffect:@"tiletap.mp3"];
             [self.pressedTiles addObject:tile];
             [tile deactivate];
 //            NSLog(@"%@", tile.letter);
@@ -918,7 +961,7 @@
         [self clearAllPressedTiles];
         [self updateScoreLabel:self.currentWord.length];
         [self updatePlayedWordList:self.currentWord];
-//        [[SimpleAudioEngine sharedEngine] playEffect:@"wordformed2.mp3"];
+        [[SimpleAudioEngine sharedEngine] playEffect:@"wordformed2.mp3"];
         for(NSString *word in self.possibleWordList)
         {
             if ([self.currentWord isEqualToString:word])
