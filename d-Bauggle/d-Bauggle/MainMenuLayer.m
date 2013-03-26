@@ -111,6 +111,7 @@
         CCMenu *menu = [CCMenu menuWithItems:newGameItem, instructions, highscores, credits, nil];
         [menu alignItemsVerticallyWithPadding:5];
         
+        
         [self addChild:menu z:10];
         
         
