@@ -54,16 +54,16 @@
         self.touchEnabled = YES;
         
         self.scroller = [[CCScrollLayer alloc] initWithLayers:[NSArray arrayWithObjects:[self teamLayer], [self otherCreditsLayer], nil] widthOffset:0];
-
+        
         [self addChild: self.scroller];
         
         CCMenuItem *backToMenu = [CCMenuItemImage itemWithNormalImage:@"backbutton.png" selectedImage:@"backbutton.png" target:self selector:@selector(mainMenu)];
         
         CCMenu *backButtonMenu = [CCMenu menuWithItems: backToMenu, nil];
-        backButtonMenu.position = ccp(32, size.height - 70);
+        backButtonMenu.position = ccp(27, size.height - 27);
+        
         [backButtonMenu alignItemsVertically];
         [self addChild:backButtonMenu z:4];
-        
         
     }
 	return self;
@@ -95,9 +95,9 @@
     
     CCSprite *creditBubble;
     if (size.height == 568)
-        creditBubble = [CCSprite spriteWithFile:@"credits1-568h.png"];
+        creditBubble = [CCSprite spriteWithFile:@"credits2-568h.png"];
     else
-        creditBubble = [CCSprite spriteWithFile:@"credits1.png"];
+        creditBubble = [CCSprite spriteWithFile:@"credits2.png"];
     
     creditBubble.position = ccp (size.width/2, size.height/2);
     layer.position = ccp(0, 0);

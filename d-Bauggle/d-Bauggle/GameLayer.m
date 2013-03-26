@@ -154,80 +154,81 @@
     NSArray *array = [[NSArray alloc] initWithObjects:letter1, letter2, letter3, letter4, letter5,
                       letter6, letter7, letter8, letter9, letter10, letter11, letter12, letter13, letter14, letter15, letter16, nil];
     
-//    NSInteger boardNum;
-//    NSString *f;
-//    NSString *filepath;
-//    NSData *data;
-////    board_num++;
-////    NSLog(@"%d", boardNum);
-//    BOOL flag = YES;
-//    do {
-//        boardNum = arc4random() % 10;
-//        flag = YES;
-//        filepath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"board_%d", boardNum] ofType:@"txt"];
-////        NSLog(@"fp%@", filepath);
-//        if (!filepath)
-//        {
-//            flag = NO;
-//            continue;
-//        }
-//        data = [NSData dataWithContentsOfFile:filepath];
-////        NSLog(@"data%@", data);
-//        if (!data)
-//        {
-//            flag = NO;
-//            continue;
-//        }
-//        f = [NSString stringWithUTF8String:[data bytes]];
-////        NSLog(@"ffff%@", f);
-//        if (!f)
-//        {
-//            flag = NO;
-//            continue;
-//        }
-//    } while (flag == NO);
-//    
-////    NSLog(@"%@", filepath);
-//    
-//    NSCharacterSet *cs = [NSCharacterSet newlineCharacterSet];
-//    NSScanner *scanner = [NSScanner scannerWithString:f];
-//    
-//    BOOL firstCopy = YES;
+    //    NSInteger boardNum;
+    //    NSString *f;
+    //    NSString *filepath;
+    //    NSData *data;
+    ////    board_num++;
+    ////    NSLog(@"%d", boardNum);
+    //    BOOL flag = YES;
+    //    do {
+    //        boardNum = arc4random() % 10;
+    //        flag = YES;
+    //        filepath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"board_%d", boardNum] ofType:@"txt"];
+    ////        NSLog(@"fp%@", filepath);
+    //        if (!filepath)
+    //        {
+    //            flag = NO;
+    //            continue;
+    //        }
+    //        data = [NSData dataWithContentsOfFile:filepath];
+    ////        NSLog(@"data%@", data);
+    //        if (!data)
+    //        {
+    //            flag = NO;
+    //            continue;
+    //        }
+    //        f = [NSString stringWithUTF8String:[data bytes]];
+    ////        NSLog(@"ffff%@", f);
+    //        if (!f)
+    //        {
+    //            flag = NO;
+    //            continue;
+    //        }
+    //    } while (flag == NO);
+    //
+    ////    NSLog(@"%@", filepath);
+    //
+    //    NSCharacterSet *cs = [NSCharacterSet newlineCharacterSet];
+    //    NSScanner *scanner = [NSScanner scannerWithString:f];
+    //
+    //    BOOL firstCopy = YES;
     
-//    NSString *line;
+    //    NSString *line;
     NSString *boardLetters;
     boardLetters = [Engine generateBoard];
     
-//    while(![scanner isAtEnd]) {
-//        if([scanner scanUpToCharactersFromSet:cs intoString:&line]) {
-//            NSString *copy = [NSString stringWithString:line];
-//            if(firstCopy) {
-//                boardLetters = [NSString stringWithString:copy];
-//                boardLetters = [Boggle generateBoard];
-//                firstCopy = NO;
-//            }
-//            else {
-////                [self.possibleWordList addObject:copy];
-////                NSLog(@"%@", [self.possibleWordList lastObject]);
-//            }
-//        }
-//    }
+    //    while(![scanner isAtEnd]) {
+    //        if([scanner scanUpToCharactersFromSet:cs intoString:&line]) {
+    //            NSString *copy = [NSString stringWithString:line];
+    //            if(firstCopy) {
+    //                boardLetters = [NSString stringWithString:copy];
+    //                boardLetters = [Boggle generateBoard];
+    //                firstCopy = NO;
+    //            }
+    //            else {
+    ////                [self.possibleWordList addObject:copy];
+    ////                NSLog(@"%@", [self.possibleWordList lastObject]);
+    //            }
+    //        }
+    //    }
     self.possibleWordList = [Engine solveBoard:boardLetters];
     NSLog(@"Possible Count: %d", [self.possibleWordList count]);
-    if([self.possibleWordList count] < 100){
+    
+    if([self.possibleWordList count] < 67){
         [self lettersForBoard];
     }
     
-
-//    boardLetters = [self.possibleWordList objectAtIndex:0];     //First line of text file has the grid letters
-//    [self.possibleWordList removeLastObject];
-
-//    NSLog(@"BOOYTEAH!%@", [self.possibleWordList objectAtIndex:1]);
+    
+    //    boardLetters = [self.possibleWordList objectAtIndex:0];     //First line of text file has the grid letters
+    //    [self.possibleWordList removeLastObject];
+    
+    //    NSLog(@"BOOYTEAH!%@", [self.possibleWordList objectAtIndex:1]);
     
     for(NSUInteger i = 0; i < 16; i++) {
         const unichar charAtIndex = [boardLetters characterAtIndex:i];
         NSString *currChar = [NSString stringWithFormat:@"%C", charAtIndex];
-//        NSLog(@" Current character is: %@", currChar);
+        //        NSLog(@" Current character is: %@", currChar);
         [[array objectAtIndex:i] initializeWith:currChar at:i];
     }
     
@@ -262,7 +263,7 @@
 	GameLayer *layer = [GameLayer node];
 	
     CGSize size = [[CCDirector sharedDirector] winSize];
-//    NSLog(@"Height yo! %f", size.height);
+    //    NSLog(@"Height yo! %f", size.height);
     if (size.height == 480)
     {
         CCSprite *background = [CCSprite spriteWithFile:@"gameonbg.png"];
@@ -275,7 +276,7 @@
         background.anchorPoint = ccp (0,0);
         [layer addChild:background z:-1];
     }
-
+    
     
     
 	// add layer as a child to scene
@@ -293,7 +294,7 @@
 	if((self = [super init])) {
         
         self.touchEnabled = YES;
-
+        
         
         
         [self.dict initializeDictionary];
@@ -302,7 +303,7 @@
         self.isPaused = NO;
         
         CCMenuItemImage *rotate = [CCMenuItemImage itemWithNormalImage:@"rotate.png" selectedImage:@"rotate_onClick.png" target:self selector:@selector(rotateClicked)];    //Rotate button
-        CCMenuItemImage *pause = [CCMenuItemImage itemWithNormalImage:@"pause.png" selectedImage:@"pause_inactive.png" target:self selector:@selector(pauseGame)]; 
+        CCMenuItemImage *pause = [CCMenuItemImage itemWithNormalImage:@"pause.png" selectedImage:@"pause_inactive.png" target:self selector:@selector(pauseGame)];
         
         CGSize size = [[CCDirector sharedDirector] winSize];
         
@@ -330,7 +331,7 @@
         
         self.board = [CCSprite spriteWithFile:@"tray.png"];
         self.board.position = ccp(0, 0);        //The frame of reference for these coordinates is boardManager, not the
-                                                //screen
+        //screen
         self.letters = [self lettersForBoard];
         
         [self.boardManager addChild:self.board z:0];    //Add board to boardManager
@@ -372,7 +373,7 @@
         
         if (size.height == 568)
         {
-
+            
             scoreBorder.position = ccp(size.width / 2, 420);
             self.scoreLabel.position = ccp(size.width / 2, 420);
             currentWordBorder.position = ccp(size.width / 2, 360);
@@ -388,7 +389,7 @@
         [self addChild: self.scoreLabel];
         [self addChild: currentWordBorder];
         [self addChild: self.currentWordLabel];
-
+        
         
         self.currentWordCorrectnessBadge = [CorrectWordBadge spriteWithFile:@"correctword.png"];
         self.currentWordCorrectnessBadge.position = ccp (currentWordBorder.position.x + 130, currentWordBorder.position.y);
@@ -425,7 +426,7 @@
 
 - (void) pauseGame
 {
-//    NSLog(@"Works!");
+    //    NSLog(@"Works!");
     if (!self.isPaused)
     {
         
@@ -446,7 +447,7 @@
             background = [CCSprite spriteWithFile:@"pause_layer-568h.png"];
         else
             background = [CCSprite spriteWithFile:@"pause_layer.png"];
-
+        
         background.position = ccp (size.width/2, size.height/2);
         //[[CCDirector sharedDirector] pause];
         self.pauseLayer = [CCLayerColor layerWithColor: ccc4(0, 0, 0, 0)];
@@ -572,7 +573,7 @@
 //- (void) playedWords
 //{
 //    //try the other thing also. Here http://tonyngo.net/2011/11/scrolling-ccnode-in-cocos2d/
-//    
+//
 //    //this is from http://www.pkclsoft.com/wp/?cat=12
 ////    ScrollingMenuScene *ns =
 ////    [ScrollingMenuScene nodeWithForeground:@"Pause.png"
@@ -581,67 +582,67 @@
 ////                                  andItems:[NSArray arrayWithArray:self.playedWordsList]];
 ////    [[CCDirector sharedDirector] replaceScene:ns];
 //    CGSize size = [[CCDirector sharedDirector] winSize];
-//    
+//
 //    //[[CCDirector sharedDirector] pause];
 //    [self removeChild:self.pauseMenu cleanup:YES];
 //    [self removeChild:self.pauseLayer cleanup:YES];
-//    
-//    
+//
+//
 //    CCSprite *background;
 //    if (size.height == 568)
 //        background = [CCSprite spriteWithFile:@"credits_hits_missed-hd.png"];
 //    else
 //        background = [CCSprite spriteWithFile:@"credits_hits_missed.png"];
-//    
-//    
+//
+//
 //    background.position = ccp (size.width/2, size.height/2);
 //    //[[CCDirector sharedDirector] pause];
 //    self.playedWordsLayer = [CCLayerColor layerWithColor: ccc4(0, 0, 0, 0)];
 //    self.playedWordsLayer.position = ccp(0, 0);
 //    [self.playedWordsLayer addChild:background z:-1];
-//    
+//
 //    CCSprite *playedWordsLogo = [CCSprite spriteWithFile:@"playedwordslogo.png"];
-//    
+//
 //    playedWordsLogo.position = ccp(size.width/2, size.height - 60);
 //    if (size.height == 568)
 //    {
 //        playedWordsLogo.position = ccp(size.width/2, size.height - 100);
 //    }
-//    
+//
 //    [self.playedWordsLayer addChild:playedWordsLogo z:0];
-//    
-//    
+//
+//
 //    NSString *wordList = [self.playedWordsList componentsJoinedByString:@", "];
 ////    NSLog(@"%@", wordList);
-//    
+//
 //    CCLabelTTF *wordLabel = [CCLabelTTF labelWithString:wordList dimensions:CGSizeMake(size.width*0.85, size.height*0.6) hAlignment:kCCTextAlignmentCenter lineBreakMode:kCCLineBreakModeWordWrap fontName:@"open-dyslexic" fontSize:20];
 //    wordLabel.position = ccp(size.width/2, size.height - 300);
 //    wordLabel.color = ccBLACK;
-//    
+//
 //    [self.playedWordsLayer addChild:wordLabel z:11];
-//    
-//    
-//    
+//
+//
+//
 //    //CCMenuItemLabel *wordListLabel = [CCMenuItemLabel itemWithLabel:wordLabel];
 //    //wordListLabel.color = ccBLACK;
 //    //wordListLabel.position = ccp(size.width/2, size.height - 80);
-//    
-//    
+//
+//
 //    CCMenuItem *resume = [CCMenuItemImage itemWithNormalImage:@"resume_inactive.png" selectedImage:@"resume_active.png" target:self selector:@selector(resumeGameFromPlayedWords)];
-//        
+//
 //    self.playedWordsMenu = [CCMenu menuWithItems:resume, nil];
 //    self.playedWordsMenu.position = ccp(size.width/2, 40);
 //
 //    //[self.playedWordsMenu alignItemsVertically];
 //    [self.playedWordsLayer addChild:self.playedWordsMenu z:10];
-//    
+//
 //    [self addChild: self.playedWordsLayer z:8];
 //}
 
 - (void) endCurrentGame
 {
     NSLog(@"Ending game");
-
+    
     [self.quitPrompt removeAllChildrenWithCleanup:YES];
     
     CGSize size = [[CCDirector sharedDirector] winSize];
@@ -661,12 +662,12 @@
         quitLogo.position = ccp(size.width/2, size.height - 100);
     }
     [self.quitPrompt addChild:quitLogo z:0];
-
+    
     
     
     [self removeChild:self.pauseMenu cleanup:YES];
     [self removeChild:self.pauseLayer cleanup:YES];
-
+    
     CCMenuItemImage *yes = [CCMenuItemImage itemWithNormalImage:@"yes_inactive.png" selectedImage:@"yes_active.png" target:self selector:@selector(confirmEndGame)];
     CCMenuItemImage *no = [CCMenuItemImage itemWithNormalImage:@"no_inactive.png" selectedImage:@"no_active.png" target:self selector:@selector(resumeFromQuitPrompt)];
     
@@ -697,8 +698,8 @@
     else
         [self.timer setString:[NSString stringWithFormat:@"%ld:%ld", (long)[self.time integerValue]/60, sec]];
     
-//    NSLog(@"%ld", (long)[self.time integerValue]);
-
+    //    NSLog(@"%ld", (long)[self.time integerValue]);
+    
     if ([self.time integerValue] == 0) {
         [self.timer setString:[NSString stringWithFormat:@"Done!"]];
         [self.timer setFontSize:18];
@@ -723,10 +724,10 @@
     self.sound = NO;
     
     
-    [[SimpleAudioEngine sharedEngine] setBackgroundMusicVolume:0];
-
-                                                                
-//    [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
+    //    [[SimpleAudioEngine sharedEngine] setBackgroundMusicVolume:0];
+    
+    
+    //    [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
     CGSize size = [[CCDirector sharedDirector] winSize];
     [self.pauseLayer removeChild:self.soundMenu];
     self.soundMenu = [self soundMenuGenerator];
@@ -736,8 +737,8 @@
 
 - (void) unmuteSound {
     self.sound = YES;
-    [[SimpleAudioEngine sharedEngine] setBackgroundMusicVolume:1];
-//    [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"background.mp3" loop:@YES];
+    //    [[SimpleAudioEngine sharedEngine] setBackgroundMusicVolume:1];
+    //    [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"background.mp3" loop:@YES];
     CGSize size = [[CCDirector sharedDirector] winSize];
     [self.pauseLayer removeChild:self.soundMenu];
     self.soundMenu = [self soundMenuGenerator];
@@ -773,7 +774,7 @@
     {
         [[SimpleAudioEngine sharedEngine] playEffect:@"rotate.mp3"];
     }
-//    NSLog(@"Rotation = %f", [self.board rotation]);
+    //    NSLog(@"Rotation = %f", [self.board rotation]);
     id enableRotateCallback = [CCCallFunc actionWithTarget:self selector:@selector(enableRotate)];
     id rotateAction = [CCRotateBy actionWithDuration:0.5 angle:-90];    //rotates the board by 90 deg anti-clockwise
     id sequence = [CCSequence actions:rotateAction, enableRotateCallback, nil];
@@ -784,14 +785,14 @@
         id rotateLetter = [CCRotateBy actionWithDuration:0.01 angle:90]; //rotates each letter by 90 deg clockwise
         [tile runAction:rotateLetter];
         [tile updateActualLocationForAnticlockwiseRotationByNinetyDegrees];
-//        if (i==1)
-//        {
-//            CCSprite *tile = [self.letters objectAtIndex:1];
-//            NSLog(@"%f, %f", tile.position.x, tile.position.y);
-//            NSLog(@"Rotation = %f", [tile rotation]);
-//        }
+        //        if (i==1)
+        //        {
+        //            CCSprite *tile = [self.letters objectAtIndex:1];
+        //            NSLog(@"%f, %f", tile.position.x, tile.position.y);
+        //            NSLog(@"Rotation = %f", [tile rotation]);
+        //        }
     }
-//    NSLog(@"Rotation = %f", [self.board rotation]);
+    //    NSLog(@"Rotation = %f", [self.board rotation]);
     //NSLog(@"Board String = %@", [Boggle generateBoard]);
 }
 
@@ -824,11 +825,11 @@
 
 //Ensures only tiles adjacent to last chosen tile can be selected
 - (BOOL)canChooseTileAt:(NSUInteger)position {
-//    NSArray *validLetters;
+    //    NSArray *validLetters;
     if ([self.pressedTiles count] == 0)
         return YES;
     NSUInteger lastIndex = [[self.pressedTiles lastObject] tileNumber];
-//    NSMutableIndexSet *indicesOfValidTiles = [[NSMutableIndexSet alloc] init];
+    //    NSMutableIndexSet *indicesOfValidTiles = [[NSMutableIndexSet alloc] init];
     switch (position) {
         case 0:
             return (lastIndex == 1 || lastIndex == 4 || lastIndex == 5);
@@ -897,24 +898,24 @@
 
 - (void)tileTouchedAt:(NSUInteger)position
 {
-//    NSLog(@"Touched");
+    //    NSLog(@"Touched");
     if (self.isPaused) return;
     Tile *tile = [self.letters objectAtIndex:position];
     // put a validity if here and make the next if an else
-//    NSLog(@"hello %c", [self canChooseTileAt:position]);
-//    NSLog(@"came here");
+    //    NSLog(@"hello %c", [self canChooseTileAt:position]);
+    //    NSLog(@"came here");
     if ([tile isActive])
     {
         if ([self canChooseTileAt:position])
         {
-//            NSLog(@"came here inside");
+            //            NSLog(@"came here inside");
             if (self.sound)
             {
                 [[SimpleAudioEngine sharedEngine] playEffect:@"tiletap.mp3"];
             }
             [self.pressedTiles addObject:tile];
             [tile deactivate];
-//            NSLog(@"%@", tile.letter);
+            //            NSLog(@"%@", tile.letter);
         }
         else
         {
@@ -948,7 +949,7 @@
 
 - (void) updatePlayedWordList:(NSString *)currentWord{
     [self.playedWordsList addObject:currentWord];
-//    NSLog(@"added word");
+    //    NSLog(@"added word");
 }
 
 - (void)updateCurrentWord
@@ -960,7 +961,7 @@
     {
         currentWord = [currentWord stringByAppendingString:tile.letter];
     }
-//    NSLog(@"%@", currentWord);
+    //    NSLog(@"%@", currentWord);
     [self.currentWordLabel setString:currentWord];
     self.currentWord = [NSString stringWithString:currentWord];
     [self updateCorrectWordBadge];
@@ -977,6 +978,7 @@
         [self clearAllPressedTiles];
         [self updateScoreLabel:self.currentWord.length];
         [self updatePlayedWordList:self.currentWord];
+        
         if (self.sound)
         {
             [[SimpleAudioEngine sharedEngine] playEffect:@"wordformed2.mp3"];
@@ -1004,19 +1006,19 @@
 
 - (void) updateCorrectWordBadge
 {
-//    NSLog(@"Updating the badge");
+    //    NSLog(@"Updating the badge");
     if ([self isValidWord])
     {
         if (![self.currentWordCorrectnessBadge isPresent])
         {
-//            NSLog(@"Adding the badge");
+            //            NSLog(@"Adding the badge");
             [self addChild:self.currentWordCorrectnessBadge];
             self.currentWordCorrectnessBadge.isPresent = YES;
         }
     }
     else
     {
-//        NSLog(@"Removing the badge");
+        //        NSLog(@"Removing the badge");
         self.currentWordCorrectnessBadge.isPresent = NO;
         [self removeChild:self.currentWordCorrectnessBadge cleanup:YES];
     }
@@ -1024,13 +1026,13 @@
 
 - (void) updateLines
 {
-//    NSLog(@"Number of lines = %lu", (unsigned long)[self.lines count]);
+    //    NSLog(@"Number of lines = %lu", (unsigned long)[self.lines count]);
     if ([self.lines count] != 0)
     {
         for (CCSprite *line in self.lines)
         {
             [self.boardManager removeChild:line cleanup:YES];
-//            NSLog(@"Removed line");
+            //            NSLog(@"Removed line");
         }
     }
     [self.lines removeAllObjects];
@@ -1039,7 +1041,7 @@
     {
         if (previousTile)
         {
-//            Add line here
+            //            Add line here
             CCSprite *line;
             int difference = previousTile.tileNumber - tile.tileNumber;
             difference = difference < 0 ? (difference * -1):difference;
@@ -1060,14 +1062,14 @@
                     break;
             }
             line.position = ccp((previousTile.position.x + tile.position.x)/2, (previousTile.position.y + tile.position.y)/2);
-//            NSLog(@"Previous tile is %lu at %f, %f", (unsigned long)previousTile.tileNumber, previousTile.position.x, previousTile.position.y);
-//            NSLog(@"Current tile is %lu at %f, %f", (unsigned long)tile.tileNumber, tile.position.x, tile.position.y);
-//            NSLog(@"Line is at %f, %f", line.position.x, line.position.y);
+            //            NSLog(@"Previous tile is %lu at %f, %f", (unsigned long)previousTile.tileNumber, previousTile.position.x, previousTile.position.y);
+            //            NSLog(@"Current tile is %lu at %f, %f", (unsigned long)tile.tileNumber, tile.position.x, tile.position.y);
+            //            NSLog(@"Line is at %f, %f", line.position.x, line.position.y);
             [self.lines addObject:line];
-//            NSLog(@"Just added the line. The count of lines = %lu", (unsigned long)[self.lines count]);
+            //            NSLog(@"Just added the line. The count of lines = %lu", (unsigned long)[self.lines count]);
             [self.boardManager addChild:line z:5];
             
-//            NSLog(@"Added line");
+            //            NSLog(@"Added line");
         }
         previousTile = tile;
     }
@@ -1077,7 +1079,7 @@
 {
     [self.currentWordLabel setString:@""];
     CCParticleExplosion *explosion = [[CCParticleExplosion alloc] init];
-
+    
     explosion.autoRemoveOnFinish = YES;
     explosion.startSize = 5.0f;
     explosion.endSize = 2.0f;
@@ -1118,18 +1120,18 @@
         CGPoint location = [touch locationInView:[touch view]];
         location = [[CCDirector sharedDirector] convertToGL:location];
         //[self rotateClicked];
-//        NSLog(@"Touches began");
+        //        NSLog(@"Touches began");
         double distance = 0;
         for (int i = 0; i < 16; i++)
         {
             Tile *tile = [self.letters objectAtIndex:i];
             distance = powf(location.x - tile.actualLocation.x, 2) + powf(location.y - tile.actualLocation.y, 2);
             distance = powf(distance, 0.5);
-//            if (distance <= 37.5)// && tile != [self.pressedTiles lastObject])
-//            {
-//                NSLog(@"Tile - %d at distance %f", i, distance);
-//                [self tileTouchedAt:i];
-//            }
+            //            if (distance <= 37.5)// && tile != [self.pressedTiles lastObject])
+            //            {
+            //                NSLog(@"Tile - %d at distance %f", i, distance);
+            //                [self tileTouchedAt:i];
+            //            }
             if(CGRectContainsPoint([tile actualBounds], location))
             {
                 [self tileTouchedAt:i];
@@ -1220,7 +1222,7 @@
     if (arrayIndex == -1)
     {
         wordLabel = [CCLabelTTF labelWithString:@"No words made! :(" fontName:@"open-dyslexic" fontSize:25];
-//        NSLog(@"No words made");
+        //        NSLog(@"No words made");
     }
     else
     {
@@ -1248,13 +1250,13 @@
         distance = powf(distance, 0.5);
         if (distance <= 37.5 && tile != [self.pressedTiles lastObject])
         {
-//            NSLog(@"Tile - %d at distance %f", i, distance);
+            //            NSLog(@"Tile - %d at distance %f", i, distance);
             [self tileTouchedAt:i];
         }
-//        if(CGRectContainsPoint([tile actualBounds], location) && tile != [self.pressedTiles lastObject])
-//        {
-//            [self tileTouchedAt:i];
-//        }
+        //        if(CGRectContainsPoint([tile actualBounds], location) && tile != [self.pressedTiles lastObject])
+        //        {
+        //            [self tileTouchedAt:i];
+        //        }
     }
     
 }

@@ -102,7 +102,7 @@
         CCSprite *logo = [CCSprite spriteWithFile:@"logoDB.png"];
 		// ask director for the window size
 		CGSize size = [[CCDirector sharedDirector] winSize];
-	
+        
 		// position the label on the center of the screen
 		logo.position = ccp(size.width / 2, size.height - 100);
 		
@@ -129,12 +129,12 @@
         [self addChild:shareMenu];
         
         
+        
         [[SimpleAudioEngine sharedEngine] preloadBackgroundMusic:@"mainmenubackground.mp3"];
         [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"mainmenubackground.mp3" loop:@YES];
-//        [[SimpleAudioEngine sharedEngine] preloadBackgroundMusic:@"background.mp3"];
+        //        [[SimpleAudioEngine sharedEngine] preloadBackgroundMusic:@"background.mp3"];
         
         self.sound = (BOOL)[[SimpleAudioEngine sharedEngine] backgroundMusicVolume];
-        
         self.soundMenu = [self soundMenuGenerator];
         self.soundMenu.position = ccp (30, size.height - 30);
         [self addChild:self.soundMenu];
@@ -159,7 +159,7 @@
     self.sound = NO;
     
     
-    [[SimpleAudioEngine sharedEngine] setBackgroundMusicVolume:0];
+    //    [[SimpleAudioEngine sharedEngine] setBackgroundMusicVolume:0];
     
     
     //    [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
@@ -172,7 +172,7 @@
 
 - (void) unmuteSound {
     self.sound = YES;
-    [[SimpleAudioEngine sharedEngine] setBackgroundMusicVolume:1];
+    //    [[SimpleAudioEngine sharedEngine] setBackgroundMusicVolume:1];
     //    [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"background.mp3" loop:@YES];
     CGSize size = [[CCDirector sharedDirector] winSize];
     [self removeChild:self.soundMenu];
@@ -239,9 +239,9 @@
     UITouch *touch = [touches anyObject];
     CGPoint location = [touch locationInView:[touch view]];
     location = [[CCDirector sharedDirector] convertToGL:location];
-//    Boggler *obj = [[Boggler alloc] init];
-//    NSLog(@"Touched");
-//    [obj trytosolve:@"jlopqyaeiostrarn"];
+    //    Boggler *obj = [[Boggler alloc] init];
+    //    NSLog(@"Touched");
+    //    [obj trytosolve:@"jlopqyaeiostrarn"];
 }
 
 // on "dealloc" you need to release all your retained objects

@@ -51,15 +51,15 @@
         self.touchEnabled = YES;
         CGSize size = [[CCDirector sharedDirector] winSize];
         
-    
-        CCScrollLayer *scroller = [[CCScrollLayer alloc] initWithLayers:[NSArray arrayWithObjects:[self teamLayer], [self otherCreditsLayer], nil] widthOffset:0];
+        
+        CCScrollLayer *scroller = [[CCScrollLayer alloc] initWithLayers:[NSArray arrayWithObjects:[self layer1], [self layer2], [self layer3], [self layer4], [self layer5], nil] widthOffset:0];
         
         [self addChild: scroller];
         
         CCMenuItem *backToMenu = [CCMenuItemImage itemWithNormalImage:@"backbutton.png" selectedImage:@"backbutton.png" target:self selector:@selector(mainMenu)];
         
         CCMenu *backButtonMenu = [CCMenu menuWithItems: backToMenu, nil];
-        backButtonMenu.position = ccp(32, size.height - 70);
+        backButtonMenu.position = ccp(27, size.height - 27);
         [backButtonMenu alignItemsVertically];
         [self addChild:backButtonMenu z:4];
         
@@ -68,42 +68,92 @@
 	return self;
 }
 
-- (CCLayer *) teamLayer
+- (CCLayer *) layer1
 {
     CCLayer * layer = [CCLayerColor layerWithColor: ccc4(0, 0, 0, 0)];
     CGSize size = [[CCDirector sharedDirector] winSize];
     
     
-    CCSprite *creditBubble;
+    CCSprite *instructionBubble;
     if (size.height == 568)
-        creditBubble = [CCSprite spriteWithFile:@"howtoplay1-568h.png"];
+        instructionBubble = [CCSprite spriteWithFile:@"howtoplay1-568h.png"];
     else
-        creditBubble = [CCSprite spriteWithFile:@"howtoplay1.png"];
+        instructionBubble = [CCSprite spriteWithFile:@"howtoplay1.png"];
     
-    creditBubble.position = ccp (size.width/2, size.height/2);
+    instructionBubble.position = ccp (size.width/2, size.height/2);
     layer.position = ccp(0, 0);
-    [layer addChild:creditBubble];
+    [layer addChild:instructionBubble];
     return layer;
     
 }
 
-- (CCLayer *) otherCreditsLayer
+- (CCLayer *) layer2
 {
     CCLayer * layer = [CCLayerColor layerWithColor: ccc4(0, 0, 0, 0)];
     CGSize size = [[CCDirector sharedDirector] winSize];
     
-    CCSprite *creditBubble;
+    CCSprite *instructionBubble;
     if (size.height == 568)
-        creditBubble = [CCSprite spriteWithFile:@"howtoplay1-568h.png"];
+        instructionBubble = [CCSprite spriteWithFile:@"howtoplay2-568h.png"];
     else
-        creditBubble = [CCSprite spriteWithFile:@"howtoplay1.png"];
+        instructionBubble = [CCSprite spriteWithFile:@"howtoplay2.png"];
     
-    creditBubble.position = ccp (size.width/2, size.height/2);
+    instructionBubble.position = ccp (size.width/2, size.height/2);
     layer.position = ccp(0, 0);
-    [layer addChild:creditBubble];
+    [layer addChild:instructionBubble];
     return layer;
 }
 
+- (CCLayer *) layer3
+{
+    CCLayer * layer = [CCLayerColor layerWithColor: ccc4(0, 0, 0, 0)];
+    CGSize size = [[CCDirector sharedDirector] winSize];
+    
+    CCSprite *instructionBubble;
+    if (size.height == 568)
+        instructionBubble = [CCSprite spriteWithFile:@"howtoplay3-568h.png"];
+    else
+        instructionBubble = [CCSprite spriteWithFile:@"howtoplay3.png"];
+    
+    instructionBubble.position = ccp (size.width/2, size.height/2);
+    layer.position = ccp(0, 0);
+    [layer addChild:instructionBubble];
+    return layer;
+}
+
+- (CCLayer *) layer4
+{
+    CCLayer * layer = [CCLayerColor layerWithColor: ccc4(0, 0, 0, 0)];
+    CGSize size = [[CCDirector sharedDirector] winSize];
+    
+    CCSprite *instructionBubble;
+    if (size.height == 568)
+        instructionBubble = [CCSprite spriteWithFile:@"howtoplay4-568h.png"];
+    else
+        instructionBubble = [CCSprite spriteWithFile:@"howtoplay4.png"];
+    
+    instructionBubble.position = ccp (size.width/2, size.height/2);
+    layer.position = ccp(0, 0);
+    [layer addChild:instructionBubble];
+    return layer;
+}
+
+- (CCLayer *) layer5
+{
+    CCLayer * layer = [CCLayerColor layerWithColor: ccc4(0, 0, 0, 0)];
+    CGSize size = [[CCDirector sharedDirector] winSize];
+    
+    CCSprite *instructionBubble;
+    if (size.height == 568)
+        instructionBubble = [CCSprite spriteWithFile:@"howtoplay5-568h.png"];
+    else
+        instructionBubble = [CCSprite spriteWithFile:@"howtoplay5.png"];
+    
+    instructionBubble.position = ccp (size.width/2, size.height/2);
+    layer.position = ccp(0, 0);
+    [layer addChild:instructionBubble];
+    return layer;
+}
 
 - (void) mainMenu {
     [[CCDirector sharedDirector] replaceScene:[CCTransitionSlideInT transitionWithDuration:0.5 scene:[MainMenuLayer scene]]];
