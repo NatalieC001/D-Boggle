@@ -14,61 +14,57 @@
 
 @implementation AKStack
 
-@synthesize objects = _objects;
-
-#pragma mark -
-
-- (id)init {
-    if ((self = [self initWithArray:nil])) {
-    }
-    return self;
+-(id)init
+{
+	if ( (self = [super init]) ) {
+		self.objects = [[NSMutableArray alloc] init];
+	}
+    
+	return self;
 }
 
-- (id)initWithArray:(NSArray*)array {
+- (id)initWithArray:(NSArray*)arrayPassed {
     if ((self = [super init])) {
-        self.objects = [[NSMutableArray alloc] initWithArray:array];
+        self.objects = [[NSMutableArray alloc] initWithArray:arrayPassed];
     }
     return self;
 }
 
-
-#pragma mark - Custom accessors
-
-- (NSUInteger)count {
-    return self.objects.count;
+-(id)pop
+{
+	id object = [self peek];
+	[self.objects removeLastObject];
+	return object;
 }
 
-
-#pragma mark -
-
-- (void)pushObject:(id)object {
-    if (object) {
-        [self.objects addObject:object];
-    }
+-(void)push:(id)element
+{
+    [self.objects addObject:element];
 }
 
-- (void)pushObjects:(NSArray*)objects {
-    for (id object in objects) {
-        [self pushObject:object];
-    }
+-(void)pushElementsFromArray:(NSArray*)arr
+{
+    [self.objects addObjectsFromArray:arr];
 }
 
-- (id)popObject {
-    if (self.objects.count > 0) {
-        id object = [self.objects objectAtIndex:(self.objects.count - 1)];
-        [self.objects removeLastObject];
-        return object;
-    }
-    return nil;
+-(id)peek
+{
+    return [self.objects lastObject];
 }
 
-- (id)peekObject {
-    if (self.objects.count > 0) {
-        id object = [self.objects objectAtIndex:(self.objects.count - 1)];
-        return object;
-    }
-    return nil;
+-(NSInteger)size
+{
+    return [self.objects count];
 }
 
+-(BOOL)isEmpty
+{
+    return [self.objects count] == 0;
+}
+
+-(void)clear
+{
+    [self.objects removeAllObjects];
+}
 
 @end

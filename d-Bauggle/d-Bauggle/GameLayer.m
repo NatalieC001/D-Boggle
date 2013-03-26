@@ -196,10 +196,15 @@
                 firstCopy = NO;
             }
             else {
-                [self.possibleWordList addObject:copy];
+//                [self.possibleWordList addObject:copy];
 //                NSLog(@"%@", [self.possibleWordList lastObject]);
             }
         }
+    }
+    NSArray *possibleSet = [Boggle solveBoard:boardLetters];
+    NSLog(@"Possible Count: %d", [possibleSet count]);
+    for (NSString *word in possibleSet){
+        [self.possibleWordList addObject:word];
     }
 
 //    boardLetters = [self.possibleWordList objectAtIndex:0];     //First line of text file has the grid letters
@@ -273,7 +278,7 @@
 {
 	// always call "super" init
 	// Apple recommends to re-assign "self" with the "super's" return value
-	if( (self = [super init]) ) {
+	if((self = [super init])) {
         
         self.touchEnabled = YES;
 

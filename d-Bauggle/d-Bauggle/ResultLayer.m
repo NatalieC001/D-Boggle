@@ -463,7 +463,9 @@
     CGSize size = [[CCDirector sharedDirector] winSize];
 
     self.isMenuActive = NO;
-    
+    for(int index = 0; index < [self.possibleWordsArray count]; index++){
+        NSLog(@" WORD? %@",[self.possibleWordsArray objectAtIndex:index]);
+    }
     CCSprite *background;
     if (size.height == 568)
         background = [CCSprite spriteWithFile:@"missedlayer-568h.png"];

@@ -11,6 +11,10 @@
 @interface AKState : NSObject
 
 @property (nonatomic) BOOL isWord;
-@property (nonatomic, strong) NSMutableArray *alphabet;
+@property (nonatomic) BOOL isActive;
+@property (nonatomic, strong) NSMutableArray *alphabets;
+
+-(NSMutableArray *)alphabets;
+-(void)initialize;
 
 @end

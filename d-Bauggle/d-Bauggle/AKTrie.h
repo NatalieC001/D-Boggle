@@ -15,10 +15,12 @@
 - (AKState *) start;
 - (AKStack *) stateStack;
 - (AKStack *) path;
-- (NSUInteger) charToInt:(char) ch;
+- (NSMutableArray *) lowerAlpha;
+- (void) initAlpha;
+- (NSUInteger) returnLetterPosition: (NSString *) letter;
 - (void) insertWord :(NSString *)word atIndex :(NSUInteger)index withState:(AKState *)state;
 - (void) insert:(NSString *)word;
-- (BOOL) transitionForward: (char)ch;
+- (BOOL) transitionForward: (NSString *)ch;
 - (BOOL) transitionBackward;
 - (BOOL) isWord;
 - (NSString *) pathAsString;
