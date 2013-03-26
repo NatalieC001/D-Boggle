@@ -20,7 +20,15 @@
 
 #pragma mark - MainMenuLayer
 
-// HelloWorldLayer implementation
+@interface MainMenuLayer ()
+
+@property (nonatomic) BOOL *sound;
+@property (nonatomic, strong) CCMenu *soundMenu;
+
+@end
+
+
+
 @implementation MainMenuLayer
 
 @synthesize viewController = _viewController;
@@ -124,7 +132,11 @@
 //        [[SimpleAudioEngine sharedEngine] preloadBackgroundMusic:@"mainmenubackground.mp3"];
 //        [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"mainmenubackground.mp3" loop:@YES];
 
+//        [[SimpleAudioEngine sharedEngine] setBackgroundMusicVolume:0];
         
+        self.sound = NO;
+        if ([[SimpleAudioEngine sharedEngine] backgroundMusicVolume] == 1);
+            self.sound = YES;
 	}
 	return self;
 }

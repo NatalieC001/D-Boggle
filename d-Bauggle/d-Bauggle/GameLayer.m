@@ -409,7 +409,9 @@
         self.quitPrompt = [CCLayerColor layerWithColor: ccc4(0, 0, 0, 0)];
         self.quitPrompt.position = ccp(0, 0);
         
-        self.sound = YES;
+        self.sound = NO;
+        if ([[SimpleAudioEngine sharedEngine] backgroundMusicVolume] == 1);
+            self.sound = YES;
         
         
         
@@ -723,11 +725,10 @@
     self.sound = NO;
     
     
-//    NSUInteger vol = [[UIApplication sharedApplication] del
-//    [[SimpleAudioEngine sharedEngine] setBackgroundMusicVolume:[[[UIApplication sharedApplication] delegate]
+    [[SimpleAudioEngine sharedEngine] setBackgroundMusicVolume:0];
 
                                                                 
-    [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
+//    [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
     CGSize size = [[CCDirector sharedDirector] winSize];
     [self.pauseLayer removeChild:self.soundMenu];
     self.soundMenu = [self soundMenuGenerator];
@@ -737,7 +738,8 @@
 
 - (void) unmuteSound {
     self.sound = YES;
-    [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"background.mp3" loop:@YES];
+    [[SimpleAudioEngine sharedEngine] setBackgroundMusicVolume:1];
+//    [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"background.mp3" loop:@YES];
     CGSize size = [[CCDirector sharedDirector] winSize];
     [self.pauseLayer removeChild:self.soundMenu];
     self.soundMenu = [self soundMenuGenerator];
