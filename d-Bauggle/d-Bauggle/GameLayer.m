@@ -155,66 +155,68 @@
     NSArray *array = [[NSArray alloc] initWithObjects:letter1, letter2, letter3, letter4, letter5,
                       letter6, letter7, letter8, letter9, letter10, letter11, letter12, letter13, letter14, letter15, letter16, nil];
     
-    NSInteger boardNum;
-    NSString *f;
-    NSString *filepath;
-    NSData *data;
-//    board_num++;
-//    NSLog(@"%d", boardNum);
-    BOOL flag = YES;
-    do {
-        boardNum = arc4random() % 10;
-        flag = YES;
-        filepath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"board_%d", boardNum] ofType:@"txt"];
-//        NSLog(@"fp%@", filepath);
-        if (!filepath)
-        {
-            flag = NO;
-            continue;
-        }
-        data = [NSData dataWithContentsOfFile:filepath];
-//        NSLog(@"data%@", data);
-        if (!data)
-        {
-            flag = NO;
-            continue;
-        }
-        f = [NSString stringWithUTF8String:[data bytes]];
-//        NSLog(@"ffff%@", f);
-        if (!f)
-        {
-            flag = NO;
-            continue;
-        }
-    } while (flag == NO);
+//    NSInteger boardNum;
+//    NSString *f;
+//    NSString *filepath;
+//    NSData *data;
+////    board_num++;
+////    NSLog(@"%d", boardNum);
+//    BOOL flag = YES;
+//    do {
+//        boardNum = arc4random() % 10;
+//        flag = YES;
+//        filepath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"board_%d", boardNum] ofType:@"txt"];
+////        NSLog(@"fp%@", filepath);
+//        if (!filepath)
+//        {
+//            flag = NO;
+//            continue;
+//        }
+//        data = [NSData dataWithContentsOfFile:filepath];
+////        NSLog(@"data%@", data);
+//        if (!data)
+//        {
+//            flag = NO;
+//            continue;
+//        }
+//        f = [NSString stringWithUTF8String:[data bytes]];
+////        NSLog(@"ffff%@", f);
+//        if (!f)
+//        {
+//            flag = NO;
+//            continue;
+//        }
+//    } while (flag == NO);
+//    
+////    NSLog(@"%@", filepath);
+//    
+//    NSCharacterSet *cs = [NSCharacterSet newlineCharacterSet];
+//    NSScanner *scanner = [NSScanner scannerWithString:f];
+//    
+//    BOOL firstCopy = YES;
     
-//    NSLog(@"%@", filepath);
-    
-    NSCharacterSet *cs = [NSCharacterSet newlineCharacterSet];
-    NSScanner *scanner = [NSScanner scannerWithString:f];
-    
-    BOOL firstCopy = YES;
-    
-    NSString *line;
+//    NSString *line;
     NSString *boardLetters;
-    while(![scanner isAtEnd]) {
-        if([scanner scanUpToCharactersFromSet:cs intoString:&line]) {
-            NSString *copy = [NSString stringWithString:line];
-            if(firstCopy) {
-                boardLetters = [NSString stringWithString:copy];
-                boardLetters = [Boggle generateBoard];
-                firstCopy = NO;
-            }
-            else {
-//                [self.possibleWordList addObject:copy];
-//                NSLog(@"%@", [self.possibleWordList lastObject]);
-            }
-        }
-    }
-    NSMutableSet *possibleSet = [Boggle solveBoard:boardLetters];
-    NSLog(@"Possible Count: %d", [possibleSet count]);
-    for (NSString *word in possibleSet){
-        [self.possibleWordList addObject:word];
+    boardLetters = [Boggle generateBoard];
+    
+//    while(![scanner isAtEnd]) {
+//        if([scanner scanUpToCharactersFromSet:cs intoString:&line]) {
+//            NSString *copy = [NSString stringWithString:line];
+//            if(firstCopy) {
+//                boardLetters = [NSString stringWithString:copy];
+//                boardLetters = [Boggle generateBoard];
+//                firstCopy = NO;
+//            }
+//            else {
+////                [self.possibleWordList addObject:copy];
+////                NSLog(@"%@", [self.possibleWordList lastObject]);
+//            }
+//        }
+//    }
+    self.possibleWordList = [Boggle solveBoard:boardLetters];
+    NSLog(@"Possible Count: %d", [self.possibleWordList count]);
+    if([self.possibleWordList count] < 200){
+        [self lettersForBoard];
     }
     
 
@@ -891,7 +893,7 @@
 
 - (void)tileTouchedAt:(NSUInteger)position
 {
-    NSLog(@"Touched");
+//    NSLog(@"Touched");
     if (self.isPaused) return;
     Tile *tile = [self.letters objectAtIndex:position];
     // put a validity if here and make the next if an else
@@ -1106,7 +1108,7 @@
         CGPoint location = [touch locationInView:[touch view]];
         location = [[CCDirector sharedDirector] convertToGL:location];
         //[self rotateClicked];
-        NSLog(@"Touches began");
+//        NSLog(@"Touches began");
         double distance = 0;
         for (int i = 0; i < 16; i++)
         {
@@ -1208,7 +1210,7 @@
     if (arrayIndex == -1)
     {
         wordLabel = [CCLabelTTF labelWithString:@"No words made! :(" fontName:@"open-dyslexic" fontSize:25];
-        NSLog(@"No words made");
+//        NSLog(@"No words made");
     }
     else
     {

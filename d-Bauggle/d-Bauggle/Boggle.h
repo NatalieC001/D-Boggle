@@ -10,6 +10,6 @@
 
 @interface Boggle : NSObject
 + (NSString *) generateBoard;
-+ (NSMutableSet *) solveBoard:(NSString *)board;
++ (NSMutableArray *) solveBoard:(NSString *)board;
 //+ (NSMutableArray *) arrayFromString:(NSString *)stringArgs;
 @end

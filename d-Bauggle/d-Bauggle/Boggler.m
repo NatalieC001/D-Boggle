@@ -61,7 +61,7 @@
 //    
 //    return newSet;
 
-- (NSMutableSet *) tryToSolve:(NSString *) board
+- (NSMutableArray *) tryToSolve:(NSString *) board
 {
     //initialise the board.
     [self initializeBoardWithLetters:board];
@@ -90,7 +90,7 @@
             }
         }
     }
-    NSMutableSet *newSet = [[NSMutableSet alloc] initWithSet:dict];
+    NSMutableArray *newSet = [NSMutableArray arrayWithArray:[dict allObjects]];
     NSLog(@"Sent Count: %d", [newSet count]);
     return newSet;
     

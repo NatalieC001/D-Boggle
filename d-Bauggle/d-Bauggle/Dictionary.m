@@ -47,7 +47,7 @@
 - (BOOL) validate:(NSString *)word
 {
     BOOL wordExists = [self.dictionary containsObject:word];
-    if(wordExists) NSLog(@"in dict");
+//    if(wordExists) NSLog(@"in dict");
     return wordExists;
 }
 

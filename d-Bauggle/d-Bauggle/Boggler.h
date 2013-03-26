@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @interface Boggler : NSObject
-- (NSMutableSet *) tryToSolve :(NSString *) board;
+- (NSMutableArray *) tryToSolve :(NSString *) board;
 @end

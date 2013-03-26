@@ -25,7 +25,7 @@
     return [board lowercaseString];
 }
 
-+ (NSMutableSet *) solveBoard:(NSString *)board
++ (NSMutableArray *) solveBoard:(NSString *)board
 {
     Boggler *obj = [[Boggler alloc] init];
     return [obj tryToSolve:board];
@@ -36,7 +36,7 @@
     #define ARC4RANDOM_MAX      0x100000000
 
     double theRandomNumber = ((double)arc4random() / ARC4RANDOM_MAX) * 100;
-    NSLog(@"Random number = %f", theRandomNumber);
+//    NSLog(@"Random number = %f", theRandomNumber);
     // use the random number to choose a letter
     if(      theRandomNumber <=  8.167) return @"A";
     else if( theRandomNumber <=  9.659) return @"B";
