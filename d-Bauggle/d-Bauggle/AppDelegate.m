@@ -51,7 +51,7 @@
 
 @implementation AppController
 
-@synthesize window=window_, navController=navController_, director=director_;
+@synthesize window=window_, navController=navController_, director=director_, volume = volume_;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {

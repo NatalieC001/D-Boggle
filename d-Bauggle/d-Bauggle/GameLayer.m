@@ -16,6 +16,7 @@
 #import "Boggle.h"
 #import "CorrectWordBadge.h"
 #import "CCScrollLayer.h"
+#import "AppDelegate.h"
 
 @interface GameLayer ()
 
@@ -718,6 +719,12 @@
 
 - (void) muteSound {
     self.sound = NO;
+    
+    
+//    NSUInteger vol = [[UIApplication sharedApplication] del
+//    [[SimpleAudioEngine sharedEngine] setBackgroundMusicVolume:[[[UIApplication sharedApplication] delegate]
+
+                                                                
     [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
     CGSize size = [[CCDirector sharedDirector] winSize];
     [self.pauseLayer removeChild:self.soundMenu];
