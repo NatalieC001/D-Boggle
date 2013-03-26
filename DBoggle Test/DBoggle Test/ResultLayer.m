@@ -137,14 +137,13 @@
 //		CCMenuItemFont *instructions = [CCMenuItemFont itemWithString:@"Instructions" target:self selector:@selector(instructions)];
 //		CCMenuItemFont *share = [CCMenuItemFont itemWithString:@"Tweet about it!" target:self selector:@selector(share)];
         
-        
+        CCMenuItemImage *playedWords = [CCMenuItemImage itemWithNormalImage:@"hits_inactive.png" selectedImage:@"hits_active.png" target:self selector:@selector(showPlayedWords)];
+        CCMenuItemImage *possibleWords = [CCMenuItemImage itemWithNormalImage:@"misses_inactive.png" selectedImage:@"misses_active.png" target:self selector:@selector(showPossibleWords)];        
         CCMenuItemImage *newGame = [CCMenuItemImage itemWithNormalImage:@"newgame_inactive.png" selectedImage:@"newgame_active.png" target:self selector:@selector(newGame)];
         CCMenuItemImage *highScores = [CCMenuItemImage itemWithNormalImage:@"highscores_inactive.png" selectedImage:@"highscores_active.png" target:self selector:@selector(highScores)];
         CCMenuItemImage *mainMenu = [CCMenuItemImage itemWithNormalImage:@"mainmenu_inactive.png" selectedImage:@"mainmenu_active.png" target:self selector:@selector(returnToMainMenu)];
-        CCMenuItemImage *playedWords = [CCMenuItemImage itemWithNormalImage:@"hits_inactive.png" selectedImage:@"hits_active.png" target:self selector:@selector(showPlayedWords)];
-        CCMenuItemImage *possibleWords = [CCMenuItemImage itemWithNormalImage:@"misses_inactive.png" selectedImage:@"misses_active.png" target:self selector:@selector(showPossibleWords)];
-        
-        CCMenu *menu = [CCMenu menuWithItems:newGame, highScores, mainMenu, playedWords, possibleWords, nil];
+                
+        CCMenu *menu = [CCMenu menuWithItems:playedWords, possibleWords, newGame, highScores, mainMenu,  nil];
 
         [menu alignItemsVerticallyWithPadding:5];
         menu.position = ccp(size.width / 2, size.height * 0.37);

@@ -105,6 +105,8 @@
         
         [self addChild:menu];
         
+        menu.position = ccp(size.width / 2, size.height/2 - 30);
+        
         [[SimpleAudioEngine sharedEngine] preloadBackgroundMusic:@"mainmenubackground.mp3"];
         [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"mainmenubackground.mp3" loop:@YES];
 

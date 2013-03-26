@@ -453,8 +453,8 @@
         CCMenuItemImage *playedWords = [CCMenuItemImage itemWithNormalImage:@"playedwords_inactive.png" selectedImage:@"playedwords_active.png" target:self selector:@selector(playedWords)];
         CCMenuItemImage *endCurrentGame = [CCMenuItemImage itemWithNormalImage:@"endgame.png" selectedImage:@"endgame_active.png" target:self selector:@selector(endCurrentGame)];
         
-        self.pauseMenu = [CCMenu menuWithItems:resume, mainMenu, newGame, playedWords, endCurrentGame, nil];
-        [self.pauseMenu alignItemsVertically];
+        self.pauseMenu = [CCMenu menuWithItems:resume, newGame, mainMenu, playedWords, endCurrentGame, nil];
+        [self.pauseMenu alignItemsVerticallyWithPadding:5];
         [self addChild:self.pauseMenu z:10];
         
         
