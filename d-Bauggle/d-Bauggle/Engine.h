@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Boggle : NSObject
+@interface Engine : NSObject
 + (NSString *) generateBoard;
 + (NSMutableArray *) solveBoard:(NSString *)board;
 //+ (NSMutableArray *) arrayFromString:(NSString *)stringArgs;

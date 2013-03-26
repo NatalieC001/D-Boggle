@@ -6,17 +6,17 @@
 //  Copyright (c) 2013 Arnav Kumar. All rights reserved.
 //
 
-#import "Boggler.h"
+#import "Solver.h"
 #import "SolverTile.h"
 
-@interface Boggler()
+@interface Solver()
 
 @property (nonatomic, strong) NSMutableArray *board;
 @property (nonatomic, strong) NSString *boardString;
 
 @end
 
-@implementation Boggler
+@implementation Solver
 
 - (NSMutableArray *) board {
     if (!_board) _board = [[NSMutableArray alloc] init];

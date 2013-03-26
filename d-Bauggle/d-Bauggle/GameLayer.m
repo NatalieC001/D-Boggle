@@ -13,7 +13,7 @@
 #import "MainMenuLayer.h"
 #import "ScrollingMenuScene.h"
 #import "Dictionary.h"
-#import "Boggle.h"
+#import "Engine.h"
 #import "CorrectWordBadge.h"
 #import "CCScrollLayer.h"
 #import "AppDelegate.h"
@@ -197,7 +197,7 @@
     
 //    NSString *line;
     NSString *boardLetters;
-    boardLetters = [Boggle generateBoard];
+    boardLetters = [Engine generateBoard];
     
 //    while(![scanner isAtEnd]) {
 //        if([scanner scanUpToCharactersFromSet:cs intoString:&line]) {
@@ -213,7 +213,7 @@
 //            }
 //        }
 //    }
-    self.possibleWordList = [Boggle solveBoard:boardLetters];
+    self.possibleWordList = [Engine solveBoard:boardLetters];
     NSLog(@"Possible Count: %d", [self.possibleWordList count]);
     if([self.possibleWordList count] < 200){
         [self lettersForBoard];

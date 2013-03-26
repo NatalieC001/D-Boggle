@@ -6,11 +6,10 @@
 //  Credits : http://logos.cs.uic.edu/Program%20Assignment%20Archive/09%20Fall/Program2Boggle/Solution/Board.java
 //
 
-#import "Boggle.h"
+#import "Engine.h"
 #import "Solver.h"
-#import "Boggler.h"
 
-@implementation Boggle
+@implementation Engine 
 
 + (NSString *) generateBoard
 {
@@ -18,7 +17,7 @@
     NSString *board = @"";
     for ( i = 0; i < 16; i++ )
     {
-        board = [board stringByAppendingString:[Boggle getCharacter]];
+        board = [board stringByAppendingString:[Engine getCharacter]];
 //        NSLog(@"Character = %@", [Boggle getCharacter]);
     }
     //NSLog(@"Board in Boggle = %@", board);
@@ -27,7 +26,7 @@
 
 + (NSMutableArray *) solveBoard:(NSString *)board
 {
-    Boggler *obj = [[Boggler alloc] init];
+    Solver *obj = [[Solver alloc] init];
     return [obj tryToSolve:board];
 }
 
@@ -65,15 +64,5 @@
     else if( theRandomNumber <= 99.925) return @"Y";
     else return @"Z";
 }
-//
-//- (void) solve
-//{
-//    Solver solver = [[Solver alloc] init];
-//    NSString * board;
-//    NSSet *words = [solver findWordsInMatrix:board];
-//}
-
-
-
 
 @end

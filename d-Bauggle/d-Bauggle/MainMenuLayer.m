@@ -15,7 +15,7 @@
 #import "CreditsLayer.h"
 #import "GameLayer.h"
 #import "ABGameKitHelper.h"
-#import "Boggler.h"
+#import "Solver.h"
 #import <Social/Social.h>
 
 #pragma mark - MainMenuLayer
@@ -129,16 +129,59 @@
         [self addChild:shareMenu];
         
         
-//        [[SimpleAudioEngine sharedEngine] preloadBackgroundMusic:@"mainmenubackground.mp3"];
-//        [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"mainmenubackground.mp3" loop:@YES];
+        [[SimpleAudioEngine sharedEngine] preloadBackgroundMusic:@"mainmenubackground.mp3"];
+        [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"mainmenubackground.mp3" loop:@YES];
 
-//        [[SimpleAudioEngine sharedEngine] setBackgroundMusicVolume:0];
         
         self.sound = NO;
+        
         if ([[SimpleAudioEngine sharedEngine] backgroundMusicVolume] == 1);
             self.sound = YES;
+        
+        self.soundMenu = [self soundMenuGenerator];
+        self.soundMenu.position = ccp (30, size.height - 30);
+        [self addChild:self.soundMenu];
+        
 	}
 	return self;
+}
+
+- (CCMenu *) soundMenuGenerator {
+    
+    CCMenuItemImage *menuItem;
+    if (self.sound)
+        menuItem = [CCMenuItemImage itemWithNormalImage:@"playing.png" selectedImage:@"hover_on_playing.png" target:self selector:@selector(muteSound)];
+    else
+        menuItem = [CCMenuItemImage itemWithNormalImage:@"muted.png" selectedImage:@"hover_on_muted.png" target:self selector:@selector(unmuteSound)];
+    
+    CCMenu *soundMenu = [CCMenu menuWithItems: menuItem, nil];
+    return soundMenu;
+}
+
+- (void) muteSound {
+    self.sound = NO;
+    
+    
+    [[SimpleAudioEngine sharedEngine] setBackgroundMusicVolume:0];
+    
+    
+    //    [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
+    CGSize size = [[CCDirector sharedDirector] winSize];
+    [self removeChild:self.soundMenu];
+    self.soundMenu = [self soundMenuGenerator];
+    self.soundMenu.position = ccp (30, size.height - 30);
+    [self addChild:self.soundMenu];
+}
+
+- (void) unmuteSound {
+    self.sound = YES;
+    [[SimpleAudioEngine sharedEngine] setBackgroundMusicVolume:1];
+    //    [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"background.mp3" loop:@YES];
+    CGSize size = [[CCDirector sharedDirector] winSize];
+    [self removeChild:self.soundMenu];
+    self.soundMenu = [self soundMenuGenerator];
+    self.soundMenu.position = ccp (30, size.height - 30);
+    [self addChild:self.soundMenu];
 }
 
 - (void) share

@@ -271,50 +271,50 @@
     }
 
 }
-
-- (void) showPlayedWords2
-{
-    if ( self.isMenuActive )
-    {
-        CGSize size = [[CCDirector sharedDirector] winSize];
-        self.isMenuActive = NO;
-        
-        
-        CCSprite *background;
-        if (size.height == 568)
-            background = [CCSprite spriteWithFile:@"hitslayer-568h.png"];
-        else
-            background = [CCSprite spriteWithFile:@"hitslayer.png"];
-        
-        background.position = ccp (size.width/2, size.height/2);
-        //[[CCDirector sharedDirector] pause];
-        self.playedWordsLayer = [CCLayerColor layerWithColor: ccc4(0, 0, 0, 0)];
-        self.playedWordsLayer.position = ccp(0, 0);
-        [self.playedWordsLayer addChild:background z:3];
-        
-        CCSprite *pausedLogo = [CCSprite spriteWithFile:@"hitslogo.png"];
-        pausedLogo.position = ccp(size.width/2, size.height - 100);
-        [self.playedWordsLayer addChild:pausedLogo z:4];
-        
-        CCLabelTTF *wordLabel = [CCLabelTTF labelWithString:self.wordList dimensions:CGSizeMake(size.width*0.85, size.height*0.6) hAlignment:kCCTextAlignmentCenter lineBreakMode:kCCLineBreakModeWordWrap fontName:@"open-dyslexic" fontSize:20];
-        wordLabel.position = ccp(size.width/2, size.height - 300);
-        wordLabel.color = ccBLACK;
-        
-        [self.playedWordsLayer addChild:wordLabel z:5];
-        
-    //    CCMenuItemLabel *wordListLabel = [CCMenuItemLabel itemWithLabel:wordLabel];
-    //    wordListLabel.position = ccp(size.width/2, size.height - 80);
-        
-        CCMenuItem *backToMenu = [CCMenuItemImage itemWithNormalImage:@"plaintab.png" selectedImage:@"plaintab.png" target:self selector:@selector(backToMenuFromPlayed)];
-        
-        self.playedWordsMenu = [CCMenu menuWithItems: backToMenu, nil];
-        self.playedWordsMenu.position = ccp(size.width/2, 40);
-        [self.playedWordsMenu alignItemsVertically];
-        [self.playedWordsLayer addChild:self.playedWordsMenu z:4];
-        
-        [self addChild:self.playedWordsLayer z:3];
-    }
-}
+//
+//- (void) showPlayedWords2
+//{
+//    if ( self.isMenuActive )
+//    {
+//        CGSize size = [[CCDirector sharedDirector] winSize];
+//        self.isMenuActive = NO;
+//        
+//        
+//        CCSprite *background;
+//        if (size.height == 568)
+//            background = [CCSprite spriteWithFile:@"hitslayer-568h.png"];
+//        else
+//            background = [CCSprite spriteWithFile:@"hitslayer.png"];
+//        
+//        background.position = ccp (size.width/2, size.height/2);
+//        //[[CCDirector sharedDirector] pause];
+//        self.playedWordsLayer = [CCLayerColor layerWithColor: ccc4(0, 0, 0, 0)];
+//        self.playedWordsLayer.position = ccp(0, 0);
+//        [self.playedWordsLayer addChild:background z:3];
+//        
+//        CCSprite *pausedLogo = [CCSprite spriteWithFile:@"hitslogo.png"];
+//        pausedLogo.position = ccp(size.width/2, size.height - 100);
+//        [self.playedWordsLayer addChild:pausedLogo z:4];
+//        
+//        CCLabelTTF *wordLabel = [CCLabelTTF labelWithString:self.wordList dimensions:CGSizeMake(size.width*0.85, size.height*0.6) hAlignment:kCCTextAlignmentCenter lineBreakMode:kCCLineBreakModeWordWrap fontName:@"open-dyslexic" fontSize:20];
+//        wordLabel.position = ccp(size.width/2, size.height - 300);
+//        wordLabel.color = ccBLACK;
+//        
+//        [self.playedWordsLayer addChild:wordLabel z:5];
+//        
+//    //    CCMenuItemLabel *wordListLabel = [CCMenuItemLabel itemWithLabel:wordLabel];
+//    //    wordListLabel.position = ccp(size.width/2, size.height - 80);
+//        
+//        CCMenuItem *backToMenu = [CCMenuItemImage itemWithNormalImage:@"plaintab.png" selectedImage:@"plaintab.png" target:self selector:@selector(backToMenuFromPlayed)];
+//        
+//        self.playedWordsMenu = [CCMenu menuWithItems: backToMenu, nil];
+//        self.playedWordsMenu.position = ccp(size.width/2, 40);
+//        [self.playedWordsMenu alignItemsVertically];
+//        [self.playedWordsLayer addChild:self.playedWordsMenu z:4];
+//        
+//        [self addChild:self.playedWordsLayer z:3];
+//    }
+//}
 
 
 

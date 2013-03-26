@@ -8,6 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Boggler : NSObject
+@interface Solver : NSObject
 - (NSMutableArray *) tryToSolve :(NSString *) board;
 @end
