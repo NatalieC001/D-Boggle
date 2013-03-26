@@ -67,7 +67,7 @@
     [self initializeBoardWithLetters:board];
     
     //get word.
-    NSString *word = @"nerites";
+//    NSString *word = @"nerites";
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"sowpods" ofType:@"txt"];
     NSLog(@"REACHED");
     
@@ -91,7 +91,7 @@
         }
     }
     NSMutableArray *newSet = [NSMutableArray arrayWithArray:[dict allObjects]];
-    NSLog(@"Sent Count: %d", [newSet count]);
+//    NSLog(@"Sent Count: %d", [newSet count]);
     return newSet;
     
     /*
@@ -100,8 +100,8 @@
      rntr
      segs*/
     //check if it can be formed
-    if([self canBeFormed:word]) NSLog(@"Found!");
-    else NSLog(@"Not Found!");
+//    if([self canBeFormed:word]) NSLog(@"Found!");
+//    else NSLog(@"Not Found!");
     //if it can, add to a list.
 }
 
