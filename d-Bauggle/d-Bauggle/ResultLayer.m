@@ -159,19 +159,24 @@
         CCMenuItemImage *possibleWords = [CCMenuItemImage itemWithNormalImage:@"misses_inactive.png" selectedImage:@"misses_active.png" target:self selector:@selector(showPossibleWords)];
         
         CCMenu *menu = [CCMenu menuWithItems:newGame, highScores, mainMenu, playedWords, possibleWords, nil];
-
         [menu alignItemsVerticallyWithPadding:5];
+        if (size.height == 480);
+            [menu alignItemsVerticallyWithPadding:3.5];
         menu.position = ccp(size.width / 2, size.height * 0.28);
         [self addChild:menu];
         
         
         CCSprite *scorePalette = [CCSprite spriteWithFile:@"scorecloud.png"];
         scorePalette.position = ccp(size.width / 2, size.height * 0.70);
+        if (size.height == 480)
+            scorePalette.position = ccp(size.width /2, size.height * 0.65);
         [self addChild:scorePalette];
         
         self.scoreLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%lu", (unsigned long)self.score] fontName:@"open-dyslexic" fontSize:48];
         self.scoreLabel.color = ccc3(0,0,0);
-        self.scoreLabel.position = ccp(size.width / 2, size.height * 0.65 + 20);
+        self.scoreLabel.position = ccp(size.width / 2, size.height * 0.65);
+        if (size.height == 568)
+            self.scoreLabel.position = ccp(size.width / 2, size.height * 0.65 + 20);
         NSLog(@"GOAAAAAAALLLLLL %d", self.score);
         [self addChild:self.scoreLabel];
         
@@ -372,7 +377,7 @@
     NSString *words = [[self.subarraysOfPossibleWordsArrays objectAtIndex:arrayIndex] componentsJoinedByString:@"\n"];
     CCLabelTTF *wordLabel = [CCLabelTTF labelWithString:words fontName:@"open-dyslexic" fontSize:25];
     wordLabel.color = ccBLACK;
-    wordLabel.position = ccp (size.width/2, size.height/2 - 50);
+    wordLabel.position = ccp (size.width/2, size.height/2 - 55);
     [layer addChild:wordLabel z:5];
     
     return layer;
@@ -450,7 +455,7 @@
         wordLabel = [CCLabelTTF labelWithString:words fontName:@"open-dyslexic" fontSize:25];
     }
     wordLabel.color = ccBLACK;
-    wordLabel.position = ccp (size.width/2, size.height/2 - 50);
+    wordLabel.position = ccp (size.width/2, size.height/2 - 55);
     [layer addChild:wordLabel z:5];
     
     return layer;

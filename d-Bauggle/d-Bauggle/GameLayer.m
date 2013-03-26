@@ -266,7 +266,7 @@
     //    NSLog(@"Height yo! %f", size.height);
     if (size.height == 480)
     {
-        CCSprite *background = [CCSprite spriteWithFile:@"gameonbg.png"];
+        CCSprite *background = [CCSprite spriteWithFile:@"base.png"];
         background.anchorPoint = ccp (0,0);
         [layer addChild:background z:-1];
     }
@@ -473,6 +473,8 @@
         
         self.pauseMenu = [CCMenu menuWithItems:resume, mainMenu, newGame, playedWords, endCurrentGame, nil];
         [self.pauseMenu alignItemsVertically];
+        if (size.height == 480)
+            self.pauseMenu.position = ccp (size.width / 2, size.height / 2 - 45);
         
         self.soundMenu = [self soundMenuGenerator];
         self.soundMenu.position = ccp (30, size.height - 30);
@@ -529,10 +531,10 @@
     [self.quitPrompt addChild:quitBackground z:-1];
     
     CCSprite *quitLogo = [CCSprite spriteWithFile:@"areyousureLogo.png"];
-    quitLogo.position = ccp(size.width/2, size.height - 60);
+    quitLogo.position = ccp(size.width/2, size.height - 210);
     if (size.height == 568)
     {
-        quitLogo.position = ccp(size.width/2, size.height - 100);
+        quitLogo.position = ccp(size.width/2, size.height - 210);
     }
     [self.quitPrompt addChild:quitLogo z:0];
     
@@ -543,6 +545,11 @@
     CCMenuItemImage *no = [CCMenuItemImage itemWithNormalImage:@"no_inactive.png" selectedImage:@"no_active.png" target:self selector:@selector(resumeFromQuitPrompt)];
     
     CCMenu *quitMenu = [CCMenu menuWithItems:yes, no, nil];
+    quitMenu.position = ccp (size.width / 2, size.height / 2 - 65);
+    if (size.height == 568)
+    {
+        quitMenu.position = ccp(size.width/2, size.height / 2 - 20);
+    }
     [quitMenu alignItemsVertically];
     [self.quitPrompt addChild:quitMenu];
     [self addChild:self.quitPrompt];
@@ -656,10 +663,10 @@
     [self.quitPrompt addChild:quitBackground z:-1];
     
     CCSprite *quitLogo = [CCSprite spriteWithFile:@"areyousureLogo.png"];
-    quitLogo.position = ccp(size.width/2, size.height - 60);
+    quitLogo.position = ccp(size.width/2, size.height - 210);
     if (size.height == 568)
     {
-        quitLogo.position = ccp(size.width/2, size.height - 100);
+        quitLogo.position = ccp(size.width/2, size.height - 210);
     }
     [self.quitPrompt addChild:quitLogo z:0];
     
@@ -672,6 +679,11 @@
     CCMenuItemImage *no = [CCMenuItemImage itemWithNormalImage:@"no_inactive.png" selectedImage:@"no_active.png" target:self selector:@selector(resumeFromQuitPrompt)];
     
     CCMenu *quitMenu = [CCMenu menuWithItems:yes, no, nil];
+    quitMenu.position = ccp (size.width / 2, size.height / 2 - 65);
+    if (size.height == 568)
+    {
+        quitMenu.position = ccp(size.width/2, size.height / 2 - 20);
+    }
     [quitMenu alignItemsVertically];
     [self.quitPrompt addChild:quitMenu];
     [self addChild:self.quitPrompt];
@@ -1230,7 +1242,7 @@
         wordLabel = [CCLabelTTF labelWithString:words fontName:@"open-dyslexic" fontSize:25];
     }
     wordLabel.color = ccBLACK;
-    wordLabel.position = ccp (size.width/2, size.height/2 - 50);
+    wordLabel.position = ccp (size.width/2, size.height/2 - 55);
     [layer addChild:wordLabel z:5];
     
     return layer;

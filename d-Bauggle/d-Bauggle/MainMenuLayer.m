@@ -118,14 +118,21 @@
         
         CCMenu *menu = [CCMenu menuWithItems:newGameItem, instructions, highscores, credits, nil];
         [menu alignItemsVerticallyWithPadding:5];
-        
+        if (size.height == 568) {
+            menu.position = ccp (size.width / 2, size.height / 2 );
+        }
+        else {
+            menu.position = ccp (size.width / 2, (size.height / 2) - 30);
+        }
         
         [self addChild:menu z:10];
         
         
+        CCMenuItemImage *gameCenter = [CCMenuItemImage itemWithNormalImage:@"gamecenter.png" selectedImage:@"gamecenter_onClick.png" target:self selector:@selector(highScores)];
         CCMenuItemImage *twitter = [CCMenuItemImage itemWithNormalImage:@"tweet.png" selectedImage:@"tweet_onClick.png" target:self selector:@selector(share)];
-        CCMenu *shareMenu = [CCMenu menuWithItems:twitter, nil];
-        shareMenu.position = ccp(290, 30);
+        CCMenu *shareMenu = [CCMenu menuWithItems:gameCenter, twitter, nil];
+        shareMenu.position = ccp(260, 30);
+        [shareMenu alignItemsHorizontally];
         [self addChild:shareMenu];
         
         
