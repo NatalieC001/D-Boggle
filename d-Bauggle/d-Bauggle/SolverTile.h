@@ -10,4 +10,10 @@
 
 @interface SolverTile : NSObject
 
+@property (nonatomic) NSUInteger index;
+@property (nonatomic, strong) NSString *letter;
+@property (nonatomic) BOOL visited;
+
+- (NSArray *) adjacentTiles;
+
 @end

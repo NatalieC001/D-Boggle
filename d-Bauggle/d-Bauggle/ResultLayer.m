@@ -166,13 +166,13 @@
         [self addChild:menu];
         
         
-        CCSprite *scorePalette = [CCSprite spriteWithFile:@"scorepalette.png"];
-        scorePalette.position = ccp(size.width / 2, size.height * 0.65);
+        CCSprite *scorePalette = [CCSprite spriteWithFile:@"scorecloud.png"];
+        scorePalette.position = ccp(size.width / 2, size.height * 0.70);
         [self addChild:scorePalette];
         
         self.scoreLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%lu", (unsigned long)self.score] fontName:@"open-dyslexic" fontSize:48];
         self.scoreLabel.color = ccc3(0,0,0);
-        self.scoreLabel.position = ccp(size.width / 2, size.height * 0.65 - 13.5);
+        self.scoreLabel.position = ccp(size.width / 2, size.height * 0.65 + 20);
         NSLog(@"GOAAAAAAALLLLLL %d", self.score);
         [self addChild:self.scoreLabel];
         

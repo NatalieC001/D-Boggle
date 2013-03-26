@@ -107,7 +107,7 @@
 
 - (void) mainMenu {
     [self removeChild:self.scroller cleanup:YES];
-    [[CCDirector sharedDirector] replaceScene:[CCTransitionSlideInB transitionWithDuration:0.5 scene:[GameLayer scene]]];
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionSlideInB transitionWithDuration:0.5 scene:[MainMenuLayer scene]]];
 }
 
 @end

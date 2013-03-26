@@ -42,6 +42,7 @@
 @property (nonatomic, strong) NSString *currentWord;
 @property (nonatomic, strong) CorrectWordBadge *currentWordCorrectnessBadge;
 @property (nonatomic, strong) NSMutableArray *lines;
+@property (nonatomic, strong) CCLayer *quitPrompt;
 //@property (nonatomic, strong) CCMotionStreak *streak;
 @end
 
@@ -149,27 +150,27 @@
     NSString *filepath;
     NSData *data;
 //    board_num++;
-    NSLog(@"%d", boardNum);
+//    NSLog(@"%d", boardNum);
     BOOL flag = YES;
     do {
         boardNum = arc4random() % 10;
         flag = YES;
         filepath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"board_%d", boardNum] ofType:@"txt"];
-        NSLog(@"fp%@", filepath);
+//        NSLog(@"fp%@", filepath);
         if (!filepath)
         {
             flag = NO;
             continue;
         }
         data = [NSData dataWithContentsOfFile:filepath];
-        NSLog(@"data%@", data);
+//        NSLog(@"data%@", data);
         if (!data)
         {
             flag = NO;
             continue;
         }
         f = [NSString stringWithUTF8String:[data bytes]];
-        NSLog(@"ffff%@", f);
+//        NSLog(@"ffff%@", f);
         if (!f)
         {
             flag = NO;
@@ -177,7 +178,7 @@
         }
     } while (flag == NO);
     
-    NSLog(@"%@", filepath);
+//    NSLog(@"%@", filepath);
     
     NSCharacterSet *cs = [NSCharacterSet newlineCharacterSet];
     NSScanner *scanner = [NSScanner scannerWithString:f];
@@ -209,7 +210,7 @@
     for(NSUInteger i = 0; i < 16; i++) {
         const unichar charAtIndex = [boardLetters characterAtIndex:i];
         NSString *currChar = [NSString stringWithFormat:@"%C", charAtIndex];
-        NSLog(@" Current character is: %@", currChar);
+//        NSLog(@" Current character is: %@", currChar);
         [[array objectAtIndex:i] initializeWith:currChar at:i];
     }
     
@@ -244,7 +245,7 @@
 	GameLayer *layer = [GameLayer node];
 	
     CGSize size = [[CCDirector sharedDirector] winSize];
-    NSLog(@"Height yo! %f", size.height);
+//    NSLog(@"Height yo! %f", size.height);
     if (size.height == 480)
     {
         CCSprite *background = [CCSprite spriteWithFile:@"gameonbg.png"];
@@ -283,8 +284,8 @@
         self.angle = 0;
         self.isPaused = NO;
         
-        CCMenuItemImage *rotate = [CCMenuItemImage itemWithNormalImage:@"rotation.png" selectedImage:@"rotation_inactive.png" target:self selector:@selector(rotateClicked)];    //Rotate button
-        CCMenuItemImage *pause = [CCMenuItemImage itemWithNormalImage:@"pause.png" selectedImage:@"pause_inactive.png" target:self selector:@selector(pauseGame)];        //Pause button
+        CCMenuItemImage *rotate = [CCMenuItemImage itemWithNormalImage:@"rotate.png" selectedImage:@"rotate_onClick.png" target:self selector:@selector(rotateClicked)];    //Rotate button
+        CCMenuItemImage *pause = [CCMenuItemImage itemWithNormalImage:@"pause.png" selectedImage:@"pause_inactive.png" target:self selector:@selector(pauseGame)]; 
         
         CGSize size = [[CCDirector sharedDirector] winSize];
         
@@ -390,6 +391,27 @@
         [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"background.mp3" loop:@YES];
         
         
+        //initializing quit prompt once so that it can be reused.
+        self.quitPrompt = [CCLayerColor layerWithColor: ccc4(0, 0, 0, 0)];
+        self.quitPrompt.position = ccp(0, 0);
+        CCSprite *quitBackground;
+        if (size.height == 568)
+            quitBackground = [CCSprite spriteWithFile:@"pause_layer-568h.png"];
+        else
+            quitBackground = [CCSprite spriteWithFile:@"pause_layer.png"];
+        quitBackground.position = ccp (size.width/2, size.height/2);
+        
+        [self.quitPrompt addChild:quitBackground z:-1];
+        
+        CCSprite *quitLogo = [CCSprite spriteWithFile:@"areyousureLogo.png"];
+        quitLogo.position = ccp(size.width/2, size.height - 60);
+        if (size.height == 568)
+        {
+            quitLogo.position = ccp(size.width/2, size.height - 100);
+        }
+        [self.quitPrompt addChild:quitLogo z:0];
+        
+        
         /////////////////////////////////////////////////////////////////////////////////
         // TODO                                                                        //
         // Cover the board with a cover and animate it going down when the game starts //
@@ -402,7 +424,7 @@
 
 - (void) pauseGame
 {
-    NSLog(@"Works!");
+//    NSLog(@"Works!");
     if (!self.isPaused)
     {
         
@@ -484,6 +506,29 @@
 
 - (void) returnToMainMenu
 {
+    [self removeChild:self.pauseMenu cleanup:YES];
+    [self removeChild:self.pauseLayer cleanup:YES];
+    CCMenuItemImage *yes = [CCMenuItemImage itemWithNormalImage:@"yes_inactive.png" selectedImage:@"yes_active.png" target:self selector:@selector(confirmQuit)];
+    CCMenuItemImage *no = [CCMenuItemImage itemWithNormalImage:@"no_inactive.png" selectedImage:@"no_active.png" target:self selector:@selector(resumeFromQuitPrompt)];
+    
+    CCMenu *quitMenu = [CCMenu menuWithItems:yes, no, nil];
+    [quitMenu alignItemsVertically];
+    [self.quitPrompt addChild:quitMenu];
+    [self addChild:self.quitPrompt];
+    self.isPaused = YES;
+    
+}
+
+- (void) resumeFromQuitPrompt
+{
+    [self enableRotate];
+    [self removeChild:self.quitPrompt cleanup:YES];
+    self.isPaused = NO;
+}
+
+- (void) confirmQuit
+{
+    NSLog(@"Trying to quit");
     [[CCDirector sharedDirector] replaceScene:[CCTransitionPageTurn transitionWithDuration:0.5 scene:[MainMenuLayer scene]]];
 }
 
@@ -535,7 +580,7 @@
     
     
     NSString *wordList = [self.playedWordsList componentsJoinedByString:@", "];
-    NSLog(@"%@", wordList);
+//    NSLog(@"%@", wordList);
     
     CCLabelTTF *wordLabel = [CCLabelTTF labelWithString:wordList dimensions:CGSizeMake(size.width*0.85, size.height*0.6) hAlignment:kCCTextAlignmentCenter lineBreakMode:kCCLineBreakModeWordWrap fontName:@"open-dyslexic" fontSize:20];
     wordLabel.position = ccp(size.width/2, size.height - 300);
@@ -563,7 +608,18 @@
 
 - (void) endCurrentGame
 {
+    //THe menu gets added again. Fix that.
+//     Peace out.
+    CCMenuItemImage *yes = [CCMenuItemImage itemWithNormalImage:@"yes_inactive.png" selectedImage:@"yes_active.png" target:self selector:@selector(confirmEndGame)];
+    CCMenuItemImage *no = [CCMenuItemImage itemWithNormalImage:@"no_inactive.png" selectedImage:@"no_active.png" target:self selector:@selector(resumeFromQuitPrompt)];
     
+    CCMenu *quitMenu = [CCMenu menuWithItems:yes, no, nil];
+    [quitMenu alignItemsVertically];
+    [self.quitPrompt addChild:quitMenu];
+}
+
+- (void) confirmEndGame
+{
     [[CCDirector sharedDirector] replaceScene:[CCTransitionFadeTR transitionWithDuration:0.5 scene:[ResultLayer sceneWith:self.score andWordList:self.playedWordsList andPossibleList:self.possibleWordList]]];
 }
 
@@ -596,13 +652,13 @@
 -(void)disableRotate
 {
     self.userCanRotate = NO;
-    NSLog(@"Disabled");
+    NSLog(@"Disabled rotate");
 }
 
 - (void)enableRotate
 {
     self.userCanRotate = YES;
-    NSLog(@"Enabled");
+    NSLog(@"Enabled rotate");
 }
 
 - (void)rotateClicked
@@ -616,7 +672,7 @@
     [self disableRotate];
     self.angle += 90;
     if (self.angle >= 360) self.angle -= 360;
-    NSLog(@"Rotation = %f", [self.board rotation]);
+//    NSLog(@"Rotation = %f", [self.board rotation]);
     id enableRotateCallback = [CCCallFunc actionWithTarget:self selector:@selector(enableRotate)];
     id rotateAction = [CCRotateBy actionWithDuration:0.5 angle:-90];    //rotates the board by 90 deg anti-clockwise
     id sequence = [CCSequence actions:rotateAction, enableRotateCallback, nil];
@@ -634,7 +690,7 @@
 //            NSLog(@"Rotation = %f", [tile rotation]);
 //        }
     }
-    NSLog(@"Rotation = %f", [self.board rotation]);
+//    NSLog(@"Rotation = %f", [self.board rotation]);
     //NSLog(@"Board String = %@", [Boggle generateBoard]);
 }
 
@@ -741,19 +797,20 @@
 - (void)tileTouchedAt:(NSUInteger)position
 {
     NSLog(@"Touched");
+    if (self.isPaused) return;
     Tile *tile = [self.letters objectAtIndex:position];
     // put a validity if here and make the next if an else
-    NSLog(@"hello %c", [self canChooseTileAt:position]);
-    NSLog(@"came here");
+//    NSLog(@"hello %c", [self canChooseTileAt:position]);
+//    NSLog(@"came here");
     if ([tile isActive])
     {
         if ([self canChooseTileAt:position])
         {
-            NSLog(@"came here inside");
+//            NSLog(@"came here inside");
             [[SimpleAudioEngine sharedEngine] playEffect:@"tiletap.mp3"];
             [self.pressedTiles addObject:tile];
             [tile deactivate];
-            NSLog(@"%@", tile.letter);
+//            NSLog(@"%@", tile.letter);
         }
         else
         {
@@ -787,7 +844,7 @@
 
 - (void) updatePlayedWordList:(NSString *)currentWord{
     [self.playedWordsList addObject:currentWord];
-    NSLog(@"added word");
+//    NSLog(@"added word");
 }
 
 - (void)updateCurrentWord
@@ -799,7 +856,7 @@
     {
         currentWord = [currentWord stringByAppendingString:tile.letter];
     }
-    NSLog(@"%@", currentWord);
+//    NSLog(@"%@", currentWord);
     [self.currentWordLabel setString:currentWord];
     self.currentWord = [NSString stringWithString:currentWord];
     [self updateCorrectWordBadge];
@@ -840,19 +897,19 @@
 
 - (void) updateCorrectWordBadge
 {
-    NSLog(@"Updating the badge");
+//    NSLog(@"Updating the badge");
     if ([self isValidWord])
     {
         if (![self.currentWordCorrectnessBadge isPresent])
         {
-            NSLog(@"Adding the badge");
+//            NSLog(@"Adding the badge");
             [self addChild:self.currentWordCorrectnessBadge];
             self.currentWordCorrectnessBadge.isPresent = YES;
         }
     }
     else
     {
-        NSLog(@"Removing the badge");
+//        NSLog(@"Removing the badge");
         self.currentWordCorrectnessBadge.isPresent = NO;
         [self removeChild:self.currentWordCorrectnessBadge cleanup:YES];
     }
@@ -860,13 +917,13 @@
 
 - (void) updateLines
 {
-    NSLog(@"Number of lines = %lu", (unsigned long)[self.lines count]);
+//    NSLog(@"Number of lines = %lu", (unsigned long)[self.lines count]);
     if ([self.lines count] != 0)
     {
         for (CCSprite *line in self.lines)
         {
             [self.boardManager removeChild:line cleanup:YES];
-            NSLog(@"Removed line");
+//            NSLog(@"Removed line");
         }
     }
     [self.lines removeAllObjects];
@@ -896,14 +953,14 @@
                     break;
             }
             line.position = ccp((previousTile.position.x + tile.position.x)/2, (previousTile.position.y + tile.position.y)/2);
-            NSLog(@"Previous tile is %lu at %f, %f", (unsigned long)previousTile.tileNumber, previousTile.position.x, previousTile.position.y);
-            NSLog(@"Current tile is %lu at %f, %f", (unsigned long)tile.tileNumber, tile.position.x, tile.position.y);
-            NSLog(@"Line is at %f, %f", line.position.x, line.position.y);
+//            NSLog(@"Previous tile is %lu at %f, %f", (unsigned long)previousTile.tileNumber, previousTile.position.x, previousTile.position.y);
+//            NSLog(@"Current tile is %lu at %f, %f", (unsigned long)tile.tileNumber, tile.position.x, tile.position.y);
+//            NSLog(@"Line is at %f, %f", line.position.x, line.position.y);
             [self.lines addObject:line];
-            NSLog(@"Just added the line. The count of lines = %lu", (unsigned long)[self.lines count]);
+//            NSLog(@"Just added the line. The count of lines = %lu", (unsigned long)[self.lines count]);
             [self.boardManager addChild:line z:5];
             
-            NSLog(@"Added line");
+//            NSLog(@"Added line");
         }
         previousTile = tile;
     }
@@ -989,7 +1046,7 @@
         distance = powf(distance, 0.5);
         if (distance <= 37.5 && tile != [self.pressedTiles lastObject])
         {
-            NSLog(@"Tile - %d at distance %f", i, distance);
+//            NSLog(@"Tile - %d at distance %f", i, distance);
             [self tileTouchedAt:i];
         }
 //        if(CGRectContainsPoint([tile actualBounds], location) && tile != [self.pressedTiles lastObject])

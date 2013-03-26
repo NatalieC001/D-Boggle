@@ -15,6 +15,7 @@
 #import "CreditsLayer.h"
 #import "GameLayer.h"
 #import "ABGameKitHelper.h"
+#import "Boggler.h"
 
 #pragma mark - MainMenuLayer
 
@@ -97,9 +98,6 @@
 		[self addChild: logo];
 		[CCMenuItemFont setFontName:@"open-dyslexic"];
         
-		//CCMenuItemFont *newGameItem = [CCMenuItemFont itemWithString:@"New Game" target:self selector:@selector(newGame)];
-		//CCMenuItemFont *instructions = [CCMenuItemFont itemWithString:@"Instructions" target:self selector:@selector(instructions)];
-		//CCMenuItemFont *highscores = [CCMenuItemFont itemWithString:@"New Game" target:self selector:@selector(otherOption)];
         
         CCMenuItemImage *newGameItem = [CCMenuItemImage itemWithNormalImage:@"newgame_inactive.png" selectedImage:@"newgame_active.png" target:self selector:@selector(newGame)];
         CCMenuItemImage *instructions = [CCMenuItemImage itemWithNormalImage:@"instructions_inactive.png" selectedImage:@"instructions_active.png" target:self selector:@selector(instructions)];
@@ -109,7 +107,7 @@
         CCMenu *menu = [CCMenu menuWithItems:newGameItem, instructions, highscores, credits, nil];
         [menu alignItemsVerticallyWithPadding:5];
         
-        [self addChild:menu];
+        [self addChild:menu z:10];
         
         [[SimpleAudioEngine sharedEngine] preloadBackgroundMusic:@"mainmenubackground.mp3"];
         [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"mainmenubackground.mp3" loop:@YES];
@@ -124,6 +122,9 @@
     UITouch *touch = [touches anyObject];
     CGPoint location = [touch locationInView:[touch view]];
     location = [[CCDirector sharedDirector] convertToGL:location];
+//    Boggler *obj = [[Boggler alloc] init];
+//    NSLog(@"Touched");
+//    [obj trytosolve:@"jlopqyaeiostrarn"];
 }
 
 // on "dealloc" you need to release all your retained objects
