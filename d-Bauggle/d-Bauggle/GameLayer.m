@@ -11,7 +11,6 @@
 #import "cocos2d.h"
 #import "ResultLayer.h"
 #import "MainMenuLayer.h"
-#import "ScrollingMenuScene.h"
 #import "Dictionary.h"
 #import "Engine.h"
 #import "CorrectWordBadge.h"
