@@ -13,6 +13,7 @@
 #import "ABGameKitHelper.h"
 #import <Social/Social.h>
 #import "CCScrollLayer.h"
+#import "LoadingScreenLayer.h"
 
 @interface ResultLayer ()
 
@@ -92,6 +93,36 @@
 	layer.score = score;
     [layer updateScore];
     [[ABGameKitHelper sharedClass] reportScore:score forLeaderboard:@"leaderboard1"];
+    if (score >= 10)
+    {
+        [[ABGameKitHelper sharedClass] reportAchievement:@"10points" percentComplete:100];
+        [[ABGameKitHelper sharedClass] showNotification:@"Getting started" message:@"Scored 10 points!" identifier:@"10points"];
+    }
+    if (score >= 20)
+    {
+        [[ABGameKitHelper sharedClass] reportAchievement:@"20points" percentComplete:100];
+        [[ABGameKitHelper sharedClass] showNotification:@"Score!" message:@"Scored 20 points!" identifier:@"20points"];
+    }
+    if (score >= 30)
+    {
+        [[ABGameKitHelper sharedClass] reportAchievement:@"30points" percentComplete:100];
+        [[ABGameKitHelper sharedClass] showNotification:@"Puzzler" message:@"Scored 30 points!" identifier:@"30points"];
+    }
+    if (score > 50)
+    {
+        [[ABGameKitHelper sharedClass] reportAchievement:@"50points" percentComplete:100];
+        [[ABGameKitHelper sharedClass] showNotification:@"dBauggler!" message:@"Scored 50 points!" identifier:@"50points"];
+    }
+    if (score > 80)
+    {
+        [[ABGameKitHelper sharedClass] reportAchievement:@"80points" percentComplete:100];
+        [[ABGameKitHelper sharedClass] showNotification:@"Sensei" message:@"Scored 80 points!" identifier:@"80points"];
+    }
+    if (score > 100)
+    {
+        [[ABGameKitHelper sharedClass] reportAchievement:@"100points" percentComplete:100];
+        [[ABGameKitHelper sharedClass] showNotification:@"Centurion!" message:@"Scored 100 points!" identifier:@"100points"];
+    }
     NSLog(@"Real deal: %d", layer.score);
     
     NSLog(@"%d", layer.score);
@@ -273,7 +304,7 @@
 {
     if (self.isMenuActive)
     {
-        [[CCDirector sharedDirector] replaceScene:[CCTransitionPageTurn transitionWithDuration:0.5 scene:[GameLayer scene]]];
+        [[CCDirector sharedDirector] replaceScene:[CCTransitionPageTurn transitionWithDuration:0.5 scene:[LoadingScreenLayer scene]]];
     }
 }
 

@@ -16,6 +16,7 @@
 #import "CorrectWordBadge.h"
 #import "CCScrollLayer.h"
 #import "AppDelegate.h"
+#import "LoadingScreenLayer.h"
 
 @interface GameLayer ()
 
@@ -617,7 +618,7 @@
 
 - (void) confirmNewGame
 {
-    [[CCDirector sharedDirector] replaceScene:[CCTransitionPageTurn transitionWithDuration:0.5 scene:[GameLayer scene]]];
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionPageTurn transitionWithDuration:0.5 scene:[LoadingScreenLayer scene]]];
 }
 
 //- (void) playedWords
@@ -762,7 +763,7 @@
         [self.timer setString:[NSString stringWithFormat:@"Done!"]];
         [self.timer setFontSize:18];
         [self unschedule:@selector(tick:)]; //to stop the tick call
-        [[CCDirector sharedDirector] replaceScene:[CCTransitionFadeTR transitionWithDuration:0.5 scene:[ResultLayer sceneWith:self.score andWordList:self.playedWordsList andPossibleList:self.possibleWordList]]];
+        [[CCDirector sharedDirector] replaceScene:[CCTransitionSlideInR transitionWithDuration:0.5 scene:[ResultLayer sceneWith:self.score andWordList:self.playedWordsList andPossibleList:self.possibleWordList]]];
     }
 }
 //25, height-30

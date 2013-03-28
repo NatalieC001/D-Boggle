@@ -33,6 +33,10 @@
 		157B1D9F170226A4007CE2F4 /* gamecenter-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 157B1D9E170226A4007CE2F4 /* gamecenter-hd.png */; };
 		157B1DA217023951007CE2F4 /* backbutton_onClick-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 157B1DA017023951007CE2F4 /* backbutton_onClick-hd.png */; };
 		157B1DA317023951007CE2F4 /* backbutton_onClick.png in Resources */ = {isa = PBXBuildFile; fileRef = 157B1DA117023951007CE2F4 /* backbutton_onClick.png */; };
+		157B1DA617025366007CE2F4 /* LoadingScreenLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 157B1DA517025366007CE2F4 /* LoadingScreenLayer.m */; };
+		157B1DAA1702988D007CE2F4 /* loading-568h.png in Resources */ = {isa = PBXBuildFile; fileRef = 157B1DA71702988D007CE2F4 /* loading-568h.png */; };
+		157B1DAB1702988D007CE2F4 /* loading-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 157B1DA81702988D007CE2F4 /* loading-hd.png */; };
+		157B1DAC1702988D007CE2F4 /* loading.png in Resources */ = {isa = PBXBuildFile; fileRef = 157B1DA91702988D007CE2F4 /* loading.png */; };
 		1588B1B416FB37A40048F193 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1588B1B316FB37A40048F193 /* QuartzCore.framework */; };
 		1588B1B616FB37A40048F193 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1588B1B516FB37A40048F193 /* OpenGLES.framework */; };
 		1588B1B816FB37A40048F193 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1588B1B716FB37A40048F193 /* OpenAL.framework */; };
@@ -440,6 +444,11 @@
 		157B1D9E170226A4007CE2F4 /* gamecenter-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gamecenter-hd.png"; sourceTree = "<group>"; };
 		157B1DA017023951007CE2F4 /* backbutton_onClick-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backbutton_onClick-hd.png"; sourceTree = "<group>"; };
 		157B1DA117023951007CE2F4 /* backbutton_onClick.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backbutton_onClick.png; sourceTree = "<group>"; };
+		157B1DA417025366007CE2F4 /* LoadingScreenLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingScreenLayer.h; sourceTree = "<group>"; };
+		157B1DA517025366007CE2F4 /* LoadingScreenLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingScreenLayer.m; sourceTree = "<group>"; };
+		157B1DA71702988D007CE2F4 /* loading-568h.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loading-568h.png"; sourceTree = "<group>"; };
+		157B1DA81702988D007CE2F4 /* loading-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loading-hd.png"; sourceTree = "<group>"; };
+		157B1DA91702988D007CE2F4 /* loading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loading.png; sourceTree = "<group>"; };
 		1588B1B016FB37A40048F193 /* d-Bauggle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "d-Bauggle.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1588B1B316FB37A40048F193 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		1588B1B516FB37A40048F193 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -1464,6 +1473,8 @@
 				1588B35416FB37A80048F193 /* AppDelegate.m */,
 				1588B35916FB37A80048F193 /* IntroLayer.h */,
 				1588B35A16FB37A80048F193 /* IntroLayer.m */,
+				157B1DA417025366007CE2F4 /* LoadingScreenLayer.h */,
+				157B1DA517025366007CE2F4 /* LoadingScreenLayer.m */,
 				1588B36816FB395C0048F193 /* CorrectWordBadge.h */,
 				1588B36916FB395C0048F193 /* CorrectWordBadge.m */,
 				15C7E1C6170099CA00C46797 /* CreditsLayer.h */,
@@ -1556,6 +1567,9 @@
 				1588B50216FB86FF0048F193 /* gameonbg-568h.png */,
 				1588B50316FB86FF0048F193 /* gameonbg-hd.png */,
 				1588B50416FB86FF0048F193 /* gameonbg.png */,
+				157B1DA71702988D007CE2F4 /* loading-568h.png */,
+				157B1DA81702988D007CE2F4 /* loading-hd.png */,
+				157B1DA91702988D007CE2F4 /* loading.png */,
 				157B1D8E17021679007CE2F4 /* whitebox-568h.png */,
 				157B1D9017021680007CE2F4 /* whitebox-hd.png */,
 				157B1D8C17021674007CE2F4 /* whitebox.png */,
@@ -2138,6 +2152,9 @@
 				157B1D9F170226A4007CE2F4 /* gamecenter-hd.png in Resources */,
 				157B1DA217023951007CE2F4 /* backbutton_onClick-hd.png in Resources */,
 				157B1DA317023951007CE2F4 /* backbutton_onClick.png in Resources */,
+				157B1DAA1702988D007CE2F4 /* loading-568h.png in Resources */,
+				157B1DAB1702988D007CE2F4 /* loading-hd.png in Resources */,
+				157B1DAC1702988D007CE2F4 /* loading.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2272,6 +2289,7 @@
 				15C7E1C8170099CA00C46797 /* CreditsLayer.m in Sources */,
 				15C7E1F51700F3CA00C46797 /* SolverTile.m in Sources */,
 				15C7E1F81700FE1800C46797 /* Solver.m in Sources */,
+				157B1DA617025366007CE2F4 /* LoadingScreenLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

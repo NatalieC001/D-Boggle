@@ -17,6 +17,7 @@
 #import "ABGameKitHelper.h"
 #import "Solver.h"
 #import <Social/Social.h>
+#import "LoadingScreenLayer.h"
 
 #pragma mark - MainMenuLayer
 
@@ -67,7 +68,7 @@
 - (void) newGame
 {
     NSLog(@"New Game");
-    [[CCDirector sharedDirector] replaceScene:[CCTransitionPageTurn transitionWithDuration:0.5 scene:[GameLayer scene]]];
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionPageTurn transitionWithDuration:0.5 scene:[LoadingScreenLayer scene]]];
 }
 
 - (void) instructions
