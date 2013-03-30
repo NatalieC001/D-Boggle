@@ -275,16 +275,18 @@
 
 -(void) tick: (ccTime) dt
 {
-    CGSize size = [[CCDirector sharedDirector] winSize];
-    
-    CCParticleExplosion *explosion = [[CCParticleExplosion alloc] init];
-    explosion.autoRemoveOnFinish = YES;
-    explosion.startSize = 7.0f;
-    explosion.endSize = 2.0f;
-    explosion.duration = 0.05f;
-    explosion.speed = 200.0f;
-    explosion.position = ccp(arc4random() % (int)(size.width), arc4random() % (int)(size.height));
-    [self addChild:explosion];
+    if (self.isMenuActive)
+    {
+        CGSize size = [[CCDirector sharedDirector] winSize];
+        CCParticleExplosion *explosion = [[CCParticleExplosion alloc] init];
+        explosion.autoRemoveOnFinish = YES;
+        explosion.startSize = 7.0f;
+        explosion.endSize = 2.0f;
+        explosion.duration = 0.05f;
+        explosion.speed = 200.0f;
+        explosion.position = ccp(arc4random() % (int)(size.width), arc4random() % (int)(size.height));
+        [self addChild:explosion];
+    }
 }
 
 - (void) returnToMainMenu

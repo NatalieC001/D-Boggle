@@ -2346,7 +2346,7 @@
 				GCC_PREFIX_HEADER = "d-Bauggle/Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"d-Bauggle/libs/kazmath/include\"";
 				INFOPLIST_FILE = "d-Bauggle/Resources/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-lsqlite3",
@@ -2366,7 +2366,7 @@
 				GCC_PREFIX_HEADER = "d-Bauggle/Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"d-Bauggle/libs/kazmath/include\"";
 				INFOPLIST_FILE = "d-Bauggle/Resources/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-lsqlite3",

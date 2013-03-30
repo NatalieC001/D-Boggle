@@ -1171,35 +1171,6 @@
     } while ( lastTile != nil);
 }
 
-- (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    if (!self.isPaused)
-    {
-        UITouch *touch = [touches anyObject];
-        CGPoint location = [touch locationInView:[touch view]];
-        location = [[CCDirector sharedDirector] convertToGL:location];
-        //[self rotateClicked];
-        //        NSLog(@"Touches began");
-        double distance = 0;
-        for (int i = 0; i < 16; i++)
-        {
-            Tile *tile = [self.letters objectAtIndex:i];
-            distance = powf(location.x - tile.actualLocation.x, 2) + powf(location.y - tile.actualLocation.y, 2);
-            distance = powf(distance, 0.5);
-            //            if (distance <= 37.5)// && tile != [self.pressedTiles lastObject])
-            //            {
-            //                NSLog(@"Tile - %d at distance %f", i, distance);
-            //                [self tileTouchedAt:i];
-            //            }
-            if(CGRectContainsPoint([tile actualBounds], location))
-            {
-                [self tileTouchedAt:i];
-            }
-        }
-    }
-    
-}
-
 - (void) updatePlayedWordsSubarrays
 {
     [self.subarraysOfPlayedWordsArrays removeAllObjects];
@@ -1298,6 +1269,42 @@
     [layer addChild:wordLabel z:5];
     
     return layer;
+}
+
+- (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    NSLog(@"Touches started");
+    if (!self.isPaused)
+    {
+        UITouch *touch = [touches anyObject];
+        BOOL found = NO;
+        CGPoint location = [touch locationInView:[touch view]];
+        location = [[CCDirector sharedDirector] convertToGL:location];
+        //[self rotateClicked];
+        //        NSLog(@"Touches began");
+        double distance = 0;
+        for (int i = 0; i < 16; i++)
+        {
+            Tile *tile = [self.letters objectAtIndex:i];
+            distance = powf(location.x - tile.actualLocation.x, 2) + powf(location.y - tile.actualLocation.y, 2);
+            distance = powf(distance, 0.5);
+            //            if (distance <= 37.5)// && tile != [self.pressedTiles lastObject])
+            //            {
+            //                NSLog(@"Tile - %d at distance %f", i, distance);
+            //                [self tileTouchedAt:i];
+            //            }
+            if(CGRectContainsPoint([tile actualBounds], location))
+            {
+                [self tileTouchedAt:i];
+                found = YES;
+            }
+        }
+        if (!found) {
+            [self clearAllPressedTiles];
+            [self updateCurrentWord];
+        }
+    }
+    
 }
 
 -(void)ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
