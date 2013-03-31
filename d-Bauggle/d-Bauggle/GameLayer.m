@@ -98,6 +98,38 @@
     return _subarraysOfPlayedWordsArrays;
 }
 
++(CCScene *) scene
+{
+	// 'scene' is an autorelease object.
+	CCScene *scene = [CCScene node];
+	
+	// 'layer' is an autorelease object.
+	GameLayer *layer = [GameLayer node];
+	
+    CGSize size = [[CCDirector sharedDirector] winSize];
+    //    NSLog(@"Height yo! %f", size.height);
+    if (size.height == 480)
+    {
+        CCSprite *background = [CCSprite spriteWithFile:@"base.png"];
+        background.anchorPoint = ccp (0,0);
+        [layer addChild:background z:-1];
+    }
+    else
+    {
+        CCSprite *background = [CCSprite spriteWithFile:@"gameonbg-568h.png"];
+        background.anchorPoint = ccp (0,0);
+        [layer addChild:background z:-1];
+    }
+    
+    
+    
+	// add layer as a child to scene
+	[scene addChild: layer];
+	
+	// return the scene
+	return scene;
+}
+
 - (NSArray *)lettersForBoard {
     
     /////////////////////////////////////////////////////////////////////////////////
@@ -255,37 +287,6 @@
     return array;
 }
 
-+(CCScene *) scene
-{
-	// 'scene' is an autorelease object.
-	CCScene *scene = [CCScene node];
-	
-	// 'layer' is an autorelease object.
-	GameLayer *layer = [GameLayer node];
-	
-    CGSize size = [[CCDirector sharedDirector] winSize];
-    //    NSLog(@"Height yo! %f", size.height);
-    if (size.height == 480)
-    {
-        CCSprite *background = [CCSprite spriteWithFile:@"base.png"];
-        background.anchorPoint = ccp (0,0);
-        [layer addChild:background z:-1];
-    }
-    else
-    {
-        CCSprite *background = [CCSprite spriteWithFile:@"gameonbg-568h.png"];
-        background.anchorPoint = ccp (0,0);
-        [layer addChild:background z:-1];
-    }
-    
-    
-    
-	// add layer as a child to scene
-	[scene addChild: layer];
-	
-	// return the scene
-	return scene;
-}
 
 // on "init" you need to initialize your instance
 -(id) init
